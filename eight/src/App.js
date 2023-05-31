@@ -9,16 +9,28 @@ import styled from "styled-components";
 const Component = () => {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [image, setImage] = useState(null);
-  const [detected, setDetected] = useState([]);
+  const [image, setImage] = useState();
+  const [detected, setDetected] = useState(['Detect']);
   useEffect(() => {
     console.log("detected!", detected);
   }, [detected]);
+
+  useEffect(() => {
+    if (image) {
+      infer();
+    }
+  }, [image]);
+
   var infer = function () {
+    var detectedList = [];
     console.log("infer!!");
+    setDetected([]);
+    if(image===undefined){
+      console.log('image is undefined.');
+    }
     axios({
       method: "POST",
-      url: "https://detect.roboflow.com/painting-l6exb/8",
+      url: "https://detect.roboflow.com/painting-l6exb/9",
       params: {
         api_key: process.env.REACT_APP_ROBOFLOW_API, //env처리
       },
@@ -27,28 +39,40 @@ const Component = () => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.predictions != []) {
+    .then(function (response) {
+      console.log(response.data);
+      if (response.data.predictions.length !== 0) {
+        setDetected(prevDetectedList => {
+          const updatedDetectedList = [...prevDetectedList];
           for (var i = 0; i < response.data.predictions.length; i++) {
-            var detectedList = [];
             console.log(response.data.predictions[i].class);
-            detectedList.push(response.data.predictions[i].class);
-            setDetected(detectedList);
-            console.log(detectedList);
+            updatedDetectedList.push(response.data.predictions[i].class);
           }
-        }
+          return updatedDetectedList;
+        });
+      } else {
+        setDetected(prevDetectedList => [...prevDetectedList, "none"]);
+      }
+      cleanArray();
       })
       .catch(function (error) {
         console.log(error.message);
+        detectedList = ["error"];
+        setDetected(detectedList);
+        cleanArray();
       });
   };
 
-  function takeaPic() {
-    const photoTaken = camera.current.takePhoto();
+  async function takeaPic() {
+      const photoTaken = await camera.current.takePhoto();
     setImage(photoTaken);
-    setDetected([]);
-    infer();
+  }
+
+  function cleanArray() {
+    setTimeout(() => {
+      setDetected(['Detect']);
+      console.log("clean!");
+    }, 1500);
   }
 
   return (
@@ -69,16 +93,17 @@ const Component = () => {
         switchCamera
       </button>
       <div>
-        {detected.map((data) => {
-          <TitleText key={data}>{data}</TitleText>;
-        })}
-        {detected === [] ? (
+        {detected.length === 0 ? (
           <div>
-          <TitleText>nothing found</TitleText>
-        </div>
-        ) : <div>
-            <TitleText>{detected}</TitleText>
-          </div>}
+            <TitleText>detecting...</TitleText>
+          </div>
+        ) : (
+          <div>
+            {detected.map((data) => (
+              <TitleText key={data}>{data}</TitleText>
+            ))}
+          </div>
+        )}
       </div>
       <img src={image} height={300} width={300} alt="Taken photo" />
     </div>
