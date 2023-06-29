@@ -1,4 +1,3 @@
-import "./App.css";
 import axios from "axios";
 // import fs from "fs";
 import { useEffect } from "react";
