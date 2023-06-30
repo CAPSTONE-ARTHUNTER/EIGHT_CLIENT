@@ -13,3 +13,6 @@ export { ReactComponent as MoreIco } from "./mainPage/moreIco.svg";
 // search
 export { ReactComponent as LocationIco } from "./search/locationIco.svg";
 export { ReactComponent as NoResultIco } from "./search/noResultIco.svg";
+
+//common
+export { ReactComponent as SearchBarIco } from "./common/searchIco.svg";
