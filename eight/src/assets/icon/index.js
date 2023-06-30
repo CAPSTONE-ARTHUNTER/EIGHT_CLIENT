@@ -8,3 +8,4 @@ export {ReactComponent as SearchIco} from './bottomBar/Search.svg';
 // mainPage
 export { ReactComponent as CollectionIco } from "./mainPage/collectionIco.svg";
 export { ReactComponent as DocentIco } from "./mainPage/docentIco.svg";
+export { ReactComponent as MoreIco } from "./mainPage/moreIco.svg";
