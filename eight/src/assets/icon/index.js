@@ -9,3 +9,7 @@ export {ReactComponent as SearchIco} from './bottomBar/Search.svg';
 export { ReactComponent as CollectionIco } from "./mainPage/collectionIco.svg";
 export { ReactComponent as DocentIco } from "./mainPage/docentIco.svg";
 export { ReactComponent as MoreIco } from "./mainPage/moreIco.svg";
+
+// search
+export { ReactComponent as LocationIco } from "./search/locationIco.svg";
+export { ReactComponent as NoResultIco } from "./search/noResultIco.svg";
