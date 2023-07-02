@@ -10,6 +10,14 @@ const Title01 = styled.text`
   line-height: normal;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
+const Title02 = styled.text`
+  font-size: 20px;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: ${(props) => (props.color ? props.color : colors.black)};
+`;
 
 const Body01 = styled.text`
   font-size: 12px;
@@ -41,6 +49,7 @@ const Body03 = styled.text`
 const typo = {
   title: {
     Title01: Title01,
+    Title02: Title02,
   },
   body: {
     Body01: Body01,

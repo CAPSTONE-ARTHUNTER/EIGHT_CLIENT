@@ -14,5 +14,11 @@ export { ReactComponent as MoreIco } from "./mainPage/moreIco.svg";
 export { ReactComponent as LocationIco } from "./search/locationIco.svg";
 export { ReactComponent as NoResultIco } from "./search/noResultIco.svg";
 
-//common
+// common
 export { ReactComponent as SearchBarIco } from "./common/searchIco.svg";
+export { ReactComponent as CheckIco } from "./common/checkIco.svg";
+export { ReactComponent as CloseIco } from "./common/closeIco.svg";
+
+// detection
+export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
+export { ReactComponent as PlusIco } from "./detection/plusIco.svg";
