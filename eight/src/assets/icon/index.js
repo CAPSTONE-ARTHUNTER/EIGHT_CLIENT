@@ -18,6 +18,10 @@ export { ReactComponent as NoResultIco } from "./search/noResultIco.svg";
 export { ReactComponent as SearchBarIco } from "./common/searchIco.svg";
 export { ReactComponent as CheckIco } from "./common/checkIco.svg";
 export { ReactComponent as CloseIco } from "./common/closeIco.svg";
+export { ReactComponent as HamburgerIco } from "./common/hamburgerIco.svg";
+export { ReactComponent as TypeLogo } from "./common/typeLogo.svg";
+export { ReactComponent as XIco } from "./common/xIco.svg";
+export { ReactComponent as BackIco } from "./common/backIco.svg";
 
 // detection
 export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
