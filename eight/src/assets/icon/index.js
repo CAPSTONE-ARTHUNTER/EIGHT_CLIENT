@@ -22,6 +22,9 @@ export { ReactComponent as HamburgerIco } from "./common/hamburgerIco.svg";
 export { ReactComponent as TypeLogo } from "./common/typeLogo.svg";
 export { ReactComponent as XIco } from "./common/xIco.svg";
 export { ReactComponent as BackIco } from "./common/backIco.svg";
+export { ReactComponent as LangIco } from "./common/langIco.svg";
+export { ReactComponent as SoundIco } from "./common/soundIco.svg";
+export { ReactComponent as InfoIco } from "./common/infoIco.svg";
 
 // detection
 export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
