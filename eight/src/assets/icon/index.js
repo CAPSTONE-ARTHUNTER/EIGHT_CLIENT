@@ -25,6 +25,8 @@ export { ReactComponent as BackIco } from "./common/backIco.svg";
 export { ReactComponent as LangIco } from "./common/langIco.svg";
 export { ReactComponent as SoundIco } from "./common/soundIco.svg";
 export { ReactComponent as InfoIco } from "./common/infoIco.svg";
+export { ReactComponent as SadIco } from "./common/sadIco.svg";
+export { ReactComponent as DropDownIco } from "./common/dropDownIco.svg";
 
 // detection
 export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
