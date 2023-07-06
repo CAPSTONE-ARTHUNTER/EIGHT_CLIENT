@@ -7,7 +7,8 @@ import { badge_chip } from "../../assets/image/badge";
 import SizedBox from "../Common/SizedBox";
 import { MoreIco } from "../../assets/icon";
 
-const UserBoxFull = () => {
+const UserBoxFull = ({ mode }) => {
+  // mode: full, short
   const [userLevel, setUserLevel] = useState("0");
   const [countFound, setCountFound] = useState("0");
   const [levelPercent, setLevelPercnet] = useState(20);
@@ -32,7 +33,6 @@ const UserBoxFull = () => {
             </TextRowWrapper>
 
             <SizedBox height={8} />
-
             {/* 레벨바 */}
             <LevelbarWrapper>
               <LevelBarRail />
@@ -42,18 +42,19 @@ const UserBoxFull = () => {
         </RowWrapper>
 
         <SizedBox height={12} />
-
+        {mode === "full" ? (
+          <BadgeRail>
+            {/* 이후 수정 */}
+            <img className="badge" src={badge_chip} />
+            <img className="badge" src={badge_chip} />
+            <img className="badge" src={badge_chip} />
+            <img className="badge" src={badge_chip} />
+            <img className="badge" src={badge_chip} />
+            <SizedBox width={4} />
+            <MoreIco />
+          </BadgeRail>
+        ) : null}
         {/* 뱃지 */}
-        <BadgeRail>
-          {/* 이후 수정 */}
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <SizedBox width={4} />
-          <MoreIco />
-        </BadgeRail>
       </ColWrapper>
     </BackGround>
   );
