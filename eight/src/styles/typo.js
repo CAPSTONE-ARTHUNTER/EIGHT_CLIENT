@@ -45,6 +45,14 @@ const Body03 = styled.text`
   letter-spacing: -0.24px;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
+const DocentContent = styled.text`
+font-size: 14px;
+font-family: Pretendard;
+font-style: normal;
+font-weight: 500;
+line-height: 160%;
+  color: ${(props) => (props.color ? props.color : colors.black)};
+`;
 
 const typo = {
   title: {
@@ -55,6 +63,7 @@ const typo = {
     Body01: Body01,
     Body02: Body02,
     Body03: Body03,
+    DocentContent: DocentContent,
   },
 };
 

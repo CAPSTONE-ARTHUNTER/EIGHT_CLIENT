@@ -27,6 +27,10 @@ export { ReactComponent as SoundIco } from "./common/soundIco.svg";
 export { ReactComponent as InfoIco } from "./common/infoIco.svg";
 export { ReactComponent as SadIco } from "./common/sadIco.svg";
 export { ReactComponent as DropDownIco } from "./common/dropDownIco.svg";
+export { ReactComponent as PointIco } from "./common/point.svg";
+export { ReactComponent as PuzzleIco } from "./common/puzzleIco.svg";
+export { ReactComponent as PlayIco } from "./common/playIco.svg";
+export { ReactComponent as LockedIco } from "./common/lockedIco.svg";
 
 // detection
 export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
