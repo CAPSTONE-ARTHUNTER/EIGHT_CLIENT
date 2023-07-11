@@ -5,15 +5,21 @@ import { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 import styled from "styled-components";
 import BottomBar from "../components/Common/BottomBar";
+import { useLocation } from "react-router-dom";
 
 const Component = () => {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState();
   const [detected, setDetected] = useState(["Detect"]);
-  useEffect(() => {
-    console.log("detected!", detected);
-  }, [detected]);
+  const location = useLocation().pathname;
+
+  //detection page가 아니면 cam close
+  useEffect(()=>{
+    if (location!=='/detection'){
+      camera.current=null
+    }
+  },[location])
 
   useEffect(() => {
     if (image) {
