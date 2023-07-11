@@ -1,8 +1,11 @@
 import React from 'react'
+import BottomBar from '../components/Common/BottomBar'
 
 const MyPage = () => {
   return (
-    <div>MyPage</div>
+    <div>MyPage
+      <BottomBar/>
+    </div>
   )
 }
 

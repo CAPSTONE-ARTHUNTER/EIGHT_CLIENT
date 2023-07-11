@@ -1,8 +1,11 @@
 import React from 'react'
+import BottomBar from '../components/Common/BottomBar'
 
 const Collection = () => {
   return (
-    <div>Collection</div>
+    <div>Collection
+      <BottomBar/>
+    </div>
   )
 }
 

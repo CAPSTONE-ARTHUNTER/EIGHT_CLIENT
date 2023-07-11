@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 import styled from "styled-components";
+import BottomBar from "../components/Common/BottomBar";
 
 const Component = () => {
   const camera = useRef(null);
@@ -119,6 +120,7 @@ function Detection(props) {
           <Component></Component>
         </CamContainer>
       </header>
+      <BottomBar/>
     </div>
   );
 }

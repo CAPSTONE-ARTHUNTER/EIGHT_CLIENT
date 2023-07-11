@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   CameraIco,
   CollectionIco,
@@ -11,61 +11,66 @@ import {
 } from "../../assets/icon";
 import SizedBox from "./SizedBox";
 
-const BottomBar = (pageType) => {
+const BottomBar = () => {
   const defaultCol = colors.copper2;
   const selectCol = colors.orange;
+  //현재 경로
+  const location = useLocation().pathname;
+
   return (
     <div>
       <BottomBarBack>
         <SizedBox width={4} />
-        <Link to="/">
+
+        <NavLink to="/">
           <TouchContainer>
-            {pageType === "home" ? (
+            {location === "/" ? (
               <HomeIco fill={selectCol} />
             ) : (
               <HomeIco fill={defaultCol} />
             )}
           </TouchContainer>
-        </Link>
-        <Link to="search">
+        </NavLink>
+
+        <NavLink to="/search">
           <TouchContainer>
-            {pageType === "search" ? (
+          {location === "/search" ? (
               <SearchIco fill={selectCol} />
             ) : (
               <SearchIco fill={defaultCol} />
             )}
           </TouchContainer>
-        </Link>
+        </NavLink>
 
-        <Link to="/detection">
+        <NavLink to="/detection">
           <TouchContainer>
-            {pageType === "camera" ? (
+          {location === "/detection" ? (
               <CameraIco fill={selectCol} />
             ) : (
               <CameraIco fill={defaultCol} />
             )}
           </TouchContainer>
-        </Link>
+        </NavLink>
 
-        <Link to="/collection">
+        <NavLink to="/collection">
           <TouchContainer>
-            {pageType === "collection" ? (
+            {location === "/collection" ? (
               <CollectionIco fill={selectCol} />
             ) : (
               <CollectionIco fill={defaultCol} />
             )}
           </TouchContainer>
-        </Link>
+        </NavLink>
 
-        <Link to="/mypage">
+        <NavLink to="/mypage">
           <TouchContainer>
-            {pageType === "mypage" ? (
+            {location === "/mypage" ? (
               <MypageIco fill={selectCol} />
             ) : (
               <MypageIco fill={defaultCol} />
             )}
           </TouchContainer>
-        </Link>
+        </NavLink>
         <SizedBox width={4} />
       </BottomBarBack>
     </div>
