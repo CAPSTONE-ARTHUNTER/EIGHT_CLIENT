@@ -78,15 +78,15 @@ const BottomBar = () => {
 };
 const BottomBarBack = styled.div`
   background-color: ${colors.black};
-  width: 100%;
   height: 56px;
   border-radius: 4px 4px 0px 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
+  right: 0;
 `;
 const TouchContainer = styled.div`
   width: 48px;

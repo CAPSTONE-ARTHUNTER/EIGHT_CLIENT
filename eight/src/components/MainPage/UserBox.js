@@ -6,12 +6,16 @@ import typo from "../../styles/typo";
 import { badge_chip } from "../../assets/image/badge";
 import SizedBox from "../Common/SizedBox";
 import { MoreIco } from "../../assets/icon";
+import { useLocation } from "react-router-dom";
 
-const UserBoxFull = ({ mode }) => {
-  // mode: full, short
-  const [userLevel, setUserLevel] = useState("0");
-  const [countFound, setCountFound] = useState("0");
-  const [levelPercent, setLevelPercnet] = useState(20);
+const UserBox = ({ userInfo }) => {
+  // userInfo에서 받아서 표시
+  const userLevel = 0;
+  const countFound = 0;
+  const levelPercent = 40;
+  // const badge
+
+  const location = useLocation().pathname;
   return (
     <BackGround>
       <ColWrapper>
@@ -42,7 +46,8 @@ const UserBoxFull = ({ mode }) => {
         </RowWrapper>
 
         <SizedBox height={12} />
-        {mode === "full" ? (
+        {/* 경로 mypage인 경우에만 표시 */}
+        {location === "/" ? (
           <BadgeRail>
             {/* 이후 수정 */}
             <img className="badge" src={badge_chip} />
@@ -67,9 +72,9 @@ const BackGround = styled.div`
   box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
   /* layout */
   display: flex;
-  width: 328px;
-  /* height: 150px; */
-  padding: 20px;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -137,4 +142,4 @@ const BadgeRail = styled.div`
     height: 56px;
   }
 `;
-export default UserBoxFull;
+export default UserBox;

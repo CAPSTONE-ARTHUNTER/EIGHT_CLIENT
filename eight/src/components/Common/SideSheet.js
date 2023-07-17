@@ -53,6 +53,7 @@ const Background = styled.div`
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 3;
   /* dropShadow1 */
   box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
 `;

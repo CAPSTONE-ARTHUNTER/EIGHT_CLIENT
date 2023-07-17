@@ -7,10 +7,13 @@ import typo from "../../styles/typo";
 // 임시 이미지
 import testImage from "../../assets/image/Inwang.jpg";
 
-const TodayBox = () => {
-  const [todayImage, setTodayImage] = useState(testImage);
-  const [todayTitle, setTodayTitle] = useState("제목 예시");
-  const [todayBody, setTodayBody] = useState("부가 설명 예시");
+const TodayBox = (boxInfo) => {
+  const todayImage = testImage;
+  const todayTitle = "제목 예시";
+  const todayBody = "부가 설명 예시";
+  // 해설 페이지 링크
+  // 도감 페이지 링크
+
   return (
     <BackContainer todayImage={todayImage}>
       <TextGroup>
@@ -36,7 +39,7 @@ const TodayBox = () => {
               console.log("도감 화면으로 이동");
             }}
           >
-            <CollectionIco />
+            <CollectionIco fill={colors.brown}/>
             <typo.body.Body02>도감으로 가기</typo.body.Body02>
           </CollectionGoBtn>
         </RowWrapper>
@@ -46,13 +49,14 @@ const TodayBox = () => {
 };
 
 const BackContainer = styled.div`
-  width: 280px;
-  height: 260px;
+  width: 15rem;
+  height: 15rem;
   background-color: ${colors.beige};
   border-radius: 32px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-shrink: 0;
 
   background-image: url(${(props) => props.todayImage});
   background-size: cover;

@@ -11,18 +11,22 @@ import {
 import SizedBox from "./SizedBox";
 import typo from "../../styles/typo";
 import SideSheet from "./SideSheet";
+import { useLocation } from "react-router-dom";
 
-const TopBar = ({ type, text }) => {
+const TopBar = ({ text }) => {
   const [sideSheetOpen, setSideSheetOpen] = useState(false);
+  const location = useLocation().pathname;
 
   let IconComponent = null;
   let LeftIconComponent = BackIco;
   let RightIconComponent = HamburgerIco;
 
-  if (type === "logo") {
+  if (location === "/") {
     LeftIconComponent = MypageIco;
     IconComponent = TypeLogo;
-  } else if (type === "close") {
+  } else if (location === "/detection") {
+    // 이후에 경로 수정하기
+
     IconComponent = () => <typo.body.Body02>{text}</typo.body.Body02>;
     RightIconComponent = XIco;
   } else {
@@ -30,8 +34,8 @@ const TopBar = ({ type, text }) => {
   }
 
   const openSideSheet = () => {
-    if (type !== "close") {
-      setSideSheetOpen(true)
+    if (sideSheetOpen === false) {
+      setSideSheetOpen(true);
     }
   };
 
@@ -40,14 +44,17 @@ const TopBar = ({ type, text }) => {
       <SizedBox width={16} />
       <BarCon>
         <TouchCon>
-          <LeftIconComponent fill={colors.brown} />
+          <LeftIconComponent
+            fill={colors.brown}
+            onClick={() => {
+              console.log("do smt");
+            }}
+          />
         </TouchCon>
         <IconComponent />
         <TouchCon
           onClick={() => {
-            if (type !== "close") {
-              openSideSheet()
-            }
+            if (RightIconComponent === HamburgerIco) openSideSheet();
           }}
         >
           <RightIconComponent />
@@ -56,7 +63,12 @@ const TopBar = ({ type, text }) => {
       <SizedBox width={16} />
 
       {/* sidesheet */}
-      {sideSheetOpen && <SideSheet sideSheetOpen={sideSheetOpen} setSideSheetOpen={setSideSheetOpen}/>}
+      {sideSheetOpen && (
+        <SideSheet
+          sideSheetOpen={sideSheetOpen}
+          setSideSheetOpen={setSideSheetOpen}
+        />
+      )}
     </Background>
   );
 };
@@ -65,8 +77,9 @@ const Background = styled.div`
   height: 52px;
   top: 0;
   left: 0;
+  right: 0;
   display: flex;
-  position: absolute;
+  position: fixed;
   background-color: ${colors.beige};
 `;
 const BarCon = styled.div`
