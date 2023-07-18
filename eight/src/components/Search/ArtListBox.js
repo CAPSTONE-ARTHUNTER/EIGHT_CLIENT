@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 // 임시 이미지
@@ -7,10 +7,11 @@ import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 
-const ArtListBox = () => {
-  const [searchImage, setSearchImage] = useState(testImage);
-  const [searchTitle, setSearchTitle] = useState("예시 제목");
-  const [searchBody, setSearchBody] = useState("부가 설명 예시");
+const ArtListBox = ({ data }) => {
+  const searchTitle = data.title;
+  const searchBody = data.body;
+  const searchImage = testImage;
+
   return (
     <BackGround searchImage={searchImage}>
       <InfoArea>
@@ -27,13 +28,15 @@ const ArtListBox = () => {
 };
 
 const BackGround = styled.div`
-  width: 160px;
+  width: 48%;
   height: 204px;
   background-image: url(${(props) => props.searchImage});
   background-size: cover;
   background-position: center;
   border-radius: 8px;
   position: relative;
+  flex-shrink: 0;
+  margin-bottom: 16px;
 `;
 const InfoArea = styled.div`
   width: 100%;

@@ -4,12 +4,12 @@ import { colors } from "../../styles/color";
 import { SearchBarIco } from "../../assets/icon";
 import SizedBox from "./SizedBox";
 
-const SearchBox = () => {
+const SearchBox = ({text,onChange,search}) => {
   return (
     <BackGround>
       <SizedBox width={16} />
-      <InputBox placeholder="찾으시는 작품이 있나요?" />
-      <IconContainer>
+      <InputBox placeholder="찾으시는 작품이 있나요?" onChange={onChange} value={text || ''}/>
+      <IconContainer onClick={search}>
         <SearchBarIco />
       </IconContainer>
     </BackGround>
