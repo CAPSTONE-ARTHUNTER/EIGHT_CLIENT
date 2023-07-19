@@ -3,20 +3,9 @@ import styled from "styled-components";
 import userProfile from "../../assets/image/userProfile.png";
 import typo from "../../styles/typo";
 
-// 샘플
-// const exampleData={
-//   userName: 'rryu09',
-//   userEmail: 'rryu09@ewhain.net'
-// }
-
 const Profile = ({ userInfo }) => {
-  const [userName, setUserName] = useState(userInfo.userName);
-  const [userEmail, setUserEmail] = useState(userInfo.userEmail);
-
-  useEffect(() => {
-    setUserName(userInfo.userName);
-    setUserEmail(userInfo.userEmail);
-  }, [userInfo]);
+  const userName = userInfo.userName
+  const userEmail = userInfo.userEmail
 
   return (
     <Container>
