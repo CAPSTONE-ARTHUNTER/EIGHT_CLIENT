@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 
-const CollectionTab = () => {
-  // 0: 도감, 1: 도전과제
-  const [tabState, setTabState] = useState(0);
+const CollectionTab = ({ tabState, setTabState }) => {
   return (
     <Container>
       <TouchArea

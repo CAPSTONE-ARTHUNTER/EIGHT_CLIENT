@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import { badge_chip } from "../../assets/image/badge";
@@ -7,37 +7,28 @@ import typo from "../../styles/typo";
 import SizedBox from "../Common/SizedBox";
 
 const Quest = ({ props }) => {
-  const [title, setTitle] = useState(props.name);
-  const [solvedGage, setSolvedGage] = useState(props.solvedGage);
-  const [entireGage, setEntireGage] = useState(props.entireGage);
-  const [questPart, setQuestPart] = useState(props.quest);
-
+  const questPart = props.quest;
   const [dropDown, setDropDown] = useState(false);
-
-  useEffect(() => {
-    setTitle(props.name);
-    setSolvedGage(props.solvedGage);
-    setEntireGage(props.entireGage);
-    setQuestPart(props.quest);
-  }, [props]);
 
   return (
     <>
       <Background>
-        <img className="badge" src={badge_chip} />
+        <img className="badge" src={badge_chip} alt="badge"/>
         <Wrapper>
-          <typo.body.Body01>{title}</typo.body.Body01>
+          <typo.body.Body01>{props.name}</typo.body.Body01>
           <SizedBox height={4} />
           {/* 레벨바 */}
           <LevelbarWrapper>
             <LevelBarRail />
             <LevelBar
-              width={`${(solvedGage / entireGage) * 100 * (180 / 100)}px`}
+              width={`${
+                (props.solvedGage / props.entireGage) * 100 * (180 / 100)
+              }px`}
             />
           </LevelbarWrapper>
           <SizedBox height={2} />
           <typo.body.Body03 className="progress">
-            {solvedGage}/{entireGage}
+            {props.solvedGage}/{props.entireGage}
           </typo.body.Body03>
         </Wrapper>
         <TouchArea
