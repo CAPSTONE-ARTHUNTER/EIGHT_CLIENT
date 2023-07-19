@@ -8,7 +8,7 @@ const SearchBox = ({text,onChange,search}) => {
   return (
     <BackGround>
       <SizedBox width={16} />
-      <InputBox placeholder="찾으시는 작품이 있나요?" onChange={onChange} value={text || ''}/>
+      <InputBox placeholder="찾으시는 작품이 있나요?" onChange={onChange} defaultValue={text || ''}/>
       <IconContainer onClick={search}>
         <SearchBarIco />
       </IconContainer>

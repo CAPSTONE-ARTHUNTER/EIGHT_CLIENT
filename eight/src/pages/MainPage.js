@@ -1,26 +1,23 @@
 import styled from "styled-components";
-import BottomBar from "../components/Common/BottomBar";
 import SearchBox from "../components/Common/SearchBox";
 import SizedBox from "../components/Common/SizedBox";
-import TopBar from "../components/Common/TopBar";
 import UserBox from "../components/MainPage/UserBox";
 import { colors } from "../styles/color";
 import { useNavigate } from "react-router-dom";
 import TodayBox from "../components/MainPage/TodayBox";
 import typo from "../styles/typo";
+import Layout from "../components/Layout/Layout";
 
 const MainPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <TopBar />
-      <SizedBox height={56} />
+    <Layout>
+      <SizedBox height={20} />
 
       <Container>
         <SearchBox />
         <UserBox />
-
         <BtnWrapper>
           <MainCameraBtn
             onClick={() => {
@@ -48,9 +45,7 @@ const MainPage = () => {
           <SizedBox height={60} />
         </TodayWrapper>
       </Container>
-
-      <BottomBar />
-    </div>
+    </Layout>
   );
 };
 

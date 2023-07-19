@@ -9,7 +9,7 @@ import {
   MypageIco,
   SearchIco,
 } from "../../assets/icon";
-import SizedBox from "./SizedBox";
+import SizedBox from "../Common/SizedBox";
 
 const BottomBar = () => {
   const defaultCol = colors.copper2;
@@ -34,7 +34,7 @@ const BottomBar = () => {
 
         <NavLink to="/search">
           <TouchContainer>
-          {location === "/search" ? (
+            {location === "/search" ? (
               <SearchIco fill={selectCol} />
             ) : (
               <SearchIco fill={defaultCol} />
@@ -44,7 +44,7 @@ const BottomBar = () => {
 
         <NavLink to="/detection">
           <TouchContainer>
-          {location === "/detection" ? (
+            {location === "/detection" ? (
               <CameraIco fill={selectCol} />
             ) : (
               <CameraIco fill={defaultCol} />

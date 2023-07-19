@@ -8,9 +8,9 @@ import {
   TypeLogo,
   XIco,
 } from "../../assets/icon";
-import SizedBox from "./SizedBox";
+import SizedBox from "../Common/SizedBox";
 import typo from "../../styles/typo";
-import SideSheet from "./SideSheet";
+import SideSheet from "../Common/SideSheet";
 import { useLocation } from "react-router-dom";
 
 const TopBar = ({ text }) => {

@@ -1,11 +1,10 @@
 import React from "react";
-import BottomBar from "../components/Common/BottomBar";
-import TopBar from "../components/Common/TopBar";
 import Profile from "../components/mypage/Profile";
 import SizedBox from "../components/Common/SizedBox";
 import styled from "styled-components";
 import { colors } from "../styles/color";
 import SettingBtn from "../components/mypage/SettingBtn";
+import Layout from "../components/Layout/Layout";
 
 const MyPage = () => {
   // 샘플
@@ -14,16 +13,14 @@ const MyPage = () => {
     userEmail: "rryu09@ewhain.net",
   };
   return (
-    <div>
-      <TopBar text={"마이페이지"} />
-      <SizedBox height={56} />
+    <Layout text={"마이페이지"}>
+      <SizedBox height={20} />
       <Profile userInfo={exampleData} />
       <SizedBox height={12} />
       <PartitionLine />
       <SizedBox height={12} />
       <SettingBtn />
-      <BottomBar />
-    </div>
+    </Layout>
   );
 };
 

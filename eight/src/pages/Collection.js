@@ -1,12 +1,18 @@
-import React from 'react'
-import BottomBar from '../components/Common/BottomBar'
+import React from "react";
+import SizedBox from "../components/Common/SizedBox";
+import UserBox from "../components/MainPage/UserBox";
+import CollectionTab from "../components/Collection/CollectionTab";
+import Layout from "../components/Layout/Layout";
 
 const Collection = () => {
   return (
-    <div>Collection
-      <BottomBar/>
-    </div>
-  )
-}
+    <Layout text={"도감"}>
+      <SizedBox height={8} />
+      <CollectionTab />
+      <SizedBox height={12} />
+      <UserBox />
+    </Layout>
+  );
+};
 
-export default Collection
+export default Collection;

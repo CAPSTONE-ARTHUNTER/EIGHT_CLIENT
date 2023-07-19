@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 import styled from "styled-components";
-import BottomBar from "../components/Common/BottomBar";
 import { useLocation } from "react-router-dom";
+import Layout from "../components/Layout/Layout";
 
 const Component = () => {
   const camera = useRef(null);
@@ -15,11 +15,11 @@ const Component = () => {
   const location = useLocation().pathname;
 
   //detection page가 아니면 cam close
-  useEffect(()=>{
-    if (location!=='/detection'){
-      camera.current=null
+  useEffect(() => {
+    if (location !== "/detection") {
+      camera.current = null;
     }
-  },[location])
+  }, [location]);
 
   useEffect(() => {
     if (image) {
@@ -118,7 +118,7 @@ const Component = () => {
 
 function Detection(props) {
   return (
-    <div>
+    <Layout text={"작품 인식"}>
       <header className="App-header">
         <script src="https://cdn.roboflow.com/0.2.20/roboflow.js"></script>
         <TitleText>Eight🎱</TitleText>
@@ -126,8 +126,7 @@ function Detection(props) {
           <Component></Component>
         </CamContainer>
       </header>
-      <BottomBar/>
-    </div>
+    </Layout>
   );
 }
 

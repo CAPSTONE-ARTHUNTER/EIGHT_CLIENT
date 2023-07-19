@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import BottomBar from "../components/Common/BottomBar";
-import TopBar from "../components/Common/TopBar";
 import SearchBox from "../components/Common/SearchBox";
 import SizedBox from "../components/Common/SizedBox";
 import typo from "../styles/typo";
 import NoSearchResult from "../components/Search/NoSearchResult";
 import ArtListBox from "../components/Search/ArtListBox";
 import styled from "styled-components";
+import Layout from "../components/Layout/Layout";
 
 const SearchPage = (artList) => {
   // const list = artList
@@ -32,9 +31,8 @@ const SearchPage = (artList) => {
     setText("");
   }
   return (
-    <div>
-      <TopBar text={"작품 검색"} />
-      <SizedBox height={56} />
+    <Layout text={"작품 검색"}>
+      <SizedBox height={20} />
       <SearchBox text={text} onChange={onChange} search={search} />
 
       {/* 검색 결과 존재할 경우 작품 목록 표시 */}
@@ -54,9 +52,7 @@ const SearchPage = (artList) => {
       ) : (
         <NoSearchResult />
       )}
-
-      <BottomBar />
-    </div>
+    </Layout>
   );
 };
 const ArtListContainer = styled.div`
