@@ -3,13 +3,9 @@ import styled from "styled-components";
 import { colors } from "../../../styles/color";
 import { CameraIco } from "../../../assets/icon";
 
-const CaptureBtn = () => {
+const CaptureBtn = ({ takeaPic }) => {
   return (
-    <Background
-      onClick={() => {
-        console.log("Capture!");
-      }}
-    >
+    <Background onClick={takeaPic}>
       <WhitePanel>
         <CameraIco fill={colors.black} />
       </WhitePanel>
@@ -24,6 +20,8 @@ const Background = styled.button`
   border: none;
   background-color: ${colors.beige};
   padding: 0;
+  position: fixed;
+  bottom: 10%;
 
   display: flex;
   align-items: center;

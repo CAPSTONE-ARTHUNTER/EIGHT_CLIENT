@@ -2,17 +2,19 @@ import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState, useRef } from "react";
-import { Camera } from "react-camera-pro";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
+import CaptureBtn from "../components/Detection/Button/CaptureBtn";
+import SizedBox from "../components/Common/SizedBox";
+import { colors } from "../styles/color";
+import CamComponent from "../components/Detection/CamComponent";
 
-const Component = () => {
+function Detection() {
   const camera = useRef(null);
-  const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState();
-  const [detected, setDetected] = useState(["Detect"]);
   const location = useLocation().pathname;
+  const [detected, setDetected] = useState(["Detect"]);
 
   //detection page가 아니면 cam close
   useEffect(() => {
@@ -69,74 +71,68 @@ const Component = () => {
       });
   };
 
-  async function takeaPic() {
-    const photoTaken = await camera.current.takePhoto();
-    setImage(photoTaken);
-  }
-
   function cleanArray() {
     setTimeout(() => {
       setDetected(["Detect"]);
+      setImage();
       console.log("clean!");
     }, 1500);
   }
 
-  return (
-    <div>
-      <Camera
-        ref={camera}
-        numberOfCamerasCallback={setNumberOfCameras}
-        aspectRatio={1 / 1}
-        facingMode="environment"
-      />
-      <button onClick={() => takeaPic()}>Take photo</button>
-      <button
-        // hidden={numberOfCameras <= 1}
-        onClick={() => {
-          camera.current.switchCamera();
-        }}
-      >
-        switchCamera
-      </button>
-      <div>
-        {detected.length === 0 ? (
-          <div>
-            <TitleText>detecting...</TitleText>
-          </div>
-        ) : (
-          <div>
-            {detected.map((data) => (
-              <TitleText key={data}>{data}</TitleText>
-            ))}
-          </div>
-        )}
-      </div>
-      <img src={image} height={300} width={300} alt="Taken photo" />
-    </div>
-  );
-};
+  async function takeaPic() {
+    const photoTaken = await camera.current.takePhoto();
+    setImage(photoTaken);
+    console.log("capture");
+  }
 
-function Detection(props) {
   return (
     <Layout text={"작품 인식"}>
-      <header className="App-header">
-        <script src="https://cdn.roboflow.com/0.2.20/roboflow.js"></script>
-        <TitleText>Eight🎱</TitleText>
+      <Container>
+        <SizedBox height={90} />
         <CamContainer>
-          <Component></Component>
+          <CamComponent detected={detected} camera={camera} />
+          {/* image가 존재할 때만 카메라 프레임 위에 표시 */}
+          {image ? (
+            <ResultImgContainer>
+              <img
+                src={image}
+                alt="detected"
+                style={{ width: "100%", height: "100%", position: "" }}
+              />
+            </ResultImgContainer>
+          ) : null}
+          {/* 감지된 결과 있으면 창 띄우기 */}
+          ...
         </CamContainer>
-      </header>
+        <CaptureBtn takeaPic={takeaPic} />
+      </Container>
+      <script src="https://cdn.roboflow.com/0.2.20/roboflow.js"></script>
     </Layout>
   );
 }
 
-const TitleText = styled.text`
-  font-size: 40pt;
-`;
-const CamContainer = styled.div`
-  height: 300px;
-  width: 300px;
-  background: black;
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.black};
 `;
 
+const CamContainer = styled.div`
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+`;
+const ResultImgContainer = styled.div`
+  position: absolute;
+  width: fit-content;
+`;
 export default Detection;
