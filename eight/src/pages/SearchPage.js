@@ -22,6 +22,7 @@ const SearchPage = (artList) => {
   // openAPI test용 state
   const [openApiData1, setOpenApiData1] = useState([]);
   const [apiSearchText, setApiSearchText] = useState("");
+  const [testApiDetailResult, setTestApiDetailResult] = useState();
 
   // 인풋 바뀔 때마다 인풋 텍스트로 배열에 검색
   const onChange = (e) => {
@@ -42,7 +43,7 @@ const SearchPage = (artList) => {
     setText("");
   }
 
-  // api요청
+  // 검색 api요청
   function apiTest() {
     axios
       .get(
@@ -53,6 +54,21 @@ const SearchPage = (artList) => {
         console.log(data.data.totalCount);
         // console.log(data.data.list);
         setOpenApiData1(data.data.list);
+      })
+      .catch((error) => console.log("error getting data", error));
+  }
+
+  // 상세정보조회 api
+  function apiTestDetail(apiSearchId) {
+    apiSearchId = "PS0100500300400000100000";
+    axios
+      .get(
+        `openapi/relic/detail?serviceKey=${process.env.REACT_APP_OPEN_API}&id=${apiSearchId}`
+      )
+      .then((data) => {
+        console.log(data.data.resultMsg);
+        console.log(data.data.list);
+        setTestApiDetailResult(data.data.list);
       })
       .catch((error) => console.log("error getting data", error));
   }
@@ -80,13 +96,20 @@ const SearchPage = (artList) => {
         <NoSearchResult />
       )}
 
-
       {/* openAPI test용 */}
       <input
         style={{ width: "100%", height: "40px", backgroundColor: "aliceBlue" }}
         onClick={onChangeAPI}
       />
       <ColWrapper>
+
+        {/* 선택 작품 상세 보기 */}
+        <button onClick={apiTestDetail}>상세 보기</button>
+        {testApiDetailResult ? (
+          <typo.body.Body01>{testApiDetailResult[0].desc}</typo.body.Body01>
+        ) : null}
+
+        {/* 목록 검색, 특정 작품의 ID 찾기 */}
         {openApiData1.map((data) => {
           return (
             <ColWrapper key={data.id}>
@@ -102,8 +125,6 @@ const SearchPage = (artList) => {
           );
         })}
       </ColWrapper>
-
-      
     </Layout>
   );
 };
