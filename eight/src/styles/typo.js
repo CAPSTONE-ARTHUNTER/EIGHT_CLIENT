@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { colors } from "./color";
 import "./font.css";
 
-const Title01 = styled.text`
+const Title01 = styled.div`
   font-size: 24px;
   font-family: Pretendard;
   font-style: normal;
@@ -10,7 +10,7 @@ const Title01 = styled.text`
   line-height: normal;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
-const Title02 = styled.text`
+const Title02 = styled.div`
   font-size: 20px;
   font-family: Pretendard;
   font-style: normal;
@@ -19,7 +19,7 @@ const Title02 = styled.text`
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
 
-const Body01 = styled.text`
+const Body01 = styled.div`
   font-size: 12px;
   font-family: Pretendard;
   font-style: normal;
@@ -28,7 +28,7 @@ const Body01 = styled.text`
   letter-spacing: -0.24px;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
-const Body02 = styled.text`
+const Body02 = styled.div`
   font-size: 14px;
   font-family: Pretendard;
   font-style: normal;
@@ -36,7 +36,7 @@ const Body02 = styled.text`
   line-height: normal;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
-const Body03 = styled.text`
+const Body03 = styled.div`
   font-size: 10px;
   font-family: Pretendard;
   font-style: normal;
@@ -45,12 +45,12 @@ const Body03 = styled.text`
   letter-spacing: -0.24px;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
-const DocentContent = styled.text`
-font-size: 14px;
-font-family: Pretendard;
-font-style: normal;
-font-weight: 500;
-line-height: 160%;
+const DocentContent = styled.div`
+  font-size: 14px;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;
 
