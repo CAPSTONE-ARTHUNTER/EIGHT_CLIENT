@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import { colors } from "../../styles/color";
 import { PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
 
-const PartPageBtn = ({ props }) => {
-  const [questList, setQuestList] = useState(props);
+const PartPageBtn = ({ artInfo }) => {
+  const questList = artInfo;
 
   //   colors
   let puzzleColor = colors.copper1;
@@ -29,8 +29,8 @@ const PartPageBtn = ({ props }) => {
             borderColor={borderColor}
             bgColor={bgColor}
             key={index + "part"}
-            onClick={()=>{
-              console.log('move to '+item.title+' page')
+            onClick={() => {
+              console.log("move to " + item.title + " page");
             }}
           >
             <PuzzleIco fill={puzzleColor} />

@@ -1,30 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { badge_wolf } from "../../assets/image/badge";
 import typo from "../../styles/typo";
 import SizedBox from "../Common/SizedBox";
 
-const GetBadgeInfo = ({ props }) => {
-  const [badgeName, setBadgeName] = useState(props.name);
-  const [leftParts, setLeftParts] = useState(
-    props.entireGage - props.solvedGage
-  );
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    setBadgeName(props.name);
-    setLeftParts(props.entireGage - props.solvedGage);
-
-    // 총 부분 개수 - 완성한 부분의 개수가 0개 초과면 완성되지 않음
-    // 0개 이하면 완성으로 간주
-    if (props.entireGage - props.solvedGage <= 0) {
-      console.log("done");
-      setDone(true);
-    } else {
-      setDone(false);
-    }
-  }, [props]);
-
+const GetBadgeInfo = ({ done, leftPart, badgeName }) => {
   return (
     <Container>
       <img src={badge_wolf} alt="wolfBadge" className="badge" />
@@ -36,7 +16,7 @@ const GetBadgeInfo = ({ props }) => {
         </>
       ) : (
         <>
-          <typo.body.Body02>조각을 {leftParts}개 더 모으면</typo.body.Body02>
+          <typo.body.Body02>조각을 {leftPart}개 더 모으면</typo.body.Body02>
           <typo.body.Body02>{badgeName}를 완성할 수 있어요!</typo.body.Body02>
         </>
       )}

@@ -2,18 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import typo from "../../styles/typo";
-import { CameraIco, CollectionIco, HomeIco, MoreIco } from "../../assets/icon";
+import { CameraIco, CollectionIco } from "../../assets/icon";
 import SizedBox from "./SizedBox";
+import { useLocation } from "react-router-dom";
 
-const WideBtn = ({ icon, text }) => {
+const WideBtn = ({ text, onClick }) => {
   let IconComponent = null;
+  const location = useLocation().pathname;
 
   // Determine the icon component based on the 'icon' prop value
-  switch (icon) {
-    case "collection":
+  switch (location) {
+    case "/docent":
       IconComponent = CollectionIco;
       break;
-    case "camera":
+    case "/detail":
       IconComponent = CameraIco;
       break;
     default:
@@ -21,7 +23,7 @@ const WideBtn = ({ icon, text }) => {
   }
 
   return (
-    <BackGround>
+    <BackGround onClick={onClick}>
       {IconComponent && (
         <>
           <IconComponent fill={colors.white} />
