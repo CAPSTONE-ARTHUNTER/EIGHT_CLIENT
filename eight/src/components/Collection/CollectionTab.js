@@ -3,7 +3,7 @@ import styled from "styled-components";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 
-const CollectionTab = ({ tabState, setTabState }) => {
+const CollectionTab = ({ tabName, tabState, setTabState }) => {
   return (
     <Container>
       <TouchArea
@@ -12,9 +12,9 @@ const CollectionTab = ({ tabState, setTabState }) => {
         }}
       >
         {tabState === 0 ? (
-          <typo.body.Body02>도감</typo.body.Body02>
+          <typo.body.Body02>{tabName.first}</typo.body.Body02>
         ) : (
-          <typo.body.Body02 color={colors.copper2}>도감</typo.body.Body02>
+          <typo.body.Body02 color={colors.copper2}>{tabName.first}</typo.body.Body02>
         )}
       </TouchArea>
       <PartitionLine />
@@ -24,9 +24,9 @@ const CollectionTab = ({ tabState, setTabState }) => {
         }}
       >
         {tabState === 1 ? (
-          <typo.body.Body02>도전과제</typo.body.Body02>
+          <typo.body.Body02>{tabName.second}</typo.body.Body02>
         ) : (
-          <typo.body.Body02 color={colors.copper2}>도전과제</typo.body.Body02>
+          <typo.body.Body02 color={colors.copper2}>{tabName.second}</typo.body.Body02>
         )}
       </TouchArea>
     </Container>

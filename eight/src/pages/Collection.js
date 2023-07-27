@@ -13,6 +13,8 @@ import QuestBox from "../components/Collection/QuestBox";
 const Collection = () => {
   // 0: 도감, 1: 도전과제
   const [tabState, setTabState] = useState(0);
+  const tabName = {first: '도감', second: '도전과제'}
+
   // 유저의 작품 정보
   const userArtInfo = [
     { title: "asdf", found: false },
@@ -30,7 +32,7 @@ const Collection = () => {
   return (
     <Layout text={"도감"}>
       <SizedBox height={8} />
-      <CollectionTab tabState={tabState} setTabState={setTabState} />
+      <CollectionTab tabName={tabName} tabState={tabState} setTabState={setTabState} />
       <SizedBox height={12} />
       {tabState === 0 ? (
         <>
