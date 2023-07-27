@@ -6,7 +6,7 @@ const Title01 = styled.div`
   font-size: 24px;
   font-family: Pretendard;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 600;
   line-height: normal;
   color: ${(props) => (props.color ? props.color : colors.black)};
 `;

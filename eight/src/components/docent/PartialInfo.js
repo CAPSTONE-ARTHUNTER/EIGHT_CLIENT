@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { LockedIco, PlayIco, PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 
-const PartialInfo = ({ props }) => {
-  //임시
-  const [title, setTitle] = useState(props.quest[0].title);
-  const [body, setBody] = useState(props.quest[0].content);
-  const [solved, setSolved] = useState(props.quest[0].solved);
-
-  useEffect(() => {
-    setTitle(props.quest[0].title);
-    setBody(props.quest[0].content);
-    setSolved(props.quest[0].solved);
-  }, [props]);
-
+const PartialInfo = ({ artInfo }) => {
   return (
     <Container>
       <RowWrapper>
         <ColWrapper>
-          {solved ? (
+          {artInfo.solved ? (
             <PuzzleIco fill={colors.brown} />
           ) : (
             <PuzzleIco fill={colors.copper1} />
           )}
           <SizedBox height={8} />
-          {solved && (
+          {artInfo.solved && (
             <TouchArea
               onClick={() => {
                 console.log("play");
@@ -39,11 +28,11 @@ const PartialInfo = ({ props }) => {
         </ColWrapper>
         <ColWrapper>
           <TitleBox>
-            <typo.body.Body01>{title}</typo.body.Body01>
+            <typo.body.Body01>{artInfo.title}</typo.body.Body01>
           </TitleBox>
           <SizedBox height={8} />
           <BodyBox>
-            {!solved && (
+            {!artInfo.solved && (
               <BlockWindow>
                 <LockedIco />
                 <SizedBox height={12} />
@@ -51,11 +40,12 @@ const PartialInfo = ({ props }) => {
                 <typo.body.Body01>숨겨진 조각을 찾아보세요!</typo.body.Body01>
               </BlockWindow>
             )}
-            <typo.body.DocentContent>{body}</typo.body.DocentContent>
+            <typo.body.DocentContent>{artInfo.content}</typo.body.DocentContent>
           </BodyBox>
         </ColWrapper>
         <SizedBox width={16} />
       </RowWrapper>
+      <SizedBox height={48} />
     </Container>
   );
 };

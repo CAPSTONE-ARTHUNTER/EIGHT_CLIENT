@@ -1,13 +1,13 @@
 import React from "react";
-import Layout from "../components/Layout/Layout";
+import Layout from "../../components/Layout/Layout";
 import styled from "styled-components";
-import inwang from "../assets/image/Inwang.jpg";
-import PartPageBtn from "../components/docent/PartPageBtn";
-import SizedBox from "../components/Common/SizedBox";
+import inwang from "../../assets/image/Inwang.jpg";
+import PartPageBtn from "../../components/docent/PartPageBtn";
+import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
-import typo from "../styles/typo";
-import GetBadgeInfo from "../components/docent/GetBadgeInfo";
-import WideBtn from "../components/Common/WideBtn";
+import typo from "../../styles/typo";
+import GetBadgeInfo from "../../components/docent/GetBadgeInfo";
+import WideBtn from "../../components/Common/WideBtn";
 
 const Docent = ({ artInfo }) => {
   const [artImgHeight, setArtImageHeight] = useState(0);
