@@ -80,6 +80,7 @@ const Background = styled.div`
   right: 0;
   display: flex;
   position: fixed;
+  z-index: 5;
   background-color: ${colors.beige};
 `;
 const BarCon = styled.div`
