@@ -38,7 +38,7 @@ function Detection() {
     }
     axios({
       method: "POST",
-      url: "https://detect.roboflow.com/painting-l6exb/9",
+      url: "https://detect.roboflow.com/painting-l6exb/13",
       params: {
         api_key: process.env.REACT_APP_ROBOFLOW_API, //env처리
       },
