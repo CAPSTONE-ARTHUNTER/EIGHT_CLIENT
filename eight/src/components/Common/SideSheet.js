@@ -5,10 +5,12 @@ import typo from "../../styles/typo";
 import { CloseIco, InfoIco, LangIco, SoundIco } from "../../assets/icon";
 import SizedBox from "./SizedBox";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const SideSheet = ({sideSheetOpen, setSideSheetOpen}) => {
-  const navigate = useNavigate()
+const SideSheet = ({ sideSheetOpen, setSideSheetOpen }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(sideSheetOpen);
+  const { t } = useTranslation();
   return (
     <>
       {open === true ? (
@@ -18,28 +20,30 @@ const SideSheet = ({sideSheetOpen, setSideSheetOpen}) => {
             <IconCon
               onClick={() => {
                 setOpen(false);
-                setSideSheetOpen(false)
+                setSideSheetOpen(false);
               }}
             >
               <CloseIco />
             </IconCon>
           </Header>
-          <Content onClick={()=>{
-            navigate("/language")
-          }}>
+          <Content
+            onClick={() => {
+              navigate("/language");
+            }}
+          >
             <LangIco />
             <SizedBox width={8} />
-            <typo.body.Body02>언어 설정</typo.body.Body02>
+            <typo.body.Body02>{t("sideSheet.lang")}</typo.body.Body02>
           </Content>
           <Content>
             <SoundIco />
             <SizedBox width={8} />
-            <typo.body.Body02>소리 설정</typo.body.Body02>
+            <typo.body.Body02>{t("sideSheet.sound")}</typo.body.Body02>
           </Content>
           <Content>
             <InfoIco />
             <SizedBox width={8} />
-            <typo.body.Body02>앱 정보</typo.body.Body02>
+            <typo.body.Body02>{t("sideSheet.info")}</typo.body.Body02>
           </Content>
         </Background>
       ) : null}

@@ -19,6 +19,11 @@ i18n
             alias: "challenger",
             pieceFound: "Arts Found",
           },
+          sideSheet: {
+            lang: "Language",
+            sound: "Sound",
+            info: "App info",
+          },
           mainPage: {
             searchMsg: "Let's find a great Artwork!",
             todayArt: "Today's Artwork",
@@ -32,6 +37,11 @@ i18n
           profile: {
             alias: "도전자",
             pieceFound: "발견한 작품",
+          },
+          sideSheet: {
+            lang: "언어 설정",
+            sound: "소리 설정",
+            info: "앱 정보",
           },
           mainPage: {
             searchMsg: "찾으시는 작품이 있나요?",
