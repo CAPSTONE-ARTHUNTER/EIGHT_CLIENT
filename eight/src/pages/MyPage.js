@@ -3,8 +3,8 @@ import Profile from "../components/mypage/Profile";
 import SizedBox from "../components/Common/SizedBox";
 import styled from "styled-components";
 import { colors } from "../styles/color";
-import SettingBtn from "../components/mypage/SettingBtn";
 import Layout from "../components/Layout/Layout";
+import SettingBtnSet from "../components/mypage/SettingBtnSet";
 
 const MyPage = () => {
   // 샘플
@@ -19,7 +19,7 @@ const MyPage = () => {
       <SizedBox height={12} />
       <PartitionLine />
       <SizedBox height={12} />
-      <SettingBtn />
+      <SettingBtnSet />
     </Layout>
   );
 };
