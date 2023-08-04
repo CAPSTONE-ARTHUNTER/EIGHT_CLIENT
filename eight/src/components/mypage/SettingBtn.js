@@ -1,18 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import typo from "../../styles/typo";
-import { DropDownIco } from "../../assets/icon";
-const SettingBtn = ({text}) => {
+import { CheckIco, DropDownIco } from "../../assets/icon";
+import { useLocation } from "react-router-dom";
+import { colors } from "../../styles/color";
+const SettingBtn = ({ text, checked }) => {
+  const location = useLocation().pathname;
   return (
     <BtnContainer>
       <typo.body.Body02>{text}</typo.body.Body02>
       <TouchArea
-        className="moreBtn"
         onClick={() => {
           console.log(text);
         }}
       >
-        <DropDownIco />
+        {location === "/language" ? (
+          <>{checked === true ? <CheckIco fill={colors.brown} /> : null}</>
+        ) : (
+          <DropDownIco className="moreBtn" />
+        )}
       </TouchArea>
     </BtnContainer>
   );
