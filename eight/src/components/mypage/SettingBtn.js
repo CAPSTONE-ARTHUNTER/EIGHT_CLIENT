@@ -9,11 +9,15 @@ const SettingBtn = ({ text, checked, onClick }) => {
   return (
     <BtnContainer>
       <typo.body.Body02>{text}</typo.body.Body02>
-      <TouchArea
-        onClick={onClick}
-      >
+      <TouchArea onClick={onClick}>
         {location === "/language" ? (
-          <>{checked === true ? <CheckIco fill={colors.brown} /> : null}</>
+          <>
+            {checked === true ? (
+              <CheckIco fill={colors.brown} />
+            ) : (
+              <CheckIco fill={colors.beige} />
+            )}
+          </>
         ) : (
           <DropDownIco className="moreBtn" />
         )}
