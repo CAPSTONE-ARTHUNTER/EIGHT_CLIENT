@@ -15,10 +15,30 @@ i18n
       en: {
         translation: {
           // 번역본 작성
+          profile: {
+            alias: "challenger",
+            pieceFound: "Arts Found",
+          },
+          mainPage: {
+            searchMsg: "Let's find a great Artwork!",
+            todayArt: "Today's Artwork",
+            goDocent: "Docent",
+            goCollection: "Collection",
+          },
         },
       },
       ko: {
         translation: {
+          profile: {
+            alias: "도전자",
+            pieceFound: "발견한 작품",
+          },
+          mainPage: {
+            searchMsg: "찾으시는 작품이 있나요?",
+            todayArt: "오늘의 작품",
+            goDocent: "해설 보기",
+            goCollection: "도감 보기",
+          },
         },
       },
     },
