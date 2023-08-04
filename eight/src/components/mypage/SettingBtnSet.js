@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import SettingBtn from "./SettingBtn";
 
-const SettingBtnSet = () => {
+const SettingBtnSet = ({ t }) => {
   return (
     <Container>
-      <SettingBtn text="알림 및 소리" />
-      <SettingBtn text="계정" />
-      <SettingBtn text="앱 정보" />
+      <SettingBtn text={t("myPage.alert")} />
+      <SettingBtn text={t("myPage.account")} />
+      <SettingBtn text={t("myPage.info")} />
     </Container>
   );
 };

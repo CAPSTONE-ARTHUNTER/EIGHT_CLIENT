@@ -7,14 +7,14 @@ import SizedBox from "../../components/Common/SizedBox";
 import { useTranslation } from "react-i18next";
 
 const LanguagePage = ({ lngs }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <Layout text="언어 설정">
       <SizedBox height={32} />
       <Container>
         <typo.title.Title02>
-          현재 설정 언어는 {i18n.language}입니다
+          {t("settingPage.langNow", { lang: i18n.language })}
         </typo.title.Title02>
       </Container>
       <SizedBox height={60} />

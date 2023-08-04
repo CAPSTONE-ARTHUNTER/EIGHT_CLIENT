@@ -7,12 +7,19 @@ import styled from "styled-components";
 import CollectionTab from "../../components/Collection/CollectionTab";
 import typo from "../../styles/typo";
 import PartialInfo from "../../components/docent/PartialInfo";
+import { useTranslation } from "react-i18next";
 
 const DocentExp = ({ artInfo }) => {
+  const { t } = useTranslation();
+
   // 탭
   const [tabState, setTabState] = useState(0);
-  const tabName = { first: "부분별 해설", second: "전체 해설" };
-
+  const tabName = {
+    firstko: "부분별 해설",
+    secondko: "전체 해설",
+    firsten: "Partial Comment",
+    seconden: "Entire Comment",
+  };
   //   이미지높이
   const [artImgHeight, setArtImageHeight] = useState(0);
   const handleImageLoad = (event) => {
@@ -37,6 +44,7 @@ const DocentExp = ({ artInfo }) => {
           tabName={tabName}
           tabState={tabState}
           setTabState={setTabState}
+          t={t}
         />
         <SizedBox height={16} />
 
@@ -56,7 +64,7 @@ const DocentExp = ({ artInfo }) => {
           // 부분별 해설 탭
           <>
             {artInfo.quest.map((data) => {
-              return <PartialInfo artInfo={data} />;
+              return <PartialInfo artInfo={data} t={t} />;
             })}
           </>
         ) : (

@@ -8,8 +8,10 @@ import { useState } from "react";
 import typo from "../../styles/typo";
 import GetBadgeInfo from "../../components/docent/GetBadgeInfo";
 import WideBtn from "../../components/Common/WideBtn";
+import { useTranslation } from "react-i18next";
 
 const Docent = ({ artInfo }) => {
+  const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const leftPart = artInfo.entireGage - artInfo.solvedGage;
   const done = leftPart <= 0 ? true : false;
@@ -33,7 +35,7 @@ const Docent = ({ artInfo }) => {
         <SizedBox height={24} />
 
         <typo.body.Body02 style={{ paddingLeft: "8px" }}>
-          부분들을 모두 모아 작품을 완성하세요!
+          {t("DocentPage.partTitle")}
         </typo.body.Body02>
         <SizedBox height={8} />
         <BtnWrapper>
@@ -45,11 +47,12 @@ const Docent = ({ artInfo }) => {
           done={done}
           leftPart={leftPart}
           badgeName={artInfo.name}
+          t={t}
         />
 
         <SizedBox height={56} />
         <WideBtn
-          text={"전체 해설 보기"}
+          text={t("DocentPage.btnTxt")}
           onClick={() => {
             console.log("hehe");
             // 세부페이지로 라우팅

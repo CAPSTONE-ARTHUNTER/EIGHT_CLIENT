@@ -5,8 +5,10 @@ import styled from "styled-components";
 import { colors } from "../styles/color";
 import Layout from "../components/Layout/Layout";
 import SettingBtnSet from "../components/mypage/SettingBtnSet";
+import { useTranslation } from "react-i18next";
 
 const MyPage = () => {
+  const { t } = useTranslation();
   // 샘플
   const exampleData = {
     userName: "rryu09",
@@ -19,7 +21,7 @@ const MyPage = () => {
       <SizedBox height={12} />
       <PartitionLine />
       <SizedBox height={12} />
-      <SettingBtnSet />
+      <SettingBtnSet t={t} />
     </Layout>
   );
 };

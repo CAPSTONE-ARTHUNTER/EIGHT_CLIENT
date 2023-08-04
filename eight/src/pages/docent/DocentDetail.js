@@ -8,8 +8,10 @@ import typo from "../../styles/typo";
 import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
 import WideBtn from "../../components/Common/WideBtn";
+import { useTranslation } from "react-i18next";
 
 const DocentDetail = ({ artInfo }) => {
+  const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const handleImageLoad = (event) => {
     const imgElement = event.target;
@@ -56,7 +58,7 @@ const DocentDetail = ({ artInfo }) => {
         <SizedBox height={24} />
 
         <TxtBox>
-          <WideBtn text={"부분 찾으러 가기"} />
+          <WideBtn text={t("DocentPage.Detail.btnTxt")} />
           <SizedBox height={32} />
 
           {/* 텍스트 제목 */}
