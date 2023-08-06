@@ -4,7 +4,7 @@ import { badge_wolf } from "../../assets/image/badge";
 import typo from "../../styles/typo";
 import SizedBox from "../Common/SizedBox";
 
-const GetBadgeInfo = ({ done, leftPart, badgeName }) => {
+const GetBadgeInfo = ({ done, leftPart, badgeName, t }) => {
   return (
     <Container>
       <img src={badge_wolf} alt="wolfBadge" className="badge" />
@@ -12,12 +12,16 @@ const GetBadgeInfo = ({ done, leftPart, badgeName }) => {
       {done ? (
         <>
           <typo.body.Body02>{badgeName}</typo.body.Body02>
-          <typo.body.Body02>뱃지를 획득했어요!</typo.body.Body02>
+          <typo.body.Body02>{t("DocentPage.badgeComplete")}</typo.body.Body02>
         </>
       ) : (
         <>
-          <typo.body.Body02>조각을 {leftPart}개 더 모으면</typo.body.Body02>
-          <typo.body.Body02>{badgeName}를 완성할 수 있어요!</typo.body.Body02>
+          <typo.body.Body02>
+            {t("DocentPage.badgeInfo1", { leftPart: leftPart })}
+          </typo.body.Body02>
+          <typo.body.Body02>
+            {t("DocentPage.badgeInfo2", { badgeName: badgeName })}
+          </typo.body.Body02>
         </>
       )}
     </Container>

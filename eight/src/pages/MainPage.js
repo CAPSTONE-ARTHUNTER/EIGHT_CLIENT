@@ -7,17 +7,19 @@ import { useNavigate } from "react-router-dom";
 import TodayBox from "../components/MainPage/TodayBox";
 import typo from "../styles/typo";
 import Layout from "../components/Layout/Layout";
+import { useTranslation } from "react-i18next";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Layout>
       <SizedBox height={20} />
 
       <Container>
-        <SearchBox />
-        <UserBox />
+        <SearchBox t={t} />
+        <UserBox t={t} />
         <BtnWrapper>
           <MainCameraBtn
             onClick={() => {
@@ -33,14 +35,14 @@ const MainPage = () => {
 
         <TodayWrapper>
           <typo.title.Title02 style={{ padding: "0px 8px" }}>
-            오늘의 작품
+            {t("mainPage.todayArt")}
           </typo.title.Title02>
           <SizedBox height={12} />
           <TodayRail>
             {/* 정보 받아서 map */}
-            <TodayBox />
-            <TodayBox />
-            <TodayBox />
+            <TodayBox t={t} />
+            <TodayBox t={t} />
+            <TodayBox t={t} />
           </TodayRail>
           <SizedBox height={60} />
         </TodayWrapper>

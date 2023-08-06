@@ -6,6 +6,7 @@ import NoSearchResult from "../components/Search/NoSearchResult";
 import ArtListBox from "../components/Search/ArtListBox";
 import styled from "styled-components";
 import Layout from "../components/Layout/Layout";
+import { useTranslation } from "react-i18next";
 
 const SearchPage = (artList) => {
   // const list = artList
@@ -17,6 +18,7 @@ const SearchPage = (artList) => {
   ];
   const [text, setText] = useState("");
   const [searchRes, setSearchRes] = useState(list);
+  const { t } = useTranslation();
 
   // 인풋 바뀔 때마다 인풋 텍스트로 배열에 검색
   const onChange = (e) => {
@@ -33,14 +35,14 @@ const SearchPage = (artList) => {
   return (
     <Layout text={"작품 검색"}>
       <SizedBox height={20} />
-      <SearchBox text={text} onChange={onChange} search={search} />
+      <SearchBox text={text} onChange={onChange} search={search} t={t} />
 
       {/* 검색 결과 존재할 경우 작품 목록 표시 */}
       {searchRes.length !== 0 ? (
         <>
           <SizedBox height={26} />
           <typo.body.Body02 style={{ paddingLeft: "8px" }}>
-            작품 목록
+            {t("searchPage.artList")}
           </typo.body.Body02>
           <SizedBox height={8} />
           <ArtListContainer>

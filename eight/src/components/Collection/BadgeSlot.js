@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
@@ -6,34 +6,32 @@ import SizedBox from "../Common/SizedBox";
 import { badge_chip } from "../../assets/image/badge";
 import { SadIco } from "../../assets/icon";
 
-const BadgeSlot = ({ badges }) => {
+const BadgeSlot = ({ badges, t }) => {
   const badgesList = badges;
 
   return (
     <Container>
-      <typo.body.Body02 color={colors.brown}>보유한 뱃지</typo.body.Body02>
+      <typo.body.Body02 color={colors.brown}>
+        {t("collectionPage.badgesTitle")}
+      </typo.body.Body02>
       <SizedBox height={8} />
       {badgesList ? (
         <Rail>
           {/* 배열 받아서 map */}
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
-          <img className="badge" src={badge_chip} />
+          <img className="badge" src={badge_chip} alt="badge" />
+          <img className="badge" src={badge_chip} alt="badge" />
+          <img className="badge" src={badge_chip} alt="badge" />
+          <img className="badge" src={badge_chip} alt="badge" />
+          <img className="badge" src={badge_chip} alt="badge" />
+          <img className="badge" src={badge_chip} alt="badge" />
         </Rail>
       ) : (
         <ColWrapper>
           <SizedBox height={8} />
           <SadIco />
           <SizedBox height={8} />
-          <typo.body.Body03>보유한 뱃지가 없어요!</typo.body.Body03>
-          <typo.body.Body03>해설을 보고 뱃지를 모아보세요</typo.body.Body03>
+          <typo.body.Body03>{t("collectionPage.noBadge1")}</typo.body.Body03>
+          <typo.body.Body03>{t("collectionPage.noBadge2")}</typo.body.Body03>
         </ColWrapper>
       )}
       <SizedBox height={32} />

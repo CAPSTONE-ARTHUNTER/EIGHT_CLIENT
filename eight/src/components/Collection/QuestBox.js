@@ -30,11 +30,13 @@ const sampleData = [
   },
 ];
 
-const QuestBox = () => {
+const QuestBox = ({ t }) => {
   return (
     <>
       <RowWrapper>
-        <typo.body.Body02 fill={colors.brown}>도전과제</typo.body.Body02>
+        <typo.body.Body02 fill={colors.brown}>
+          {t("collectionPage.challengeTitle")}
+        </typo.body.Body02>
         <typo.body.Body02 fill={colors.brown}>0/15</typo.body.Body02>
       </RowWrapper>
       <SizedBox height={8} />

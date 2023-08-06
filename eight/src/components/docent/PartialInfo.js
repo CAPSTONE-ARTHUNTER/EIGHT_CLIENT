@@ -5,7 +5,7 @@ import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 
-const PartialInfo = ({ artInfo }) => {
+const PartialInfo = ({ artInfo, t }) => {
   return (
     <Container>
       <RowWrapper>
@@ -36,8 +36,8 @@ const PartialInfo = ({ artInfo }) => {
               <BlockWindow>
                 <LockedIco />
                 <SizedBox height={12} />
-                <typo.body.Body02>잠긴 부분입니다</typo.body.Body02>
-                <typo.body.Body01>숨겨진 조각을 찾아보세요!</typo.body.Body01>
+                <typo.body.Body02>{t('DocentPage.Exp.lockedMsg1')}</typo.body.Body02>
+                <typo.body.Body01>{t('DocentPage.Exp.lockedMsg2')}</typo.body.Body01>
               </BlockWindow>
             )}
             <typo.body.DocentContent>{artInfo.content}</typo.body.DocentContent>

@@ -9,11 +9,18 @@ import CollectionBox from "../components/Collection/CollectionBox";
 import styled from "styled-components";
 import BadgeSlot from "../components/Collection/BadgeSlot";
 import QuestBox from "../components/Collection/QuestBox";
+import { useTranslation } from "react-i18next";
 
 const Collection = () => {
   // 0: 도감, 1: 도전과제
   const [tabState, setTabState] = useState(0);
-  const tabName = {first: '도감', second: '도전과제'}
+  const { t } = useTranslation();
+  const tabName = {
+    firstko: "도감",
+    secondko: "도전과제",
+    firsten: "Collection",
+    seconden: "Challenge",
+  };
 
   // 유저의 작품 정보
   const userArtInfo = [
@@ -32,13 +39,18 @@ const Collection = () => {
   return (
     <Layout text={"도감"}>
       <SizedBox height={8} />
-      <CollectionTab tabName={tabName} tabState={tabState} setTabState={setTabState} />
+      <CollectionTab
+        tabName={tabName}
+        tabState={tabState}
+        setTabState={setTabState}
+        t={t}
+      />
       <SizedBox height={12} />
       {tabState === 0 ? (
         <>
-          <UserBox />
+          <UserBox t={t} />
           <SizedBox height={32} />
-          <SearchBox />
+          <SearchBox t={t} />
           <SizedBox height={24} />
           <CollectionBoxWrapper>
             {userArtInfo.map((data, index) => {
@@ -54,8 +66,8 @@ const Collection = () => {
         </>
       ) : (
         <ChallengeBoxWrapper>
-          <BadgeSlot />
-          <QuestBox />
+          <BadgeSlot t={t} />
+          <QuestBox t={t} />
         </ChallengeBoxWrapper>
       )}
     </Layout>

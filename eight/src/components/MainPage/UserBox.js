@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import profileImage from "../../assets/image/userProfile.png";
@@ -8,7 +8,7 @@ import SizedBox from "../Common/SizedBox";
 import { MoreIco } from "../../assets/icon";
 import { useLocation } from "react-router-dom";
 
-const UserBox = ({ userInfo }) => {
+const UserBox = ({ userInfo, t }) => {
   // userInfo에서 받아서 표시
   const userLevel = 0;
   const countFound = 0;
@@ -25,12 +25,12 @@ const UserBox = ({ userInfo }) => {
             <TextRowWrapper>
               <SizedBox width={4} />
               <ColWrapper>
-                <typo.body.Body01>도전자</typo.body.Body01>
+                <typo.body.Body01>{t("profile.alias")}</typo.body.Body01>
                 <typo.body.Body02>Lv.{userLevel}</typo.body.Body02>
               </ColWrapper>
               <PartitionLine />
               <ColWrapper>
-                <typo.body.Body01>발견한 작품</typo.body.Body01>
+                <typo.body.Body01>{t("profile.pieceFound")}</typo.body.Body01>
                 <typo.body.Body02>{countFound}</typo.body.Body02>
               </ColWrapper>
               <SizedBox width={4} />
