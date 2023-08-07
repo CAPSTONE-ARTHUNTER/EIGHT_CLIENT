@@ -6,7 +6,7 @@ import { CameraIco, CollectionIco } from "../../assets/icon";
 import SizedBox from "./SizedBox";
 import { useLocation } from "react-router-dom";
 
-const WideBtn = ({ text, onClick }) => {
+const WideBtn = ({ text, onClick, bgCol }) => {
   let IconComponent = null;
   const location = useLocation().pathname;
 
@@ -23,14 +23,16 @@ const WideBtn = ({ text, onClick }) => {
   }
 
   return (
-    <BackGround onClick={onClick}>
+    <BackGround onClick={onClick} bgCol={bgCol}>
       {IconComponent && (
         <>
-          <IconComponent fill={colors.white} />
+          <IconComponent fill={!bgCol ? colors.white : colors.brown} />
           <SizedBox width={8} />
         </>
       )}
-      <typo.body.Body02 color={colors.white}>{text}</typo.body.Body02>
+      <typo.body.Body02 color={!bgCol ? colors.white : colors.brown}>
+        {text}
+      </typo.body.Body02>
     </BackGround>
   );
 };
@@ -39,7 +41,7 @@ const BackGround = styled.div`
   width: 100%;
   height: 56px;
   border-radius: 50px;
-  background-color: ${colors.brown};
+  background-color: ${(props) => (props.bgCol ? props.bgCol : colors.brown)};
   display: flex;
   align-items: center;
   justify-content: center;
