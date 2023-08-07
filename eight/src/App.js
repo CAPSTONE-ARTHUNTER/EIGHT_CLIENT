@@ -11,6 +11,7 @@ import Docent from "./pages/docent/Docent";
 import { sampleData } from "./assets/exampleData";
 import DocentDetail from "./pages/docent/DocentDetail";
 import DocentExp from "./pages/docent/DocentExp";
+import LogInPage from "./pages/LogInPage";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/login" element={<LogInPage />} />
         <Route path="/" element={<MainPage />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/detection" element={<Detection />} />
