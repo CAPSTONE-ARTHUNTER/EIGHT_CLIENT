@@ -7,6 +7,8 @@ import ArtListBox from "../components/Search/ArtListBox";
 import styled from "styled-components";
 import Layout from "../components/Layout/Layout";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const SearchPage = (artList) => {
   // const list = artList
@@ -19,6 +21,15 @@ const SearchPage = (artList) => {
   const [text, setText] = useState("");
   const [searchRes, setSearchRes] = useState(list);
   const { t } = useTranslation();
+  const location = useLocation();
+  // 메인페이지 검색 결과 받아오기
+  const mainSearchTxt = location.state;
+
+  useEffect(() => {
+    if (mainSearchTxt !== null) {
+      setSearchRes(list.filter((data) => data.title.includes(mainSearchTxt)));
+    }
+  }, [mainSearchTxt]);
 
   // 인풋 바뀔 때마다 인풋 텍스트로 배열에 검색
   const onChange = (e) => {
