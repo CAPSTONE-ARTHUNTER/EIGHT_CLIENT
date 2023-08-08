@@ -8,4 +8,5 @@ export const colors = {
   redBrown: "#9F6648",
   orange: "#FFBA35",
   white: "#FFFFFF",
+  red: "#D23E3E",
 };

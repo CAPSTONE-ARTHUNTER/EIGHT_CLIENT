@@ -5,44 +5,59 @@ import { colors } from "../../styles/color";
 import Quest from "./Quest";
 import SizedBox from "../Common/SizedBox";
 
-// 샘플
-// 뱃지종류 추가 필요
-const sampleData = [
-  {
-    name: "파교심매도",
-    solvedGage: 6,
-    entireGage: 7,
-    quest: [
-      { content: "정선에게 특별했던 작품, <인왕제색도>", solved: true },
-      { content: "<인왕제색도>에 표현된 공간감과 실체감", solved: false },
-      { content: "<인왕제색도> 속 인왕산 명소", solved: true },
-      { content: "정선이 <인왕제색도>를 그린 이유", solved: false },
-    ],
-  },
-  {
-    name: "아아아앙아",
-    solvedGage: 3,
-    entireGage: 7,
-    quest: [
-      { content: "세부예시1", solved: true },
-      { content: "세부예시2", solved: false },
-    ],
-  },
-];
+const QuestBox = ({ sampleData, t }) => {
+  let solvedCnt = 0;
+  const solvedPart = sampleData.filter(
+    (data) => data.entireGage - data.solvedGage <= 0
+  );
+  const leftPart = sampleData.filter(
+    (data) => data.entireGage - data.solvedGage > 0
+  );
 
-const QuestBox = () => {
   return (
     <>
       <RowWrapper>
-        <typo.body.Body02 fill={colors.brown}>도전과제</typo.body.Body02>
-        <typo.body.Body02 fill={colors.brown}>0/15</typo.body.Body02>
+        <typo.body.Body02>
+          {t("collectionPage.challengeTitle")}
+        </typo.body.Body02>
+        <typo.body.Body02>
+          {/* 완료한 도전과제 수 세기 */}
+          {sampleData.map((data) => {
+            if (data.entireGage - data.solvedGage <= 0) solvedCnt += 1;
+            return null;
+          })}
+          {solvedCnt}/{sampleData.length}
+        </typo.body.Body02>
       </RowWrapper>
-      <SizedBox height={8} />
-      <QuestWrapper>
-        {sampleData.map((data) => {
-          return <Quest props={data} />;
-        })}
-      </QuestWrapper>
+
+      <SizedBox Rheight={".5rem"} />
+
+      {/* 도전과제 완성 시 하단으로 내려감 */}
+      {/* 미완성 도전과제 렌더링 */}
+      {leftPart.length !== 0 ? (
+        <QuestWrapper>
+          {leftPart.map((data) => {
+            return <Quest props={data} key={data.name} />;
+          })}
+        </QuestWrapper>
+      ) : null}
+
+      <SizedBox Rheight={".5rem"} />
+
+      {/* 완성 도전과제 렌더링 */}
+      {solvedPart.length !== 0 ? (
+        <>
+          <Partition />
+          <typo.body.Body02>
+            {t("collectionPage.challengeCompleteTitle")}
+          </typo.body.Body02>
+          <QuestWrapper>
+            {solvedPart.map((data) => {
+              return <Quest props={data} key={data.name} />;
+            })}
+          </QuestWrapper>
+        </>
+      ) : null}
     </>
   );
 };
@@ -56,4 +71,14 @@ const QuestWrapper = styled.div`
   flex-direction: column;
   gap: 12px;
 `;
+const Partition = styled.div`
+  background-color: ${colors.beige};
+  display: block;
+  width: 95%;
+  height: 0.08rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  align-self: center;
+`;
+
 export default QuestBox;

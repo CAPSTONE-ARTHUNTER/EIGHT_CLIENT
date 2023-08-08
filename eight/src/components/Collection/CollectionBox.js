@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import typo from "../../styles/typo";
@@ -7,8 +7,7 @@ import typo from "../../styles/typo";
 import testImage from "../../assets/image/Inwang.jpg";
 
 const CollectionBox = ({ found, num }) => {
-  console.log(found);
-  const [backImg, setBackImg] = useState(testImage);
+  const backImg = testImage;
   return (
     <>
       {found ? (

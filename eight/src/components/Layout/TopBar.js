@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import {
@@ -11,11 +11,12 @@ import {
 import SizedBox from "../Common/SizedBox";
 import typo from "../../styles/typo";
 import SideSheet from "../Common/SideSheet";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const TopBar = ({ text }) => {
   const [sideSheetOpen, setSideSheetOpen] = useState(false);
   const location = useLocation().pathname;
+  const navigate = useNavigate();
 
   let IconComponent = null;
   let LeftIconComponent = BackIco;
@@ -47,7 +48,9 @@ const TopBar = ({ text }) => {
           <LeftIconComponent
             fill={colors.brown}
             onClick={() => {
-              console.log("do smt");
+              if (LeftIconComponent === BackIco) {
+                navigate(-1);
+              }
             }}
           />
         </TouchCon>

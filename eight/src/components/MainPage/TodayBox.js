@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import { CollectionIco, DocentIco } from "../../assets/icon";
@@ -7,7 +7,7 @@ import typo from "../../styles/typo";
 // 임시 이미지
 import testImage from "../../assets/image/Inwang.jpg";
 
-const TodayBox = (boxInfo) => {
+const TodayBox = ({ boxInfo, t }) => {
   const todayImage = testImage;
   const todayTitle = "제목 예시";
   const todayBody = "부가 설명 예시";
@@ -31,7 +31,7 @@ const TodayBox = (boxInfo) => {
           >
             <DocentIco />
             <typo.body.Body02 color={colors.white}>
-              해설 보러가기
+              {t("mainPage.goDocent")}
             </typo.body.Body02>
           </DocentGoBtn>
           <CollectionGoBtn
@@ -39,8 +39,8 @@ const TodayBox = (boxInfo) => {
               console.log("도감 화면으로 이동");
             }}
           >
-            <CollectionIco fill={colors.brown}/>
-            <typo.body.Body02>도감으로 가기</typo.body.Body02>
+            <CollectionIco fill={colors.brown} />
+            <typo.body.Body02>{t("mainPage.goCollection")}</typo.body.Body02>
           </CollectionGoBtn>
         </RowWrapper>
       </ButtonGroup>

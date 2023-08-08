@@ -1,23 +1,39 @@
 import styled from "styled-components";
+import typo from "../styles/typo";
+import Layout from "../components/Layout/Layout";
+import { colors } from "../styles/color";
 import SearchBox from "../components/Common/SearchBox";
 import SizedBox from "../components/Common/SizedBox";
 import UserBox from "../components/MainPage/UserBox";
-import { colors } from "../styles/color";
-import { useNavigate } from "react-router-dom";
 import TodayBox from "../components/MainPage/TodayBox";
-import typo from "../styles/typo";
-import Layout from "../components/Layout/Layout";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const [text, setText] = useState("");
+
+  const onChange = (e) => {
+    setText(e.target.value);
+  };
+
+  // searchPage로 검색 텍스트 전달, 이동
+  function search(e) {
+    setText(e.target.value);
+    navigate("/search", { state: text });
+    setText("");
+  }
 
   return (
     <Layout>
       <SizedBox height={20} />
 
       <Container>
-        <SearchBox />
-        <UserBox />
+        <SearchBox text={text} onChange={onChange} search={search} t={t} />
+        <UserBox t={t} />
         <BtnWrapper>
           <MainCameraBtn
             onClick={() => {
@@ -33,14 +49,14 @@ const MainPage = () => {
 
         <TodayWrapper>
           <typo.title.Title02 style={{ padding: "0px 8px" }}>
-            오늘의 작품
+            {t("mainPage.todayArt")}
           </typo.title.Title02>
           <SizedBox height={12} />
           <TodayRail>
             {/* 정보 받아서 map */}
-            <TodayBox />
-            <TodayBox />
-            <TodayBox />
+            <TodayBox t={t} />
+            <TodayBox t={t} />
+            <TodayBox t={t} />
           </TodayRail>
           <SizedBox height={60} />
         </TodayWrapper>
