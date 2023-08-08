@@ -91,6 +91,7 @@ i18n
           collectionPage: {
             collection: "{{tabName.firstko}}",
             challenge: "{{tabName.secondko}}",
+            challengeTitle: "도전과제",
             badgesTitle: "보유한 뱃지",
             noBadge1: "보유한 뱃지가 없어요!",
             noBadge2: "해설을 보고 뱃지를 모아보세요",
