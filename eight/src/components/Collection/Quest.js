@@ -13,7 +13,7 @@ const Quest = ({ props }) => {
   return (
     <>
       <Background>
-        <img className="badge" src={badge_chip} alt="badge"/>
+        <img className="badge" src={badge_chip} alt="badge" />
         <Wrapper>
           <typo.body.Body01>{props.name}</typo.body.Body01>
           <SizedBox height={4} />
@@ -50,8 +50,8 @@ const Quest = ({ props }) => {
           <SizedBox width={4} />
           <QuestPartBar />
           <QuestPartBox>
-            {questPart.map((part) => {
-              return <QuestPart part={part} />;
+            {questPart.map((part, idx) => {
+              return <QuestPart part={part} key={idx} />;
             })}
           </QuestPartBox>
         </QuestPartRowWrapper>
@@ -76,8 +76,8 @@ const QuestPart = ({ part }) => {
 const Background = styled.div`
   display: flex;
   width: auto;
-  height: 66px;
-  padding: 8px;
+  height: 4rem;
+  padding: 0.5rem;
   align-items: center;
   justify-content: space-between;
   border-radius: 4px;
@@ -85,13 +85,13 @@ const Background = styled.div`
   box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
 
   .badge {
-    height: 50px;
+    height: 3rem;
   }
 `;
 
 const TouchArea = styled.div`
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
