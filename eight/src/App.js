@@ -8,7 +8,6 @@ import SearchPage from "./pages/SearchPage";
 import MyPage from "./pages/MyPage";
 import LanguagePage from "./pages/setting/LanguagePage";
 import Docent from "./pages/docent/Docent";
-import { sampleData } from "./assets/exampleData";
 import DocentDetail from "./pages/docent/DocentDetail";
 import DocentExp from "./pages/docent/DocentExp";
 import LogInPage from "./pages/LogInPage";
@@ -17,6 +16,31 @@ const lngs = {
   en: { nativeName: "English" },
   ko: { nativeName: "한국어" },
 };
+
+const sampleData = [
+  {
+    name: "파교심매도",
+    id: 1,
+    solvedGage: 7,
+    entireGage: 7,
+    quest: [
+      { content: "정선에게 특별했던 작품, <인왕제색도>", solved: true },
+      { content: "<인왕제색도>에 표현된 공간감과 실체감", solved: false },
+      { content: "<인왕제색도> 속 인왕산 명소", solved: true },
+      { content: "정선이 <인왕제색도>를 그린 이유", solved: false },
+    ],
+  },
+  {
+    name: "아아아앙아",
+    id: 2,
+    solvedGage: 3,
+    entireGage: 7,
+    quest: [
+      { content: "세부예시1", solved: true },
+      { content: "세부예시2", solved: false },
+    ],
+  },
+];
 
 function App() {
   return (
