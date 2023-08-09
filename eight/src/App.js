@@ -11,7 +11,6 @@ import Docent from "./pages/docent/Docent";
 import DocentDetail from "./pages/docent/DocentDetail";
 import DocentExp from "./pages/docent/DocentExp";
 import LogInPage from "./pages/LogInPage";
-// import WrongPage from "./pages/docent/WrongPage";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -24,6 +23,7 @@ const sampleData = [
     id: 1,
     solvedGage: 2,
     entireGage: 4,
+    desc: "파교심매도에 대한 짧은 설명",
     quest: [
       {
         content: "정선에게 특별했던 작품, <인왕제색도>",
@@ -54,6 +54,7 @@ const sampleData = [
     id: 2,
     solvedGage: 1,
     entireGage: 2,
+    desc: "짧은 설명",
     quest: [
       { content: "세부예시1", solved: true },
       { content: "세부예시2", solved: false },
@@ -69,7 +70,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/detection" element={<Detection />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage artList={sampleData} />} />
         <Route path="/mypage" element={<MyPage />} />
 
         {/* 임시 라우팅 */}

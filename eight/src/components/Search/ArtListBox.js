@@ -6,21 +6,24 @@ import testImage from "../../assets/image/Inwang.jpg";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
+import { useNavigate } from "react-router-dom";
 
-const ArtListBox = ({ data }) => {
-  const searchTitle = data.title;
-  const searchBody = data.body;
+const ArtListBox = ({ data, idx }) => {
+  const navigate = useNavigate();
   const searchImage = testImage;
 
   return (
-    <BackGround searchImage={searchImage}>
+    <BackGround
+      searchImage={searchImage}
+      onClick={() => {
+        navigate(`/docent/${idx}`);
+      }}
+    >
       <InfoArea>
         <TextGroup>
-          <typo.body.Body02 color={colors.white}>
-            {searchTitle}
-          </typo.body.Body02>
+          <typo.body.Body02 color={colors.white}>{data.name}</typo.body.Body02>
           <SizedBox height={2} />
-          <typo.body.Body03 color={colors.white}>{searchBody}</typo.body.Body03>
+          <typo.body.Body03 color={colors.white}>{data.desc}</typo.body.Body03>
         </TextGroup>
       </InfoArea>
     </BackGround>

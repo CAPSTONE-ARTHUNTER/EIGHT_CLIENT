@@ -10,16 +10,9 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-const SearchPage = (artList) => {
-  // const list = artList
-  //dummy data
-  const list = [
-    { title: "hello", body: "hello hello" },
-    { title: "hi", body: "hi hi" },
-    { title: "rryu", body: "description" },
-  ];
+const SearchPage = ({ artList }) => {
   const [text, setText] = useState("");
-  const [searchRes, setSearchRes] = useState(list);
+  const [searchRes, setSearchRes] = useState(artList);
   const { t } = useTranslation();
   const location = useLocation();
   // 메인페이지 검색 결과 받아오기
@@ -27,20 +20,20 @@ const SearchPage = (artList) => {
 
   useEffect(() => {
     if (mainSearchTxt !== null) {
-      setSearchRes(list.filter((data) => data.title.includes(mainSearchTxt)));
+      setSearchRes(artList.filter((data) => data.name.includes(mainSearchTxt)));
     }
   }, [mainSearchTxt]);
 
   // 인풋 바뀔 때마다 인풋 텍스트로 배열에 검색
   const onChange = (e) => {
     setText(e.target.value);
-    setSearchRes(list.filter((data) => data.title.includes(text)));
+    setSearchRes(artList.filter((data) => data.name.includes(text)));
   };
 
   // 돋보기 아이콘 눌러 검색할 경우 인풋 초기화
   function search(e) {
     setText(e.target.value);
-    setSearchRes(list.filter((data) => data.title.includes(text)));
+    setSearchRes(artList.filter((data) => data.name.includes(text)));
     setText("");
   }
   return (
@@ -57,8 +50,8 @@ const SearchPage = (artList) => {
           </typo.body.Body02>
           <SizedBox height={8} />
           <ArtListContainer>
-            {searchRes.map((data) => {
-              return <ArtListBox key={data.title} data={data} />;
+            {searchRes.map((data, idx) => {
+              return <ArtListBox key={data.name} data={data} idx={idx} />;
             })}
           </ArtListContainer>
         </>
