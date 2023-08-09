@@ -75,8 +75,6 @@ const Collection = () => {
         <>
           <UserBox t={t} />
           <SizedBox height={32} />
-          <SearchBox t={t} />
-          <SizedBox height={24} />
           <CollectionBoxWrapper>
             {userArtInfo.map((data, index) => {
               return (
