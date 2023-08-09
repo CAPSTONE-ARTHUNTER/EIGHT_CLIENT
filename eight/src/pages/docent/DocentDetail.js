@@ -9,8 +9,11 @@ import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 const DocentDetail = ({ artInfo }) => {
+  const { id } = useParams();
+  const { detailId } = useParams();
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const handleImageLoad = (event) => {
@@ -19,17 +22,19 @@ const DocentDetail = ({ artInfo }) => {
   };
 
   return (
-    <Layout text={artInfo.name}>
+    <Layout text={artInfo[id].name}>
       <SizedBox height={24} />
 
       <ColWrapper>
         {/* 퍼즐모양 */}
         <TopBox>
           <PuzzleIco fill={colors.brown} />
-          <SizedBox height={8} />
-          <typo.body.Body01>정선에게 특별했던 작품,인왕제색도</typo.body.Body01>
+          <SizedBox Rheight={".5rem"} />
+          <typo.body.Body01>
+            {artInfo[id].quest[detailId].content}
+          </typo.body.Body01>
         </TopBox>
-        <SizedBox height={32} />
+        <SizedBox Rheight={"2rem"} />
       </ColWrapper>
 
       {/* 이미지 */}
@@ -41,7 +46,7 @@ const DocentDetail = ({ artInfo }) => {
           onLoad={handleImageLoad}
         />
         <SizedBox height={artImgHeight} />
-        <SizedBox height={32} />
+        <SizedBox Rheight={"2rem"} />
       </ColWrapper>
 
       {/* 수집한 부분 수 표시 */}
@@ -65,13 +70,15 @@ const DocentDetail = ({ artInfo }) => {
           <RowWrapper>
             <PointIco fill={colors.orange} />
             <SizedBox width={8} />
-            <typo.body.Body02>{artInfo.quest[0].title}</typo.body.Body02>
+            <typo.body.Body02>
+              {artInfo[id].quest[detailId].content}
+            </typo.body.Body02>
           </RowWrapper>
           <SizedBox height={16} />
 
           {/* 텍스트 바디 */}
           <typo.body.DocentContent>
-            {artInfo.quest[0].content}
+            {artInfo[id].quest[detailId].contentDetail}
           </typo.body.DocentContent>
         </TxtBox>
       </ColWrapper>
@@ -107,6 +114,7 @@ const TopBox = styled.div`
 `;
 
 const TxtBox = styled.div`
+  width: 94%;
   display: flex;
   flex-direction: column;
   padding-left: 12px;
