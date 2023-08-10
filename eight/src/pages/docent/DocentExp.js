@@ -8,9 +8,11 @@ import CollectionTab from "../../components/Collection/CollectionTab";
 import typo from "../../styles/typo";
 import PartialInfo from "../../components/docent/PartialInfo";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 const DocentExp = ({ artInfo }) => {
   const { t } = useTranslation();
+  const params = useParams().id;
 
   // 탭
   const [tabState, setTabState] = useState(0);
@@ -28,7 +30,7 @@ const DocentExp = ({ artInfo }) => {
   };
 
   return (
-    <Layout text={artInfo.name}>
+    <Layout text={artInfo[params].name}>
       <Container>
         <img
           src={inwang}
@@ -50,33 +52,33 @@ const DocentExp = ({ artInfo }) => {
 
         {/* 제목란 */}
         <TitleBox>
-          <typo.title.Title01>{artInfo.name}</typo.title.Title01>
-          <SizedBox height={4} />
+          <typo.title.Title01>{artInfo[params].name}</typo.title.Title01>
+          <SizedBox Rheight={".2rem"} />
           <typo.body.Body01>
             {/* 수정필요 */}
             정선, 인왕제색도, 조선 1751년, 족자, 종이에 먹, 79.2×138.0cm, 2021년
             이건희 기증, 국보
           </typo.body.Body01>
         </TitleBox>
-        <SizedBox height={32} />
+        <SizedBox Rheight={"2rem"} />
 
         {tabState === 0 ? (
           // 부분별 해설 탭
           <>
-            {artInfo.quest.map((data) => {
+            {artInfo[params].quest.map((data) => {
               return <PartialInfo artInfo={data} t={t} />;
             })}
           </>
         ) : (
           // 전체 해설 탭
           <>
-            {artInfo.quest.map((data) => {
+            {artInfo[params].quest.map((data) => {
               return (
                 <TitleBox>
                   <typo.body.DocentContent>
-                    {data.content}
+                    {data.contentDetail}
                   </typo.body.DocentContent>
-                  <SizedBox height={24} />
+                  <SizedBox Rheight={"1.5rem"} />
                 </TitleBox>
               );
             })}
@@ -98,7 +100,8 @@ const Container = styled.div`
   }
 `;
 const TitleBox = styled.div`
-  padding: 10px;
+  padding: 0.6rem;
+  /* line-break: anywhere; */
   word-break: keep-all;
 `;
 

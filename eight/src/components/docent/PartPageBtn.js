@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { colors } from "../../styles/color";
 import { PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
+import { useNavigate } from "react-router-dom";
 
 const PartPageBtn = ({ artInfo }) => {
   const questList = artInfo;
+  const navigate = useNavigate();
 
   //   colors
   let puzzleColor = colors.copper1;
@@ -30,12 +32,12 @@ const PartPageBtn = ({ artInfo }) => {
             bgColor={bgColor}
             key={index + "part"}
             onClick={() => {
-              console.log("move to " + item.title + " page");
+              navigate(`detail/${index}`);
             }}
           >
             <PuzzleIco fill={puzzleColor} />
             <TitleBox>
-              <typo.body.Body01>{item.title}</typo.body.Body01>
+              <typo.body.Body01>{item.content}</typo.body.Body01>
             </TitleBox>
           </Background>
         );

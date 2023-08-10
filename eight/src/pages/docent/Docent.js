@@ -9,11 +9,14 @@ import typo from "../../styles/typo";
 import GetBadgeInfo from "../../components/docent/GetBadgeInfo";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Docent = ({ artInfo }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
-  const leftPart = artInfo.entireGage - artInfo.solvedGage;
+  const leftPart = artInfo[id].entireGage - artInfo[id].solvedGage;
   const done = leftPart <= 0 ? true : false;
 
   const handleImageLoad = (event) => {
@@ -22,7 +25,7 @@ const Docent = ({ artInfo }) => {
   };
 
   return (
-    <Layout text={artInfo.name}>
+    <Layout text={artInfo[id].name}>
       <ColWrapper>
         <img
           src={inwang}
@@ -34,28 +37,28 @@ const Docent = ({ artInfo }) => {
         <SizedBox height={artImgHeight} />
         <SizedBox height={24} />
 
-        <typo.body.Body02 style={{ paddingLeft: "8px" }}>
+        <typo.body.Body02 style={{ paddingLeft: ".5rem" }}>
           {t("DocentPage.partTitle")}
         </typo.body.Body02>
-        <SizedBox height={8} />
+        <SizedBox Rheight={".5rem"} />
         <BtnWrapper>
-          <PartPageBtn artInfo={artInfo.quest} />
+          <PartPageBtn artInfo={artInfo[id].quest}/>
         </BtnWrapper>
 
-        <SizedBox height={56} />
+        <SizedBox Rheight={"3.5rem"} />
         <GetBadgeInfo
           done={done}
           leftPart={leftPart}
-          badgeName={artInfo.name}
+          badgeName={artInfo[id].name}
           t={t}
         />
 
-        <SizedBox height={56} />
+        <SizedBox Rheight={"3.5rem"} />
         <WideBtn
           text={t("DocentPage.btnTxt")}
           onClick={() => {
-            console.log("hehe");
-            // 세부페이지로 라우팅
+            // 전체 해설 페이지로 라우팅
+            navigate(`/docent/${id}/exp`);
           }}
         />
       </ColWrapper>
