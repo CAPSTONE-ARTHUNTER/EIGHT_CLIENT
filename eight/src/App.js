@@ -11,6 +11,9 @@ import Docent from "./pages/docent/Docent";
 import DocentDetail from "./pages/docent/DocentDetail";
 import DocentExp from "./pages/docent/DocentExp";
 import LogInPage from "./pages/LogInPage";
+import DocentCam from "./pages/docent/DocentCam";
+import NotFound from "./pages/NotFound";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -67,25 +70,38 @@ function App() {
     <>
       <Routes>
         <Route path="/login" element={<LogInPage />} />
-        <Route path="/" element={<MainPage />} />
-        <Route path="/collection" element={<Collection />} />
-        <Route path="/detection" element={<Detection />} />
-        <Route path="/search" element={<SearchPage artList={sampleData} />} />
-        <Route path="/mypage" element={<MyPage />} />
 
-        {/* 임시 라우팅 */}
-        <Route path="/docent/:id" element={<Docent artInfo={sampleData} />} />
-        <Route
-          path="/docent/:id/detail/:detailId"
-          element={<DocentDetail artInfo={sampleData} />}
-        />
-        <Route
-          path="/docent/:id/exp"
-          element={<DocentExp artInfo={sampleData} />}
-        />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/collection" element={<Collection sampleData={sampleData}/>} />
+          <Route path="/detection" element={<Detection />} />
+          <Route path="/search" element={<SearchPage artList={sampleData} />} />
+          <Route path="/mypage" element={<MyPage />} />
 
-        {/* setting pages */}
-        <Route path="/language" element={<LanguagePage lngs={lngs} />} />
+          {/* Docent */}
+          <Route path="/docent/:id" element={<Docent artInfo={sampleData} />} />
+          <Route
+            path="/docent/:id/exp"
+            element={<DocentExp artInfo={sampleData} />}
+          />
+          <Route
+            path="/docent/:id/exp"
+            element={<DocentExp artInfo={sampleData} />}
+          />
+          <Route
+            path="/docent/:id/detail/:detailId"
+            element={<DocentDetail artInfo={sampleData} />}
+          />
+          <Route
+            path="/docent/:id/detail/:detailId/detect"
+            element={<DocentCam artInfo={sampleData} />}
+          />
+
+          {/* setting pages */}
+          <Route path="/language" element={<LanguagePage lngs={lngs} />} />
+
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
     </>
   );
