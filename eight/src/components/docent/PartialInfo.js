@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { LockedIco, PlayIco, PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
@@ -6,19 +6,19 @@ import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
+import { useQuery } from "react-query";
 
-const PartialInfo = ({ artInfo, t }) => {
-  const [translatedData, setTranslatedData] = useState();
+const PartialInfo = ({ idx, artInfo, t }) => {
   const { i18n } = useTranslation();
-
-  // 현재 설정 언어 ko 아닐 경우 번역
-  if (i18n.language !== "ko") {
-    async function getTranslation() {
-      const translation = await translate(artInfo.contentDetail, i18n.language);
-      setTranslatedData(translation);
+  const translatedData = useQuery(
+    [`translation_${idx}`],
+    () => translate(artInfo.contentDetail, i18n.language),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: i18n.language !== "ko",
     }
-    getTranslation();
-  }
+  );
 
   return (
     <Container>
@@ -61,7 +61,9 @@ const PartialInfo = ({ artInfo, t }) => {
               </BlockWindow>
             )}
             <typo.body.DocentContent>
-              {i18n.language === "ko" ? artInfo.contentDetail : translatedData}
+              {i18n.language === "ko"
+                ? artInfo.contentDetail
+                : translatedData.data}
             </typo.body.DocentContent>
           </BodyBox>
         </ColWrapper>

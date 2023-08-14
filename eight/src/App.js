@@ -59,8 +59,8 @@ const sampleData = [
     entireGage: 2,
     desc: "짧은 설명",
     quest: [
-      { content: "세부예시1", solved: true },
-      { content: "세부예시2", solved: false },
+      { content: "세부예시1", solved: true, contentDetail: "안녕하세요" },
+      { content: "세부예시2", solved: false, contentDetail: "반갑습니다!" },
     ],
   },
 ];
@@ -73,7 +73,10 @@ function App() {
 
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/collection" element={<Collection sampleData={sampleData}/>} />
+          <Route
+            path="/collection"
+            element={<Collection sampleData={sampleData} />}
+          />
           <Route path="/detection" element={<Detection />} />
           <Route path="/search" element={<SearchPage artList={sampleData} />} />
           <Route path="/mypage" element={<MyPage />} />

@@ -66,15 +66,15 @@ const DocentExp = ({ artInfo }) => {
           // 부분별 해설 탭
           <>
             {artInfo[params].quest.map((data, idx) => {
-              return <PartialInfo key={idx} artInfo={data} t={t} />;
+              return <PartialInfo key={idx} idx={params+idx} artInfo={data} t={t} />;
             })}
           </>
         ) : (
           // 전체 해설 탭
           <>
-            {artInfo[params].quest.map((data) => {
+            {artInfo[params].quest.map((data, idx) => {
               return (
-                <TitleBox>
+                <TitleBox key={'titleBox'+idx}>
                   <typo.body.DocentContent>
                     {data.contentDetail}
                   </typo.body.DocentContent>
