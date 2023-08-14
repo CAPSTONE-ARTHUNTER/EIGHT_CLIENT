@@ -61,29 +61,17 @@ const DocentExp = ({ artInfo }) => {
           </typo.body.Body01>
         </TitleBox>
         <SizedBox Rheight={"2rem"} />
-
-        {tabState === 0 ? (
-          // 부분별 해설 탭
-          <>
-            {artInfo[params].quest.map((data, idx) => {
-              return <PartialInfo key={idx} idx={params+idx} artInfo={data} t={t} />;
-            })}
-          </>
-        ) : (
-          // 전체 해설 탭
-          <>
-            {artInfo[params].quest.map((data, idx) => {
-              return (
-                <TitleBox key={'titleBox'+idx}>
-                  <typo.body.DocentContent>
-                    {data.contentDetail}
-                  </typo.body.DocentContent>
-                  <SizedBox Rheight={"1.5rem"} />
-                </TitleBox>
-              );
-            })}
-          </>
-        )}
+        {artInfo[params].quest.map((data, idx) => {
+          return (
+            <PartialInfo
+              key={idx}
+              idx={params + idx}
+              artInfo={data}
+              t={t}
+              tabState={tabState}
+            />
+          );
+        })}
       </Container>
     </Layout>
   );

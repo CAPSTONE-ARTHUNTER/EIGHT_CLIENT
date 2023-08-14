@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 
-const PartialInfo = ({ idx, artInfo, t }) => {
+const PartialInfo = ({ idx, artInfo, t, tabState }) => {
   const { i18n } = useTranslation();
   const translatedData = useQuery(
     [`translation_${idx}`],
@@ -21,56 +21,71 @@ const PartialInfo = ({ idx, artInfo, t }) => {
   );
 
   return (
-    <Container>
-      <RowWrapper>
-        <ColWrapper>
-          {artInfo.solved ? (
-            <PuzzleIco fill={colors.brown} />
-          ) : (
-            <PuzzleIco fill={colors.copper1} />
-          )}
-          <SizedBox Rheight={".5rem"} />
-          {artInfo.solved && (
-            <TouchArea
-              onClick={() => {
-                console.log("play");
-              }}
-            >
-              <PlayIco />
-            </TouchArea>
-          )}
-        </ColWrapper>
-        <ColWrapper style={{ width: "100%" }}>
-          <TitleBox>
-            <typo.body.Body01>{artInfo.content}</typo.body.Body01>
-          </TitleBox>
-          <SizedBox Rheight={".5rem"} />
+    <>
+      {tabState === 0 ? (
+        // 부분 해설
+        <Container>
+          <RowWrapper>
+            <ColWrapper>
+              {artInfo.solved ? (
+                <PuzzleIco fill={colors.brown} />
+              ) : (
+                <PuzzleIco fill={colors.copper1} />
+              )}
+              <SizedBox Rheight={".5rem"} />
+              {artInfo.solved && (
+                <TouchArea
+                  onClick={() => {
+                    console.log("play");
+                  }}
+                >
+                  <PlayIco />
+                </TouchArea>
+              )}
+            </ColWrapper>
+            <ColWrapper style={{ width: "100%" }}>
+              <TitleBox>
+                <typo.body.Body01>{artInfo.content}</typo.body.Body01>
+              </TitleBox>
+              <SizedBox Rheight={".5rem"} />
 
-          <BodyBox>
-            {/* 잠긴 부분입니다 */}
-            {!artInfo.solved && (
-              <BlockWindow>
-                <LockedIco />
-                <SizedBox Rheight={"0.75rem"} />
-                <typo.body.Body02>
-                  {t("DocentPage.Exp.lockedMsg1")}
-                </typo.body.Body02>
-                <typo.body.Body01>
-                  {t("DocentPage.Exp.lockedMsg2")}
-                </typo.body.Body01>
-              </BlockWindow>
-            )}
-            <typo.body.DocentContent>
-              {i18n.language === "ko"
-                ? artInfo.contentDetail
-                : translatedData.data}
-            </typo.body.DocentContent>
-          </BodyBox>
-        </ColWrapper>
-        <SizedBox Rwidth={"1rem"} />
-      </RowWrapper>
-      <SizedBox Rheight={"3rem"} />
-    </Container>
+              <BodyBox>
+                {/* 잠긴 부분입니다 */}
+                {!artInfo.solved && (
+                  <BlockWindow>
+                    <LockedIco />
+                    <SizedBox Rheight={"0.75rem"} />
+                    <typo.body.Body02>
+                      {t("DocentPage.Exp.lockedMsg1")}
+                    </typo.body.Body02>
+                    <typo.body.Body01>
+                      {t("DocentPage.Exp.lockedMsg2")}
+                    </typo.body.Body01>
+                  </BlockWindow>
+                )}
+                <typo.body.DocentContent>
+                  {i18n.language === "ko"
+                    ? artInfo.contentDetail
+                    : translatedData.data}
+                </typo.body.DocentContent>
+              </BodyBox>
+            </ColWrapper>
+            <SizedBox Rwidth={"1rem"} />
+          </RowWrapper>
+          <SizedBox Rheight={"3rem"} />
+        </Container>
+      ) : (
+        // 전체 해설
+        <div style={{ paddingLeft: ".6rem", paddingRight: ".6rem" }}>
+          <typo.body.DocentContent>
+            {i18n.language === "ko"
+              ? artInfo.contentDetail
+              : translatedData.data}
+          </typo.body.DocentContent>
+          <SizedBox Rheight={"2rem"} />
+        </div>
+      )}
+    </>
   );
 };
 
