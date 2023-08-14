@@ -48,9 +48,10 @@ const DocentExp = ({ artInfo }) => {
     return await axios
       .request(config)
       .then((response) => {
-        return JSON.stringify(
-          response.data.data.translations[0].translatedText
-        );
+        return JSON.stringify(response.data.data.translations[0].translatedText)
+          .replace(/"/g, "")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">");
       })
       .catch((error) => {
         console.log(error);

@@ -14,7 +14,7 @@ const PartialInfo = ({ artInfo, translate, t }) => {
   if (i18n.language !== "ko") {
     async function getTranslation() {
       const translation = await translate(artInfo.contentDetail, i18n.language);
-      setTranslatedData(translation.replace(/"/g, ""));
+      setTranslatedData(translation);
     }
     getTranslation();
   }
