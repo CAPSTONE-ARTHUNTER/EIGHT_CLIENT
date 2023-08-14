@@ -1,60 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { LockedIco, PlayIco, PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
+import { useTranslation } from "react-i18next";
 
-const PartialInfo = ({ artInfo, t }) => (
-  <Container>
-    <RowWrapper>
-      <ColWrapper>
-        {artInfo.solved ? (
-          <PuzzleIco fill={colors.brown} />
-        ) : (
-          <PuzzleIco fill={colors.copper1} />
-        )}
-        <SizedBox Rheight={".5rem"} />
-        {artInfo.solved && (
-          <TouchArea
-            onClick={() => {
-              console.log("play");
-            }}
-          >
-            <PlayIco />
-          </TouchArea>
-        )}
-      </ColWrapper>
-      <ColWrapper style={{ width: "100%" }}>
-        <TitleBox>
-          <typo.body.Body01>{artInfo.content}</typo.body.Body01>
-        </TitleBox>
-        <SizedBox Rheight={".5rem"} />
+const PartialInfo = ({ artInfo, translate, t }) => {
+  const [translatedData, setTranslatedData] = useState();
+  const { i18n } = useTranslation();
 
-        <BodyBox>
-          {/* 잠긴 부분입니다 */}
-          {!artInfo.solved && (
-            <BlockWindow>
-              <LockedIco />
-              <SizedBox Rheight={"0.75rem"} />
-              <typo.body.Body02>
-                {t("DocentPage.Exp.lockedMsg1")}
-              </typo.body.Body02>
-              <typo.body.Body01>
-                {t("DocentPage.Exp.lockedMsg2")}
-              </typo.body.Body01>
-            </BlockWindow>
+  // 현재 설정 언어 ko 아닐 경우 번역
+  if (i18n.language !== "ko") {
+    async function getTranslation() {
+      const translation = await translate(artInfo.contentDetail, i18n.language);
+      setTranslatedData(translation.replace(/"/g, ""));
+    }
+    getTranslation();
+  }
+
+  return (
+    <Container>
+      <RowWrapper>
+        <ColWrapper>
+          {artInfo.solved ? (
+            <PuzzleIco fill={colors.brown} />
+          ) : (
+            <PuzzleIco fill={colors.copper1} />
           )}
-          <typo.body.DocentContent>
-            {artInfo.contentDetail}
-          </typo.body.DocentContent>
-        </BodyBox>
-      </ColWrapper>
-      <SizedBox Rwidth={"1rem"} />
-    </RowWrapper>
-    <SizedBox Rheight={"3rem"} />
-  </Container>
-);
+          <SizedBox Rheight={".5rem"} />
+          {artInfo.solved && (
+            <TouchArea
+              onClick={() => {
+                console.log("play");
+              }}
+            >
+              <PlayIco />
+            </TouchArea>
+          )}
+        </ColWrapper>
+        <ColWrapper style={{ width: "100%" }}>
+          <TitleBox>
+            <typo.body.Body01>{artInfo.content}</typo.body.Body01>
+          </TitleBox>
+          <SizedBox Rheight={".5rem"} />
+
+          <BodyBox>
+            {/* 잠긴 부분입니다 */}
+            {!artInfo.solved && (
+              <BlockWindow>
+                <LockedIco />
+                <SizedBox Rheight={"0.75rem"} />
+                <typo.body.Body02>
+                  {t("DocentPage.Exp.lockedMsg1")}
+                </typo.body.Body02>
+                <typo.body.Body01>
+                  {t("DocentPage.Exp.lockedMsg2")}
+                </typo.body.Body01>
+              </BlockWindow>
+            )}
+            <typo.body.DocentContent>
+              {i18n.language === "ko" ? artInfo.contentDetail : translatedData}
+            </typo.body.DocentContent>
+          </BodyBox>
+        </ColWrapper>
+        <SizedBox Rwidth={"1rem"} />
+      </RowWrapper>
+      <SizedBox Rheight={"3rem"} />
+    </Container>
+  );
+};
 
 const Container = styled.div`
   width: 100%;

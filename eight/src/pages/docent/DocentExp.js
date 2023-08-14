@@ -9,6 +9,7 @@ import typo from "../../styles/typo";
 import PartialInfo from "../../components/docent/PartialInfo";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const DocentExp = ({ artInfo }) => {
   const { t } = useTranslation();
@@ -27,6 +28,33 @@ const DocentExp = ({ artInfo }) => {
   const handleImageLoad = (event) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
+  };
+
+  //번역
+  const translate = async (q, lng) => {
+    const tData = JSON.stringify({
+      q: q,
+      target: lng,
+    });
+    let config = {
+      method: "post",
+      maxBodyLength: 500,
+      url: `https://translation.googleapis.com/language/translate/v2?key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: tData,
+    };
+    return await axios
+      .request(config)
+      .then((response) => {
+        return JSON.stringify(
+          response.data.data.translations[0].translatedText
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -65,8 +93,15 @@ const DocentExp = ({ artInfo }) => {
         {tabState === 0 ? (
           // 부분별 해설 탭
           <>
-            {artInfo[params].quest.map((data) => {
-              return <PartialInfo artInfo={data} t={t} />;
+            {artInfo[params].quest.map((data, idx) => {
+              return (
+                <PartialInfo
+                  key={idx}
+                  artInfo={data}
+                  translate={translate}
+                  t={t}
+                />
+              );
             })}
           </>
         ) : (
