@@ -5,8 +5,9 @@ import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 import { useTranslation } from "react-i18next";
+import { translate } from "../../api/GoogleTranslate.apis";
 
-const PartialInfo = ({ artInfo, translate, t }) => {
+const PartialInfo = ({ artInfo, t }) => {
   const [translatedData, setTranslatedData] = useState();
   const { i18n } = useTranslation();
 
