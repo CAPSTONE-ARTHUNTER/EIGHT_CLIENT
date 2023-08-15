@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useEffect } from "react";
 import { useState, useRef } from "react";
 import styled from "styled-components";
@@ -9,6 +8,7 @@ import CaptureBtn from "../components/Detection/Button/CaptureBtn";
 import SizedBox from "../components/Common/SizedBox";
 import { colors } from "../styles/color";
 import CamComponent from "../components/Detection/CamComponent";
+import { detect } from "../api/Detection.apis";
 
 function Detection() {
   const camera = useRef(null);
@@ -36,17 +36,7 @@ function Detection() {
     if (image === undefined) {
       console.log("image is undefined.");
     }
-    axios({
-      method: "POST",
-      url: "https://detect.roboflow.com/painting-l6exb/13",
-      params: {
-        api_key: process.env.REACT_APP_ROBOFLOW_API, //env처리
-      },
-      data: image,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    })
+    detect(image)
       .then(function (response) {
         console.log(response.data);
         if (response.data.predictions.length !== 0) {

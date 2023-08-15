@@ -6,5 +6,14 @@ const translateAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
+const detectionAxios = axios.create({
+  baseURL: `https://detect.roboflow.com/painting-l6exb/13`,
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  params: {
+    api_key: process.env.REACT_APP_ROBOFLOW_API, //env처리
+  },
+});
 
-export { translateAxios };
+export { translateAxios, detectionAxios };
