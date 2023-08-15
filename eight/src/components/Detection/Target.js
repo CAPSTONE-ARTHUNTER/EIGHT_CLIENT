@@ -24,6 +24,7 @@ const BackGround = styled.div`
   background-image: url(${(props) => props.partImage});
   background-size: cover;
   background-position: center;
+  flex-shrink: 0;
 `;
 
 export default Target;
