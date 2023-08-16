@@ -16,7 +16,10 @@ const DocentCam = () => {
   const [image, setImage] = useState();
   const location = useLocation().pathname;
   const [detected, setDetected] = useState(["Detect"]);
-  const [currentState, setCurrentState] = useState(0);
+  const [currentState, setCurrentState] = useState({
+    idx: null,
+    name: null,
+  });
 
   const SampleCollectData = [
     {
@@ -25,6 +28,8 @@ const DocentCam = () => {
       solved_at: "1995-12-17T03:24:00",
       element_id: 1,
       user_id: 1234,
+
+      name: "a",
       image: testImage,
     },
     {
@@ -33,6 +38,8 @@ const DocentCam = () => {
       solved_at: "1995-12-17T03:24:00",
       element_id: 2,
       user_id: 1235,
+
+      name: "b",
       image: testImage,
     },
     {
@@ -41,6 +48,8 @@ const DocentCam = () => {
       solved_at: "1995-12-17T03:24:00",
       element_id: 3,
       user_id: 1236,
+
+      name: "c",
       image: testImage,
     },
     {
@@ -49,6 +58,8 @@ const DocentCam = () => {
       solved_at: "1995-12-17T03:24:00",
       element_id: 4,
       user_id: 1237,
+
+      name: "d",
       image: testImage,
     },
   ];
@@ -72,30 +83,39 @@ const DocentCam = () => {
     setDetected([]);
     if (image === undefined) {
       console.log("image is undefined.");
+    } else if (currentState.name === null) {
+      console.log("select the piece");
+      cleanArray();
+    } else {
+      const config = {
+        params: {
+          classes: currentState.name,
+        },
+      };
+      detect(image, config)
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data.predictions.length !== 0) {
+            setDetected((prevDetectedList) => {
+              const updatedDetectedList = [...prevDetectedList];
+              for (var i = 0; i < response.data.predictions.length; i++) {
+                console.log(response.data.predictions[i].class);
+                updatedDetectedList.push(response.data.predictions[i].class);
+              }
+              return updatedDetectedList;
+            });
+          } else {
+            setDetected((prevDetectedList) => [...prevDetectedList, "none"]);
+          }
+          cleanArray();
+        })
+        .catch(function (error) {
+          console.log(error.message);
+          detectedList = ["error"];
+          setDetected(detectedList);
+          cleanArray();
+        });
     }
-    detect(image)
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.predictions.length !== 0) {
-          setDetected((prevDetectedList) => {
-            const updatedDetectedList = [...prevDetectedList];
-            for (var i = 0; i < response.data.predictions.length; i++) {
-              console.log(response.data.predictions[i].class);
-              updatedDetectedList.push(response.data.predictions[i].class);
-            }
-            return updatedDetectedList;
-          });
-        } else {
-          setDetected((prevDetectedList) => [...prevDetectedList, "none"]);
-        }
-        cleanArray();
-      })
-      .catch(function (error) {
-        console.log(error.message);
-        detectedList = ["error"];
-        setDetected(detectedList);
-        cleanArray();
-      });
   };
 
   function cleanArray() {
@@ -142,9 +162,9 @@ const DocentCam = () => {
                     key={data.element_id}
                     partDone={data.is_solved}
                     image={data.image}
-                    selected={currentState === idx ? true : false}
+                    selected={currentState.idx === idx ? true : false}
                     onClick={() => {
-                      setCurrentState(idx);
+                      setCurrentState({ idx: idx, name: data.name });
                     }}
                   />
                 );
@@ -156,10 +176,10 @@ const DocentCam = () => {
             {/* 텍스트 */}
             <div style={{ paddingLeft: "2.5rem" }}>
               <typo.title.Title01 color={colors.white}>
-                인왕제색도-집
+                작품제목 {currentState.name ? "- " + currentState.name : null}
               </typo.title.Title01>
               <typo.body.Body02 color={colors.white}>
-                작품의 모든 부분을 찾아주세요!
+                찾으려는 조각을 선택해주세요!
               </typo.body.Body02>
             </div>
           </PartContainer>
