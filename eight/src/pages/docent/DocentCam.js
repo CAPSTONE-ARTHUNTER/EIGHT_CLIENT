@@ -9,12 +9,49 @@ import CaptureBtn from "../../components/Detection/Button/CaptureBtn";
 import typo from "../../styles/typo";
 import SizedBox from "../../components/Common/SizedBox";
 import Target from "../../components/Detection/Target";
+import testImage from "../../assets/image/Inwang.jpg";
 
 const DocentCam = () => {
   const camera = useRef(null);
   const [image, setImage] = useState();
   const location = useLocation().pathname;
   const [detected, setDetected] = useState(["Detect"]);
+  const [currentState, setCurrentState] = useState(0);
+
+  const SampleCollectData = [
+    {
+      solved_element_id: 1,
+      is_solved: true,
+      solved_at: "1995-12-17T03:24:00",
+      element_id: 1,
+      user_id: 1234,
+      image: testImage,
+    },
+    {
+      solved_element_id: 2,
+      is_solved: false,
+      solved_at: "1995-12-17T03:24:00",
+      element_id: 2,
+      user_id: 1235,
+      image: testImage,
+    },
+    {
+      solved_element_id: 3,
+      is_solved: true,
+      solved_at: "1995-12-17T03:24:00",
+      element_id: 3,
+      user_id: 1236,
+      image: testImage,
+    },
+    {
+      solved_element_id: 4,
+      is_solved: false,
+      solved_at: "1995-12-17T03:24:00",
+      element_id: 4,
+      user_id: 1237,
+      image: testImage,
+    },
+  ];
 
   //detect page가 아니면 cam close
   useEffect(() => {
@@ -74,6 +111,7 @@ const DocentCam = () => {
     setImage(photoTaken);
     console.log("capture");
   }
+
   return (
     <Background>
       <Layout text="DocentCam">
@@ -98,11 +136,19 @@ const DocentCam = () => {
           <PartContainer>
             {/* 슬롯 */}
             <PartSlot>
-              <Target />
-              <Target />
-              <Target />
-              <Target />
-              <Target />
+              {SampleCollectData.map((data, idx) => {
+                return (
+                  <Target
+                    key={data.element_id}
+                    partDone={data.is_solved}
+                    image={data.image}
+                    selected={currentState === idx ? true : false}
+                    onClick={() => {
+                      setCurrentState(idx);
+                    }}
+                  />
+                );
+              })}
             </PartSlot>
 
             <SizedBox Rheight={"0.75rem"} />
