@@ -108,6 +108,7 @@ const DocentCam = () => {
       const config = {
         params: {
           classes: currentState.name,
+          confidence: 20
         },
       };
       await detect(image, config)
