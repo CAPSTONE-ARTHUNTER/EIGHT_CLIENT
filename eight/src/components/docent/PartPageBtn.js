@@ -56,13 +56,13 @@ const Container = styled.div`
 `;
 const Background = styled.div`
   display: flex;
-  width: 160px;
-  height: 102px;
+  width: 46%;
+  height: 6.4rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  border-radius: 8px;
+  gap: 0.6rem;
+  border-radius: 0.5rem;
   border: 1px solid
     ${(props) => (props.borderColor ? props.borderColor : colors.copper2)};
   background: ${(props) => (props.bgColor ? props.bgColor : colors.white)};

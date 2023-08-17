@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 // 임시 이미지
-import testImage from "../../assets/image/Inwang.jpg";
 import { CheckIco } from "../../assets/icon";
+import { colors } from "../../styles/color";
 
-const Target = () => {
-  const [partImage, setPartImage] = useState(testImage);
-  const [partDone, setPartDone] = useState(false);
+const Target = ({ partDone, image, selected, onClick }) => {
   return (
-    <BackGround partImage={partImage}>{partDone && <CheckIco />}</BackGround>
+    <BackGround partImage={image} selected={selected} onClick={onClick}>
+      {partDone && <CheckIco fill={colors.white} />}
+    </BackGround>
   );
 };
 
@@ -16,6 +16,8 @@ const BackGround = styled.div`
   height: 60px;
   width: 52px;
   border-radius: 12px;
+  box-shadow: ${(props) =>
+    props.selected ? `${colors.orange} 0 0 0 2px inset` : "none"};
 
   display: flex;
   align-items: center;
@@ -24,6 +26,7 @@ const BackGround = styled.div`
   background-image: url(${(props) => props.partImage});
   background-size: cover;
   background-position: center;
+  flex-shrink: 0;
 `;
 
 export default Target;
