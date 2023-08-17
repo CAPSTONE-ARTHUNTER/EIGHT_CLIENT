@@ -52,7 +52,7 @@ const DocentCam = () => {
       element_id: 2,
       user_id: 1235,
 
-      name: "b",
+      name: "inwang_house",
       image: testImage,
     },
     {
@@ -62,7 +62,7 @@ const DocentCam = () => {
       element_id: 3,
       user_id: 1236,
 
-      name: "c",
+      name: "lid",
       image: testImage,
     },
     {
@@ -72,7 +72,7 @@ const DocentCam = () => {
       element_id: 4,
       user_id: 1237,
 
-      name: "d",
+      name: "inwang_train_rock",
       image: testImage,
     },
   ];
