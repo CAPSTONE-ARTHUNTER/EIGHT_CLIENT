@@ -7,7 +7,7 @@ const translateAxios = axios.create({
   },
 });
 const detectionAxios = axios.create({
-  baseURL: `https://detect.roboflow.com/painting-l6exb/13`,
+  baseURL: `https://detect.roboflow.com/painting-l6exb/14`,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
   },
