@@ -10,16 +10,29 @@ import typo from "../../styles/typo";
 import SizedBox from "../../components/Common/SizedBox";
 import Target from "../../components/Detection/Target";
 import testImage from "../../assets/image/Inwang.jpg";
+import FoundBottomModal from "../../components/Detection/FoundBottomModal";
 
 const DocentCam = () => {
   const camera = useRef(null);
   const [image, setImage] = useState();
   const location = useLocation().pathname;
-  const [detected, setDetected] = useState(["Detect"]);
+  const [detected, setDetected] = useState([]);
+  const [detectState, setDetectState] = useState("Detect");
   const [currentState, setCurrentState] = useState({
     idx: null,
     name: null,
+    image: null,
   });
+  const [foundModalOpen, setFoundModalOpen] = useState(false);
+
+  const detectionState = {
+    default: "Detect",
+    ongoing: "Detecting...",
+    success: "Success",
+    noresult: "No result",
+    notarget: "select the piece",
+    error: "error",
+  };
 
   const SampleCollectData = [
     {
@@ -29,7 +42,7 @@ const DocentCam = () => {
       element_id: 1,
       user_id: 1234,
 
-      name: "a",
+      name: "giro_peach_clothing",
       image: testImage,
     },
     {
@@ -66,7 +79,7 @@ const DocentCam = () => {
 
   //detect page가 아니면 cam close
   useEffect(() => {
-    if (location !== "/detect") {
+    if (location !== "*/detect") {
       camera.current = null;
     }
   }, [location]);
@@ -77,67 +90,94 @@ const DocentCam = () => {
     }
   }, [image]);
 
-  var infer = function () {
-    var detectedList = [];
-    console.log("infer!!");
-    setDetected([]);
+  // 감지된 결과가 찾으려는 부분 이름과 일치하면 발견 모달 띄우기
+  useEffect(() => {
+    handleModal();
+  }, [detected]);
+
+  var infer = async function () {
+    setDetectState(detectionState.ongoing);
     if (image === undefined) {
       console.log("image is undefined.");
     } else if (currentState.name === null) {
-      console.log("select the piece");
+      // 부분 선택하지 않은 경우
+      setDetectState(detectionState.notarget);
       cleanArray();
     } else {
+      // class restriction 추가
       const config = {
         params: {
           classes: currentState.name,
         },
       };
-      detect(image, config)
-        .then(function (response) {
+      await detect(image, config)
+        .then((response) => {
           console.log(response.data);
+          setDetectState(detectionState.success);
+          // 결과 있는 경우
           if (response.data.predictions.length !== 0) {
-            setDetected((prevDetectedList) => {
-              const updatedDetectedList = [...prevDetectedList];
+            setDetected(() => {
+              const DetectedList = [];
               for (var i = 0; i < response.data.predictions.length; i++) {
                 console.log(response.data.predictions[i].class);
-                updatedDetectedList.push(response.data.predictions[i].class);
+                DetectedList.push(response.data.predictions[i].class);
               }
-              return updatedDetectedList;
+              return DetectedList;
             });
           } else {
-            setDetected((prevDetectedList) => [...prevDetectedList, "none"]);
+            // 결과 없는 경우
+            setDetected([]);
+            setDetectState(detectionState.noresult);
           }
-          cleanArray();
         })
         .catch(function (error) {
           console.log(error.message);
-          detectedList = ["error"];
-          setDetected(detectedList);
-          cleanArray();
-        });
+          setDetectState(detectionState.error);
+        })
+        .finally(cleanArray());
     }
   };
 
   function cleanArray() {
     setTimeout(() => {
-      setDetected(["Detect"]);
+      setDetected([]);
+      setDetectState(detectionState.default);
       setImage();
-      console.log("clean!");
-    }, 1500);
+    }, 2000);
   }
 
   async function takeaPic() {
     const photoTaken = await camera.current.takePhoto();
     setImage(photoTaken);
-    console.log("capture");
   }
 
+  function handleModal() {
+    const sameRes = detected.filter((data) => data === currentState.name);
+    if (sameRes.length !== 0) {
+      console.log("detected2: ", detected);
+      console.log("currentState.name: ", currentState.name);
+      setFoundModalOpen(true);
+    } else {
+      console.log("no same res");
+    }
+  }
   return (
     <Background>
+      {foundModalOpen ? (
+        <FoundBottomModal
+          setFoundModalOpen={setFoundModalOpen}
+          image={currentState.image}
+          partTitle={currentState.name}
+        />
+      ) : null}
       <Layout text="DocentCam">
         <Container>
           <CamContainer>
-            <CamComponent detected={detected} camera={camera} />
+            <CamComponent
+              detected={detected}
+              detectState={detectState}
+              camera={camera}
+            />
             {/* image가 존재할 때만 카메라 프레임 위에 표시 */}
             {image ? (
               <ResultImgContainer>
@@ -148,8 +188,6 @@ const DocentCam = () => {
                 />
               </ResultImgContainer>
             ) : null}
-            {/* 감지된 결과 있으면 창 띄우기 */}
-            ...
           </CamContainer>
 
           <SizedBox Rwidth={"1.5rem"} />
@@ -164,7 +202,11 @@ const DocentCam = () => {
                     image={data.image}
                     selected={currentState.idx === idx ? true : false}
                     onClick={() => {
-                      setCurrentState({ idx: idx, name: data.name });
+                      setCurrentState({
+                        idx: idx,
+                        name: data.name,
+                        image: data.image,
+                      });
                     }}
                   />
                 );
@@ -176,7 +218,9 @@ const DocentCam = () => {
             {/* 텍스트 */}
             <div style={{ paddingLeft: "2.5rem" }}>
               <typo.title.Title01 color={colors.white}>
-                작품제목 {currentState.name ? "- " + currentState.name : null}
+                {currentState.name
+                  ? currentState.name
+                  : "찾으려는 조각을 선택해주세요!"}
               </typo.title.Title01>
               <typo.body.Body02 color={colors.white}>
                 찾으려는 조각을 선택해주세요!
