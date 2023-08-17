@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { colors } from "../../styles/color";
-//test Image
-import testImage from "../../assets/image/Inwang.jpg";
 import confetti from "../../assets/image/confetti.png";
 import typo from "../../styles/typo";
 import { CloseIco } from "../../assets/icon";
 
-const FoundBottomModal = () => {
+const FoundBottomModal = ({ setFoundModalOpen, image, partTitle }) => {
   const [showModal, setShowModal] = useState(true);
   const [visible, setVisible] = useState(true);
-  
-  const [image, setImage] = useState(testImage);
-  const [partTitle, setPartTitle] = useState("테스트-부분");
 
   useEffect(() => {
     setVisible(showModal);
@@ -20,6 +15,7 @@ const FoundBottomModal = () => {
 
   const handleCloseModal = () => {
     setVisible(false);
+    setFoundModalOpen(false);
     setTimeout(() => {
       setShowModal(false);
     }, 150);
@@ -81,6 +77,7 @@ const Background = styled.div`
   background-color: ${colors.lightGrey};
   display: flex;
   justify-content: center;
+  z-index: 4;
 
   animation: ${(props) => (props.visible ? fadeIn : fadeOut)} 0.15s ease-out;
 `;
