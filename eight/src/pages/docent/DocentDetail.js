@@ -9,13 +9,14 @@ import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DocentDetail = ({ artInfo }) => {
   const { id } = useParams();
   const { detailId } = useParams();
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
+  const navigate = useNavigate();
   const handleImageLoad = (event) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
@@ -63,7 +64,12 @@ const DocentDetail = ({ artInfo }) => {
         <SizedBox height={24} />
 
         <TxtBox>
-          <WideBtn text={t("DocentPage.Detail.btnTxt")} />
+          <WideBtn
+            text={t("DocentPage.Detail.btnTxt")}
+            onClick={() => {
+              navigate("detect");
+            }}
+          />
           <SizedBox height={32} />
 
           {/* 텍스트 제목 */}
