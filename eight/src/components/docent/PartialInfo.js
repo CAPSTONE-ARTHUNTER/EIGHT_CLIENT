@@ -7,6 +7,8 @@ import SizedBox from "../Common/SizedBox";
 import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
+import { ttsTransform } from "../../api/TTS.apis";
+import { getSpeech } from "../../api/getSpeech";
 
 const PartialInfo = ({ idx, artInfo, t, tabState }) => {
   const { i18n } = useTranslation();
@@ -19,7 +21,6 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
       enabled: i18n.language !== "ko",
     }
   );
-
   return (
     <>
       {tabState === 0 ? (
@@ -36,7 +37,31 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
               {artInfo.solved && (
                 <TouchArea
                   onClick={() => {
-                    console.log("play");
+                    // tts
+                    // const ttsData = {
+                    //   "input":{
+                    //     "text": artInfo.content
+                    //   },
+                    //   "voice": {
+                    //     "languageCode": "ko-KR",
+                    //     "name": "ko-KR-Neural2-B"
+                    //   },
+                    //   "audioConfig": {
+                    //     "audioEncoding": "MP3",
+                    //     "effectsProfileId": [
+                    //       "small-bluetooth-speaker-class-device"
+                    //     ],
+                    //     "pitch": 0,
+                    //     "speakingRate": 1
+                    //   },
+                    // }
+
+                    // Web Speech API
+                    if (i18n.language !== "ko") {
+                      getSpeech(translatedData.data, "en-US");
+                    } else {
+                      getSpeech(artInfo.contentDetail, "ko-KR");
+                    }
                   }}
                 >
                   <PlayIco />
