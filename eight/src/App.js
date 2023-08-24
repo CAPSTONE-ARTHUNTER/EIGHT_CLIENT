@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import MainPage from "./pages/MainPage";
-import Detection from "./pages/Detection";
 import Collection from "./pages/Collection";
 import SearchPage from "./pages/SearchPage";
 import MyPage from "./pages/MyPage";
@@ -14,6 +13,7 @@ import LogInPage from "./pages/LogInPage";
 import DocentCam from "./pages/docent/DocentCam";
 import NotFound from "./pages/NotFound";
 import PrivateRoutes from "./components/PrivateRoutes";
+import DetectOcr from "./pages/DetectOcr";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -77,7 +77,7 @@ function App() {
             path="/collection"
             element={<Collection sampleData={sampleData} />}
           />
-          <Route path="/detection" element={<Detection />} />
+          <Route path="/detection" element={<DetectOcr />} />
           <Route path="/search" element={<SearchPage artList={sampleData} />} />
           <Route path="/mypage" element={<MyPage />} />
 

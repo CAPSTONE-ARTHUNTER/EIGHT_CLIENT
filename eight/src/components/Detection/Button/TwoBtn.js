@@ -3,21 +3,13 @@ import styled from "styled-components";
 import typo from "../../../styles/typo";
 import { colors } from "../../../styles/color";
 
-const TwoBtn = () => {
+const TwoBtn = ({ LB, RB }) => {
   return (
     <BtnWrapper>
-      <CancelBtn
-        onClick={() => {
-          console.log("cancel");
-        }}
-      >
+      <CancelBtn onClick={LB}>
         <typo.body.Body02 color={colors.white}>취소</typo.body.Body02>
       </CancelBtn>
-      <ConfirmBtn
-        onClick={() => {
-          console.log("confirm");
-        }}
-      >
+      <ConfirmBtn onClick={RB}>
         <typo.body.Body02>해설 보기</typo.body.Body02>
       </ConfirmBtn>
     </BtnWrapper>
