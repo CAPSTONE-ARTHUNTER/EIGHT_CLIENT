@@ -9,13 +9,20 @@ import SizedBox from "../components/Common/SizedBox";
 import { colors } from "../styles/color";
 import { Camera } from "react-camera-pro";
 import { PostOcrImg } from "../api/GoogleOcr.apis";
+import TagDetectedModal from "../components/Detection/TagDetectedModal";
+import testImage from "../assets/image/Inwang.jpg";
 
 function DetectOcr() {
   const camera = useRef(null);
   const [image, setImage] = useState();
   const location = useLocation().pathname;
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-
+  const [foundModal, setFoundModal] = useState(true);
+  const sampleTextDetectionData = {
+    image: testImage,
+    name: "예시데이터",
+    desc: "예시데이터설명",
+  };
   //detection page가 아니면 cam close
   useEffect(() => {
     if (location !== "/detection") {
@@ -59,9 +66,17 @@ function DetectOcr() {
     console.log("capture");
   }
 
+  function closeModal() {
+    setFoundModal(false);
+  }
+
   return (
     <Layout text={"작품 인식"}>
       <Container>
+        {/* 태그 검색 성공시 모달 */}
+        {foundModal ? (
+          <TagDetectedModal data={sampleTextDetectionData} LB={closeModal} />
+        ) : null}
         <SizedBox height={90} />
         <CamContainer>
           <Camera
@@ -81,7 +96,7 @@ function DetectOcr() {
             </ResultImgContainer>
           ) : null}
         </CamContainer>
-        <CaptureBtn takeaPic={takeaPic} />
+        {foundModal ? null : <CaptureBtn takeaPic={takeaPic} />}
       </Container>
     </Layout>
   );
