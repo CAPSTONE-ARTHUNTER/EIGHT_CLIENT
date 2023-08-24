@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 import { ttsTransform } from "../../api/TTS.apis";
-import { getSpeech } from "../../api/getSpeech";
+// import { getSpeech } from "../../api/getSpeech";
 
 const PartialInfo = ({ idx, artInfo, t, tabState }) => {
   const { i18n } = useTranslation();
@@ -38,30 +38,47 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
                 <TouchArea
                   onClick={() => {
                     // tts
-                    // const ttsData = {
-                    //   "input":{
-                    //     "text": artInfo.content
-                    //   },
-                    //   "voice": {
-                    //     "languageCode": "ko-KR",
-                    //     "name": "ko-KR-Neural2-B"
-                    //   },
-                    //   "audioConfig": {
-                    //     "audioEncoding": "MP3",
-                    //     "effectsProfileId": [
-                    //       "small-bluetooth-speaker-class-device"
-                    //     ],
-                    //     "pitch": 0,
-                    //     "speakingRate": 1
-                    //   },
-                    // }
-
-                    // Web Speech API
-                    if (i18n.language !== "ko") {
-                      getSpeech(translatedData.data, "en-US");
-                    } else {
-                      getSpeech(artInfo.contentDetail, "ko-KR");
+                    let content, voicelngCode, voiceName;
+                    if (i18n.language === "ko") {
+                      content = artInfo.contentDetail;
+                      voicelngCode = "ko-KR";
+                      voiceName = "ko-KR-Neural2-B";
+                    } else if (i18n.language === "en") {
+                      content = translatedData.data;
+                      voicelngCode = "en-US";
+                      voiceName = "en-US-Neural2-F";
                     }
+                    const ttsData = {
+                      input: {
+                        text: content,
+                      },
+                      voice: {
+                        languageCode: voicelngCode,
+                        name: voiceName,
+                      },
+                      audioConfig: {
+                        audioEncoding: "MP3",
+                        effectsProfileId: [
+                          "small-bluetooth-speaker-class-device",
+                        ],
+                        pitch: 0,
+                        speakingRate: 1,
+                      },
+                    };
+                    ttsTransform(ttsData).then((res) => {
+                      const audio = new Audio(
+                        "data:audio/wav;base64," + res.data.audioContent
+                      );
+                      audio.addEventListener("loadeddata", () => {
+                        audio.play();
+                      });
+                    });
+                    // Web Speech API
+                    // if (i18n.language !== "ko") {
+                    //   getSpeech(translatedData.data, "en-US");
+                    // } else {
+                    //   getSpeech(artInfo.contentDetail, "ko-KR");
+                    // }
                   }}
                 >
                   <PlayIco />
