@@ -37,7 +37,7 @@ const SearchPage = ({ artList }) => {
     setText("");
   }
   return (
-    <Layout text={"작품 검색"}>
+    <Layout text={t("header.searchPage")}>
       <SizedBox height={20} />
       <SearchBox text={text} onChange={onChange} search={search} t={t} />
 

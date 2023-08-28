@@ -11,6 +11,7 @@ import { Camera } from "react-camera-pro";
 import { PostOcrImg } from "../api/GoogleOcr.apis";
 import TagDetectedModal from "../components/Detection/TagDetectedModal";
 import testImage from "../assets/image/Inwang.jpg";
+import { t } from "i18next";
 
 function DetectOcr() {
   const camera = useRef(null);
@@ -71,7 +72,7 @@ function DetectOcr() {
   }
 
   return (
-    <Layout text={"작품 인식"}>
+    <Layout text={t("header.detectionPage")}>
       <Container>
         {/* 태그 검색 성공시 모달 */}
         {foundModal ? (

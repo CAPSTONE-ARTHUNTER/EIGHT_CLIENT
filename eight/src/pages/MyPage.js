@@ -15,7 +15,7 @@ const MyPage = () => {
     userEmail: "rryu09@ewhain.net",
   };
   return (
-    <Layout text={"마이페이지"}>
+    <Layout text={t("header.myPage")}>
       <SizedBox height={20} />
       <Profile userInfo={exampleData} />
       <SizedBox height={12} />

@@ -10,7 +10,7 @@ const LanguagePage = ({ lngs }) => {
   const { t, i18n } = useTranslation();
 
   return (
-    <Layout text="언어 설정">
+    <Layout text={t("header.settings.langSetting")}>
       <SizedBox height={32} />
       <Container>
         <typo.title.Title02>

@@ -10,7 +10,7 @@ import BadgeSlot from "../components/Collection/BadgeSlot";
 import QuestBox from "../components/Collection/QuestBox";
 import { useTranslation } from "react-i18next";
 
-const Collection = ({sampleData}) => {
+const Collection = ({ sampleData }) => {
   // 0: 도감, 1: 도전과제
   const [tabState, setTabState] = useState(0);
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ const Collection = ({sampleData}) => {
   ];
 
   return (
-    <Layout text={"도감"}>
+    <Layout text={t("header.collectionPage")}>
       <SizedBox height={8} />
       <CollectionTab
         tabName={tabName}
