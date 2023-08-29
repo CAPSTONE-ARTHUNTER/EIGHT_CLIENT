@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { LockedIco, PlayIco, PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 import { ttsTransform } from "../../api/TTS.apis";
+import AudioBtn from "./AudioBtn";
 // import { getSpeech } from "../../api/getSpeech";
 
 const PartialInfo = ({ idx, artInfo, t, tabState }) => {
@@ -21,8 +22,13 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
       enabled: i18n.language !== "ko",
     }
   );
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   return (
     <>
+      <AudioBtn
+        setPlaybackSpeed={setPlaybackSpeed}
+        playbackSpeed={playbackSpeed}
+      />
       {tabState === 0 ? (
         // 부분 해설
         <Container>
@@ -70,6 +76,7 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
                         "data:audio/wav;base64," + res.data.audioContent
                       );
                       audio.addEventListener("loadeddata", () => {
+                        audio.playbackRate = playbackSpeed;
                         audio.play();
                       });
                     });
