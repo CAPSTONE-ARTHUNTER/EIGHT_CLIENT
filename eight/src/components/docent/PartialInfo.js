@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { LockedIco, PlayIco, PuzzleIco } from "../../assets/icon";
+import { LockedIco, PauseIco, PlayIco, PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
@@ -11,7 +11,21 @@ import { ttsTransform } from "../../api/TTS.apis";
 import AudioBtn from "./AudioBtn";
 // import { getSpeech } from "../../api/getSpeech";
 
-const PartialInfo = ({ idx, artInfo, t, tabState }) => {
+const PartialInfo = ({
+  idx,
+  artInfo,
+  t,
+  tabState,
+  setAudioData,
+  setPlaybackSpeed,
+  handleAudioPlay,
+  playbackSpeed,
+  isAudioPlaying,
+  setIsAudioPlaying,
+  audio,
+  audioId,
+  setAudioId,
+}) => {
   const { i18n } = useTranslation();
   const translatedData = useQuery(
     [`translation_${idx}`],
@@ -22,13 +36,60 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
       enabled: i18n.language !== "ko",
     }
   );
-  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  function ttsConfig() {
+    // tts
+    let content, voicelngCode, voiceName;
+    if (i18n.language === "ko") {
+      content = artInfo.contentDetail;
+      voicelngCode = "ko-KR";
+      voiceName = "ko-KR-Neural2-B";
+    } else if (i18n.language === "en") {
+      content = translatedData.data;
+      voicelngCode = "en-US";
+      voiceName = "en-US-Neural2-F";
+    }
+    const ttsData = {
+      input: {
+        text: content,
+      },
+      voice: {
+        languageCode: voicelngCode,
+        name: voiceName,
+      },
+      audioConfig: {
+        audioEncoding: "MP3",
+        effectsProfileId: ["small-bluetooth-speaker-class-device"],
+        pitch: 0,
+        speakingRate: 1,
+      },
+    };
+    return ttsData;
+  }
+  // 오디오 끝난 경우
+  // audio.addEventListener("ended", function (e) {
+  //   e.stopPropagation();
+  //   console.log(audioId, artInfo.id);
+  //   if (audioId === artInfo.id) {
+  //     console.log("audio ended");
+  //     setIsAudioPlaying(false);
+  //     audio.pause();
+  //   }
+  // });
+
   return (
     <>
-      <AudioBtn
-        setPlaybackSpeed={setPlaybackSpeed}
-        playbackSpeed={playbackSpeed}
-      />
+      {audio.currentSrc !== "" ? (
+        // audio 존재하는 경우에만 AudioBtn 표시
+        <AudioBtn
+          setPlaybackSpeed={setPlaybackSpeed}
+          playbackSpeed={playbackSpeed}
+          isPlaying={isAudioPlaying}
+          setIsAudioPlaying={setIsAudioPlaying}
+          handleAudioPlay={handleAudioPlay}
+          audio={audio}
+        />
+      ) : null}
+
       {tabState === 0 ? (
         // 부분 해설
         <Container>
@@ -42,53 +103,25 @@ const PartialInfo = ({ idx, artInfo, t, tabState }) => {
               <SizedBox Rheight={".5rem"} />
               {artInfo.solved && (
                 <TouchArea
-                  onClick={() => {
-                    // tts
-                    let content, voicelngCode, voiceName;
-                    if (i18n.language === "ko") {
-                      content = artInfo.contentDetail;
-                      voicelngCode = "ko-KR";
-                      voiceName = "ko-KR-Neural2-B";
-                    } else if (i18n.language === "en") {
-                      content = translatedData.data;
-                      voicelngCode = "en-US";
-                      voiceName = "en-US-Neural2-F";
-                    }
-                    const ttsData = {
-                      input: {
-                        text: content,
-                      },
-                      voice: {
-                        languageCode: voicelngCode,
-                        name: voiceName,
-                      },
-                      audioConfig: {
-                        audioEncoding: "MP3",
-                        effectsProfileId: [
-                          "small-bluetooth-speaker-class-device",
-                        ],
-                        pitch: 0,
-                        speakingRate: 1,
-                      },
-                    };
-                    ttsTransform(ttsData).then((res) => {
-                      const audio = new Audio(
-                        "data:audio/wav;base64," + res.data.audioContent
-                      );
-                      audio.addEventListener("loadeddata", () => {
-                        audio.playbackRate = playbackSpeed;
-                        audio.play();
+                  onClick={async () => {
+                    if (audioId !== artInfo.id) {
+                      // google tts
+                      await ttsTransform(ttsConfig()).then((res) => {
+                        console.log("ttsTransform: ", res);
+                        // 부분 id로 설정 (현재 재생 중인 소스 식별)
+                        setAudioId(artInfo.id);
+                        setAudioData(res.data.audioContent);
+                        
                       });
-                    });
-                    // Web Speech API
-                    // if (i18n.language !== "ko") {
-                    //   getSpeech(translatedData.data, "en-US");
-                    // } else {
-                    //   getSpeech(artInfo.contentDetail, "ko-KR");
-                    // }
+                    }
+                    handleAudioPlay();
                   }}
                 >
-                  <PlayIco />
+                  {isAudioPlaying && audioId === artInfo.id ? (
+                    <PauseIco />
+                  ) : (
+                    <PlayIco />
+                  )}
                 </TouchArea>
               )}
             </ColWrapper>

@@ -28,5 +28,6 @@ const SpeedBtn = styled.div`
   padding-right: 1rem;
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
+  box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
 `;
 export default AudioSpeedBtn;

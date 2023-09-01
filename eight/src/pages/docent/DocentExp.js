@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import inwang from "../../assets/image/Inwang.jpg";
 import SizedBox from "../../components/Common/SizedBox";
@@ -29,6 +29,42 @@ const DocentExp = ({ artInfo }) => {
     setArtImageHeight(imgElement.height);
   };
 
+  //Audio
+  const [audioData, setAudioData] = useState();
+  const [audio, setAudio] = useState(new Audio());
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioId, setAudioId] = useState();
+
+  function handleAudioPlay() {
+    if (isAudioPlaying && audio.src !== "") {
+      audio.pause();
+      setIsAudioPlaying(false);
+    } else if (audio.src !== "") {
+      audio.play();
+      setIsAudioPlaying(true);
+    } else {
+      console.log("no audio");
+    }
+  }
+  useEffect(() => {
+    if (audioData) {
+      audio.pause();
+      setAudio(new Audio("data:audio/wav;base64," + audioData));
+    }
+  }, [audioData]);
+
+  useEffect(() => {
+    audio.playbackRate = playbackSpeed;
+  }, [playbackSpeed]);
+
+  audio.addEventListener("ended", function (e) {
+    e.stopPropagation();
+
+    console.log("audio ended");
+    setIsAudioPlaying(false);
+    audio.pause();
+  });
   return (
     <Layout text={artInfo[params].name}>
       <Container>
@@ -69,6 +105,16 @@ const DocentExp = ({ artInfo }) => {
               artInfo={data}
               t={t}
               tabState={tabState}
+              // audio
+              setAudioData={setAudioData}
+              setPlaybackSpeed={setPlaybackSpeed}
+              handleAudioPlay={handleAudioPlay}
+              playbackSpeed={playbackSpeed}
+              isAudioPlaying={isAudioPlaying}
+              setIsAudioPlaying={setIsAudioPlaying}
+              audio={audio}
+              audioId={audioId}
+              setAudioId={setAudioId}
             />
           );
         })}

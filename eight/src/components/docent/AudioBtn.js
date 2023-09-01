@@ -10,33 +10,19 @@ const AudioBtn = ({
   setPlaybackSpeed,
   playbackSpeed,
   isPlaying,
-  audioLength,
+  setIsAudioPlaying,
+  handleAudioPlay,
+  audio,
 }) => {
   const [speedSetOpen, setSpeedSetOpen] = useState(false);
+  const [audioTime, setAudioTime] = useState([0, 0]);
+  audio.addEventListener("timeupdate", () => {
+    setAudioTime([audio.currentTime.toFixed(2), audio.duration.toFixed(2)]);
+  });
   return (
     <Container>
-      <Background>
-        <SizedBox Rwidth={".5rem"} />
-        <TouchArea>{isPlaying ? <PauseIco /> : <PlayIco />}</TouchArea>
-
-        <typo.body.Body03>00:00 / 3:55</typo.body.Body03>
-
-        <ProgressBarBG>
-          <ProgressBar current={20} />
-        </ProgressBarBG>
-
-        <TouchArea
-          onClick={() => {
-            setSpeedSetOpen(!speedSetOpen);
-          }}
-        >
-          <PlaySpeedIco fill={colors.brown} />
-        </TouchArea>
-        <SizedBox Rwidth={".5rem"} />
-      </Background>
       {speedSetOpen ? (
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <SizedBox Rheight={"0.75rem"} />
           <ButtonSet>
             <AudioSpeedBtn
               btnSpeed={0.5}
@@ -64,9 +50,35 @@ const AudioBtn = ({
               setPlaybackSpeed={setPlaybackSpeed}
             />
           </ButtonSet>
+          <SizedBox Rheight={"0.75rem"} />
         </div>
       ) : null}
+      <Background>
+        <SizedBox Rwidth={".5rem"} />
+        <TouchArea
+          onClick={() => {
+            setIsAudioPlaying(!isPlaying);
+            handleAudioPlay();
+          }}
+        >
+          {isPlaying ? <PauseIco /> : <PlayIco />}
+        </TouchArea>
+        <typo.body.Body03>
+          {audioTime[0]} / {audioTime[1]}
+        </typo.body.Body03>
+        <ProgressBarBG>
+          <ProgressBar current={(audioTime[0] / audioTime[1]) * 100} />
+        </ProgressBarBG>
 
+        <TouchArea
+          onClick={() => {
+            setSpeedSetOpen(!speedSetOpen);
+          }}
+        >
+          <PlaySpeedIco fill={colors.brown} />
+        </TouchArea>
+        <SizedBox Rwidth={".5rem"} />
+      </Background>
       <SizedBox Rheight={"1rem"} />
     </Container>
   );
@@ -75,15 +87,18 @@ const Container = styled.div`
   position: fixed;
   width: 90%;
   bottom: 10%;
-  height: 3.25rem;
+  height: auto;
   display: flex;
   flex-direction: column;
+  z-index: 3;
 `;
 const Background = styled.div`
   height: 100%;
   border-radius: 3rem;
   background: ${colors.white};
   display: flex;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
