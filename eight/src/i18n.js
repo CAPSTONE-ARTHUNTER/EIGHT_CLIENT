@@ -22,6 +22,7 @@ i18n
             myPage: "My Page",
             settings: {
               langSetting: "Language Setting",
+              account: "Account Setting",
             },
           },
           profile: {
@@ -75,6 +76,7 @@ i18n
 
           settingPage: {
             langNow: "Current language is {{lang}}",
+            logOut: "LogOut",
           },
         },
       },
@@ -87,6 +89,7 @@ i18n
             myPage: "마이페이지",
             settings: {
               langSetting: "언어 설정",
+              account: "계정",
             },
           },
           profile: {
@@ -139,6 +142,7 @@ i18n
           },
           settingPage: {
             langNow: "현재 설정 언어는 {{lang}}입니다",
+            logOut: "로그아웃",
           },
         },
       },

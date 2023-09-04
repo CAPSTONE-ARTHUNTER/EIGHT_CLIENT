@@ -5,6 +5,7 @@ import { colors } from "../../styles/color";
 import Profile from "../../components/mypage/Profile";
 import SizedBox from "../../components/Common/SizedBox";
 import styled from "styled-components";
+import { t } from "i18next";
 
 const AccountPage = () => {
   const exampleData = {
@@ -12,12 +13,12 @@ const AccountPage = () => {
     userEmail: "rryu09@ewhain.net",
   };
   return (
-    <Layout text={"계정"}>
+    <Layout text={t("header.settings.account")}>
       <SizedBox Rheight={"1.25rem"} />
       <Profile userInfo={exampleData} />
       <PartitionLine />
       <SizedBox Rheight={"2rem"} />
-      <SettingBtn text={"로그아웃"} textColor={colors.red} />
+      <SettingBtn text={t("settingPage.logOut")} textColor={colors.red} />
     </Layout>
   );
 };
