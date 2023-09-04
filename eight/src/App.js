@@ -14,6 +14,7 @@ import DocentCam from "./pages/docent/DocentCam";
 import NotFound from "./pages/NotFound";
 import PrivateRoutes from "./components/PrivateRoutes";
 import DetectOcr from "./pages/DetectOcr";
+import AccountPage from "./pages/setting/AccountPage";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -102,6 +103,7 @@ function App() {
 
           {/* setting pages */}
           <Route path="/language" element={<LanguagePage lngs={lngs} />} />
+          <Route path="/account" element={<AccountPage />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
