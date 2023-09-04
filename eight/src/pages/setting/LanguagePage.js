@@ -11,13 +11,13 @@ const LanguagePage = ({ lngs }) => {
 
   return (
     <Layout text={t("header.settings.langSetting")}>
-      <SizedBox height={32} />
+      <SizedBox Rheight={"2rem"} />
       <Container>
         <typo.title.Title02>
           {t("settingPage.langNow", { lang: i18n.language })}
         </typo.title.Title02>
       </Container>
-      <SizedBox height={60} />
+      <SizedBox Rheight={"3.75rem"} />
       <Container>
         {Object.keys(lngs).map((lng) => (
           <SettingBtn
@@ -37,7 +37,7 @@ const LanguagePage = ({ lngs }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
+  gap: 0.5rem;
+  padding: 0.75rem;
 `;
 export default LanguagePage;

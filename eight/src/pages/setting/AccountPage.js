@@ -16,6 +16,7 @@ const AccountPage = () => {
     <Layout text={t("header.settings.account")}>
       <SizedBox Rheight={"1.25rem"} />
       <Profile userInfo={exampleData} />
+      <SizedBox Rheight={"0.75rem"} />
       <PartitionLine />
       <SizedBox Rheight={"2rem"} />
       <SettingBtn text={t("settingPage.logOut")} textColor={colors.red} />

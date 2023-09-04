@@ -37,18 +37,18 @@ const Collection = ({ sampleData }) => {
 
   return (
     <Layout text={t("header.collectionPage")}>
-      <SizedBox height={8} />
+      <SizedBox Rheight={".5rem"} />
       <CollectionTab
         tabName={tabName}
         tabState={tabState}
         setTabState={setTabState}
         t={t}
       />
-      <SizedBox height={12} />
+      <SizedBox Rheight={"0.75rem"} />
       {tabState === 0 ? (
         <>
           <UserBox t={t} />
-          <SizedBox height={32} />
+          <SizedBox Rheight={"2rem"} />
           <CollectionBoxWrapper>
             {userArtInfo.map((data, index) => {
               return (
@@ -75,7 +75,7 @@ const CollectionBoxWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
 `;
 
 const ChallengeBoxWrapper = styled.div`

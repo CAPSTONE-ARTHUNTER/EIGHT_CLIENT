@@ -16,11 +16,11 @@ const MyPage = () => {
   };
   return (
     <Layout text={t("header.myPage")}>
-      <SizedBox height={20} />
+      <SizedBox Rheight={"1.25rem"} />
       <Profile userInfo={exampleData} />
-      <SizedBox height={12} />
+      <SizedBox Rheight={"0.75rem"} />
       <PartitionLine />
-      <SizedBox height={12} />
+      <SizedBox Rheight={"0.75rem"} />
       <SettingBtnSet t={t} />
     </Layout>
   );
@@ -31,7 +31,7 @@ const PartitionLine = styled.div`
   left: 0;
   right: 0;
   width: 100%;
-  height: 12px;
+  height: 0.75rem;
   background-color: ${colors.beige};
 `;
 
