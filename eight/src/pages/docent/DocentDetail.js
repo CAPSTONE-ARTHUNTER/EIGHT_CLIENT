@@ -12,11 +12,15 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
 const DocentDetail = ({ artInfo }) => {
-  const { id } = useParams();
+  const { artId } = useParams();
   const { detailId } = useParams();
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const navigate = useNavigate();
+  const artPageInfo = artInfo.find((item) => item.id == artId);
+  const artPageDetailInfo = artPageInfo.quest.find(
+    (item) => item.id == detailId
+  );
   const handleImageLoad = (event) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
@@ -49,7 +53,7 @@ const DocentDetail = ({ artInfo }) => {
   };
 
   return (
-    <Layout text={artInfo[id].name}>
+    <Layout text={artPageInfo.name}>
       <SizedBox Rheight={"1.5rem"} />
 
       <ColWrapper>
@@ -57,9 +61,7 @@ const DocentDetail = ({ artInfo }) => {
         <TopBox>
           <PuzzleIco fill={colors.brown} />
           <SizedBox Rheight={".5rem"} />
-          <typo.body.Body01>
-            {artInfo[id].quest[detailId].content}
-          </typo.body.Body01>
+          <typo.body.Body01>{artPageDetailInfo.content}</typo.body.Body01>
         </TopBox>
         <SizedBox Rheight={"2rem"} />
       </ColWrapper>
@@ -118,15 +120,13 @@ const DocentDetail = ({ artInfo }) => {
           <RowWrapper>
             <PointIco fill={colors.orange} />
             <SizedBox Rwidth={"0.5rem"} />
-            <typo.body.Body02>
-              {artInfo[id].quest[detailId].content}
-            </typo.body.Body02>
+            <typo.body.Body02>{artPageDetailInfo.content}</typo.body.Body02>
           </RowWrapper>
           <SizedBox Rheight={"1rem"} />
 
           {/* 텍스트 바디 */}
           <typo.body.DocentContent>
-            {artInfo[id].quest[detailId].contentDetail}
+            {artPageDetailInfo.contentDetail}
           </typo.body.DocentContent>
         </TxtBox>
       </ColWrapper>
