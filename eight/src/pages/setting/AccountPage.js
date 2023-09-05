@@ -19,7 +19,11 @@ const AccountPage = () => {
       <SizedBox Rheight={"0.75rem"} />
       <PartitionLine />
       <SizedBox Rheight={"2rem"} />
-      <SettingBtn text={t("settingPage.logOut")} textColor={colors.red} />
+      <SettingBtn text={t("settingPage.logOut")} textColor={colors.black} />
+      <SettingBtn
+        text={t("settingPage.deleteAccount")}
+        textColor={colors.red}
+      />
     </Layout>
   );
 };

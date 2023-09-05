@@ -77,6 +77,7 @@ i18n
           settingPage: {
             langNow: "Current language is {{lang}}",
             logOut: "LogOut",
+            deleteAccount: "Delete Account",
           },
         },
       },
@@ -143,6 +144,7 @@ i18n
           settingPage: {
             langNow: "현재 설정 언어는 {{lang}}입니다",
             logOut: "로그아웃",
+            deleteAccount: "회원 탈퇴",
           },
         },
       },
