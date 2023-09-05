@@ -21,10 +21,36 @@ const DocentDetail = ({ artInfo }) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
   };
+  const exData = {
+    elements: [
+      {
+        id: "1",
+        point: "30,20", //"x,y"
+        isSolved: true,
+      },
+      {
+        id: "2",
+        point: "30,60",
+        isSolved: true,
+      },
+      {
+        id: "2",
+        point: "90,10",
+        isSolved: false,
+      },
+      {
+        id: "2",
+        point: "10,75",
+        isSolved: true,
+      },
+    ],
+    element_solved_num: 0, //요소 찾은 개수
+    element_num: 4, //요소 전체 개수
+  };
 
   return (
     <Layout text={artInfo[id].name}>
-      <SizedBox height={24} />
+      <SizedBox Rheight={"1.5rem"} />
 
       <ColWrapper>
         {/* 퍼즐모양 */}
@@ -40,12 +66,23 @@ const DocentDetail = ({ artInfo }) => {
 
       {/* 이미지 */}
       <ColWrapper>
-        <img
-          src={inwang}
-          alt="art"
-          className="artImg"
-          onLoad={handleImageLoad}
-        />
+        <ImgWrapper>
+          {/* point 표시 */}
+          {exData.elements.map((ele) => {
+            const pointLocation = ele.point.split(",");
+            return (
+              <PointLocation left={pointLocation[0]} top={pointLocation[1]}>
+                <PointIco fill={ele.isSolved ? colors.orange : colors.white} />
+              </PointLocation>
+            );
+          })}
+          <img
+            src={inwang}
+            alt="art"
+            className="artImg"
+            onLoad={handleImageLoad}
+          />
+        </ImgWrapper>
         <SizedBox height={artImgHeight} />
         <SizedBox Rheight={"2rem"} />
       </ColWrapper>
@@ -53,15 +90,15 @@ const DocentDetail = ({ artInfo }) => {
       {/* 수집한 부분 수 표시 */}
       <ColWrapper>
         {/* 세부정보 받아와 처리 */}
-        <RowWrapper style={{ gap: "12px" }}>
+        <RowWrapper style={{ gap: "0.75rem" }}>
           <Dot />
           <Dot />
           <Dot />
           <Dot />
         </RowWrapper>
-        <SizedBox height={12} />
+        <SizedBox Rheight={".75rem"} />
         <typo.body.Body02>0/4</typo.body.Body02>
-        <SizedBox height={24} />
+        <SizedBox Rheight={"1.5rem"} />
 
         <TxtBox>
           <WideBtn
@@ -70,7 +107,7 @@ const DocentDetail = ({ artInfo }) => {
               navigate("detect");
             }}
           />
-          <SizedBox height={32} />
+          <SizedBox Rheight={"2rem"} />
 
           {/* 텍스트 제목 */}
           <RowWrapper>
@@ -99,7 +136,7 @@ const ColWrapper = styled.div`
 
   .artImg {
     width: 100%;
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
   }
@@ -113,7 +150,7 @@ const RowWrapper = styled.div`
 const TopBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 136px;
+  width: 8.5rem;
   align-items: center;
   word-break: keep-all;
   text-align: center;
@@ -123,17 +160,26 @@ const TxtBox = styled.div`
   width: 94%;
   display: flex;
   flex-direction: column;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   word-break: keep-all;
 `;
 
 const Dot = styled.div`
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   flex-shrink: 0;
-  border-radius: 16px;
+  border-radius: 1rem;
   background: ${colors.copper1};
 `;
-
+const PointLocation = styled.div`
+  position: absolute;
+  z-index: 5;
+  left: ${(props) => props.left + "%"};
+  top: ${(props) => props.top + "%"};
+`;
+const ImgWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+`;
 export default DocentDetail;
