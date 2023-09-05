@@ -34,17 +34,17 @@ const DocentDetail = ({ artInfo }) => {
         isSolved: true,
       },
       {
-        id: "2",
+        id: "3",
         point: "90,10",
         isSolved: false,
       },
       {
-        id: "2",
+        id: "4",
         point: "10,75",
         isSolved: true,
       },
     ],
-    element_solved_num: 0, //요소 찾은 개수
+    element_solved_num: 3, //요소 찾은 개수
     element_num: 4, //요소 전체 개수
   };
 
@@ -71,7 +71,11 @@ const DocentDetail = ({ artInfo }) => {
           {exData.elements.map((ele) => {
             const pointLocation = ele.point.split(",");
             return (
-              <PointLocation left={pointLocation[0]} top={pointLocation[1]}>
+              <PointLocation
+                key={ele.id + "point"}
+                left={pointLocation[0]}
+                top={pointLocation[1]}
+              >
                 <PointIco fill={ele.isSolved ? colors.orange : colors.white} />
               </PointLocation>
             );
@@ -91,13 +95,14 @@ const DocentDetail = ({ artInfo }) => {
       <ColWrapper>
         {/* 세부정보 받아와 처리 */}
         <RowWrapper style={{ gap: "0.75rem" }}>
-          <Dot />
-          <Dot />
-          <Dot />
-          <Dot />
+          {exData.elements.map((ele) => {
+            return <Dot key={ele.id + "dot"} solved={ele.isSolved} />;
+          })}
         </RowWrapper>
         <SizedBox Rheight={".75rem"} />
-        <typo.body.Body02>0/4</typo.body.Body02>
+        <typo.body.Body02>
+          {exData.element_solved_num}/{exData.element_num}
+        </typo.body.Body02>
         <SizedBox Rheight={"1.5rem"} />
 
         <TxtBox>
@@ -112,12 +117,12 @@ const DocentDetail = ({ artInfo }) => {
           {/* 텍스트 제목 */}
           <RowWrapper>
             <PointIco fill={colors.orange} />
-            <SizedBox width={8} />
+            <SizedBox Rwidth={"0.5rem"} />
             <typo.body.Body02>
               {artInfo[id].quest[detailId].content}
             </typo.body.Body02>
           </RowWrapper>
-          <SizedBox height={16} />
+          <SizedBox Rheight={"1rem"} />
 
           {/* 텍스트 바디 */}
           <typo.body.DocentContent>
@@ -170,11 +175,11 @@ const Dot = styled.div`
   height: 1rem;
   flex-shrink: 0;
   border-radius: 1rem;
-  background: ${colors.copper1};
+  background: ${(props) => (props.solved ? colors.orange : colors.copper1)};
 `;
 const PointLocation = styled.div`
   position: absolute;
-  z-index: 5;
+  z-index: 2;
   left: ${(props) => props.left + "%"};
   top: ${(props) => props.top + "%"};
 `;
