@@ -6,14 +6,13 @@ import NoSearchResult from "../components/Search/NoSearchResult";
 import ArtListBox from "../components/Search/ArtListBox";
 import styled from "styled-components";
 import Layout from "../components/Layout/Layout";
-import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { t } from "i18next";
 
 const SearchPage = ({ artList }) => {
   const [text, setText] = useState("");
   const [searchRes, setSearchRes] = useState(artList);
-  const { t } = useTranslation();
   const location = useLocation();
   // 메인페이지 검색 결과 받아오기
   const mainSearchTxt = location.state;
