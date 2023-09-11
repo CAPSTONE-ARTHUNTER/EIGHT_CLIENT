@@ -9,6 +9,8 @@ import TodayBox from "../components/MainPage/TodayBox";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import collectionBtn from "../assets/image/collectionBtn.png";
+import cameraBtn from "../assets/image/cameraBtn.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -35,23 +37,40 @@ const MainPage = () => {
         <SearchBox text={text} onChange={onChange} search={search} t={t} />
         <UserBox t={t} />
         <BtnWrapper>
-          <MainCameraBtn
+          {/* 카메라 버튼 */}
+          <MainBtn
+            type={"camera"}
             onClick={() => {
               navigate("/detection");
             }}
-          />
-          <MainCollectionBtn
+          >
+            <BtnContent>
+              <typo.title.Title02>카메라로 찾기</typo.title.Title02>
+            </BtnContent>
+          </MainBtn>
+
+          {/* 도감 버튼 */}
+          <MainBtn
+            type={"collection"}
             onClick={() => {
               navigate("/collection");
             }}
-          />
+          >
+            <BtnContent>
+              <typo.title.Title02
+                style={{ width: "3.75rem", wordBreak: "keep-all" }}
+              >
+                도감 보러가기
+              </typo.title.Title02>
+            </BtnContent>
+          </MainBtn>
         </BtnWrapper>
 
         <TodayWrapper>
-          <typo.title.Title02 style={{ padding: "0px 8px" }}>
+          <typo.title.Title02 style={{ padding: "0 0.5rem" }}>
             {t("mainPage.todayArt")}
           </typo.title.Title02>
-          <SizedBox Rheight={"0.75rem"} />
+          <SizedBox Rheight={"0.25rem"} />
           <TodayRail>
             {/* 정보 받아서 map */}
             <TodayBox t={t} />
@@ -82,19 +101,26 @@ const TodayWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const MainCameraBtn = styled.div`
-  width: 60%;
+
+const MainBtn = styled.div`
+  width: ${(props) => (props.type === "camera" ? "60%" : "40%")};
   display: flex;
   align-self: stretch;
-  background: linear-gradient(152deg, #cfc8bc 0%, #a79c8d 100%);
+  align-items: flex-end;
+  background-image: ${(props) =>
+    props.type === "camera" ? `url(${cameraBtn})` : `url(${collectionBtn})`};
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 1.5rem;
+  /* dropShadow1 */
+  box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
 `;
-const MainCollectionBtn = styled.div`
+
+const BtnContent = styled.div`
   display: flex;
-  width: 40%;
-  align-self: stretch;
-  background-color: ${colors.beige};
-  border-radius: 1.5rem;
+  flex-direction: column;
+  padding: 1rem;
 `;
 const TodayRail = styled.div`
   display: flex;
