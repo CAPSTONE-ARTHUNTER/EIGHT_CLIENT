@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import { PuzzleIco } from "../../assets/icon";
@@ -6,10 +6,19 @@ import typo from "../../styles/typo";
 import { useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { translate } from "../../api/GoogleTranslate.apis";
+import { useQuery } from "react-query";
 
 const PartPageBtn = ({ artInfo }) => {
   const navigate = useNavigate();
-  const [content, setContent] = useState(artInfo.content);
+  const content = useQuery(
+    [`docent_btn_${artInfo.id}`],
+    () => translate(artInfo.content, i18n.language),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: i18n.language !== "ko",
+    }
+  );
 
   //   colors
   let puzzleColor = colors.copper1;
@@ -26,13 +35,6 @@ const PartPageBtn = ({ artInfo }) => {
     bgColor = colors.white;
   }
 
-  useEffect(() => {
-    if (i18n.language !== "ko") {
-      translate(content, "en").then((res) => {
-        setContent(res);
-      });
-    }
-  }, []);
   return (
     <Background
       borderColor={borderColor}
@@ -43,7 +45,9 @@ const PartPageBtn = ({ artInfo }) => {
     >
       <PuzzleIco fill={puzzleColor} />
       <TitleBox>
-        <typo.body.Body01>{content}</typo.body.Body01>
+        <typo.body.Body01>
+          {i18n.language === "ko" ? artInfo.content : content.data}
+        </typo.body.Body01>
       </TitleBox>
     </Background>
   );
