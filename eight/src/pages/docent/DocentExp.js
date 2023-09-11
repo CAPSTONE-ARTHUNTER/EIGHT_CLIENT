@@ -9,6 +9,7 @@ import typo from "../../styles/typo";
 import PartialInfo from "../../components/docent/PartialInfo";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import AudioBtn from "../../components/docent/AudioBtn";
 
 const DocentExp = ({ artInfo }) => {
   const { t } = useTranslation();
@@ -50,9 +51,16 @@ const DocentExp = ({ artInfo }) => {
   useEffect(() => {
     if (audioData) {
       audio.pause();
-      setAudio(new Audio("data:audio/wav;base64," + audioData));
+      setAudio(new Audio("data:audio/wav;base64," + audioData.data));
+      setIsAudioPlaying(true);
     }
   }, [audioData]);
+
+  useEffect(() => {
+    if (isAudioPlaying === true && audio.currentSrc) {
+      audio.play();
+    }
+  }, [audio]);
 
   useEffect(() => {
     audio.playbackRate = playbackSpeed;
@@ -60,13 +68,25 @@ const DocentExp = ({ artInfo }) => {
 
   audio.addEventListener("ended", function (e) {
     e.stopPropagation();
-
     console.log("audio ended");
     setIsAudioPlaying(false);
     audio.pause();
   });
   return (
     <Layout text={artInfo[params].name}>
+      {/* 하단 오디오 탭 */}
+      {audioData ? (
+        // audio 존재하는 경우에만 AudioBtn 표시
+        <AudioBtn
+          setPlaybackSpeed={setPlaybackSpeed}
+          playbackSpeed={playbackSpeed}
+          isPlaying={isAudioPlaying}
+          setIsAudioPlaying={setIsAudioPlaying}
+          handleAudioPlay={handleAudioPlay}
+          audio={audio}
+        />
+      ) : null}
+
       <Container>
         <img
           src={inwang}

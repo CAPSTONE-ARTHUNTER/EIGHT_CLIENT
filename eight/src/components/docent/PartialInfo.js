@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { LockedIco, PauseIco, PlayIco, PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 import { ttsTransform } from "../../api/TTS.apis";
-import AudioBtn from "./AudioBtn";
 // import { getSpeech } from "../../api/getSpeech";
 
 const PartialInfo = ({
@@ -78,18 +77,6 @@ const PartialInfo = ({
 
   return (
     <>
-      {audio.currentSrc !== "" ? (
-        // audio 존재하는 경우에만 AudioBtn 표시
-        <AudioBtn
-          setPlaybackSpeed={setPlaybackSpeed}
-          playbackSpeed={playbackSpeed}
-          isPlaying={isAudioPlaying}
-          setIsAudioPlaying={setIsAudioPlaying}
-          handleAudioPlay={handleAudioPlay}
-          audio={audio}
-        />
-      ) : null}
-
       {tabState === 0 ? (
         // 부분 해설
         <Container>
@@ -110,8 +97,7 @@ const PartialInfo = ({
                         console.log("ttsTransform: ", res);
                         // 부분 id로 설정 (현재 재생 중인 소스 식별)
                         setAudioId(artInfo.id);
-                        setAudioData(res.data.audioContent);
-                        
+                        setAudioData({ data: res.data.audioContent });
                       });
                     }
                     handleAudioPlay();
