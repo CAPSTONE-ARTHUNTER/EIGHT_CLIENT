@@ -74,8 +74,7 @@ const DocentExp = ({ artInfo }) => {
     audio.pause();
   });
   return (
-    <Layout text={artInfo[params].name}>
-    
+    <Layout text={artPageInfo.name}>
       {/* 하단 오디오 탭 */}
       {audioData ? (
         // audio 존재하는 경우에만 AudioBtn 표시

@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
 import MainPage from "./pages/MainPage";
 import Collection from "./pages/Collection";
 import SearchPage from "./pages/SearchPage";
@@ -45,7 +44,6 @@ const sampleData = [
       },
       {
         id: 789,
-        id: 3,
         content: "<인왕제색도> 속 인왕산 명소",
         solved: true,
         contentDetail: "dsfdsfds",
