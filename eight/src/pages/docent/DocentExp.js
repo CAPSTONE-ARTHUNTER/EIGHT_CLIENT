@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import inwang from "../../assets/image/Inwang.jpg";
 import SizedBox from "../../components/Common/SizedBox";
@@ -9,6 +9,7 @@ import typo from "../../styles/typo";
 import PartialInfo from "../../components/docent/PartialInfo";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import AudioBtn from "../../components/docent/AudioBtn";
 
 const DocentExp = ({ artInfo }) => {
   const { t } = useTranslation();
@@ -30,8 +31,64 @@ const DocentExp = ({ artInfo }) => {
     setArtImageHeight(imgElement.height);
   };
 
+  //Audio
+  const [audioData, setAudioData] = useState();
+  const [audio, setAudio] = useState(new Audio());
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioId, setAudioId] = useState();
+
+  function handleAudioPlay() {
+    if (isAudioPlaying && audio.src !== "") {
+      audio.pause();
+      setIsAudioPlaying(false);
+    } else if (audio.src !== "") {
+      audio.play();
+      setIsAudioPlaying(true);
+    } else {
+      console.log("no audio");
+    }
+  }
+  useEffect(() => {
+    if (audioData) {
+      audio.pause();
+      setAudio(new Audio("data:audio/wav;base64," + audioData.data));
+      setIsAudioPlaying(true);
+    }
+  }, [audioData]);
+
+  useEffect(() => {
+    if (isAudioPlaying === true && audio.currentSrc) {
+      audio.play();
+    }
+  }, [audio]);
+
+  useEffect(() => {
+    audio.playbackRate = playbackSpeed;
+  }, [playbackSpeed]);
+
+  audio.addEventListener("ended", function (e) {
+    e.stopPropagation();
+    console.log("audio ended");
+    setIsAudioPlaying(false);
+    audio.pause();
+  });
   return (
-    <Layout text={artPageInfo.name}>
+    <Layout text={artInfo[params].name}>
+    
+      {/* 하단 오디오 탭 */}
+      {audioData ? (
+        // audio 존재하는 경우에만 AudioBtn 표시
+        <AudioBtn
+          setPlaybackSpeed={setPlaybackSpeed}
+          playbackSpeed={playbackSpeed}
+          isPlaying={isAudioPlaying}
+          setIsAudioPlaying={setIsAudioPlaying}
+          handleAudioPlay={handleAudioPlay}
+          audio={audio}
+        />
+      ) : null}
+
       <Container>
         <img
           src={inwang}
@@ -70,6 +127,16 @@ const DocentExp = ({ artInfo }) => {
               artInfo={data}
               t={t}
               tabState={tabState}
+              // audio
+              setAudioData={setAudioData}
+              setPlaybackSpeed={setPlaybackSpeed}
+              handleAudioPlay={handleAudioPlay}
+              playbackSpeed={playbackSpeed}
+              isAudioPlaying={isAudioPlaying}
+              setIsAudioPlaying={setIsAudioPlaying}
+              audio={audio}
+              audioId={audioId}
+              setAudioId={setAudioId}
             />
           );
         })}
