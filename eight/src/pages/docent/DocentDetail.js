@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import styled from "styled-components";
-import { PointIco, PuzzleIco } from "../../assets/icon";
+import { PauseIco, PlayIco, PointIco, PuzzleIco } from "../../assets/icon";
 import { colors } from "../../styles/color";
 import inwang from "../../assets/image/Inwang.jpg";
 import typo from "../../styles/typo";
@@ -10,6 +10,11 @@ import { useState } from "react";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { ttsTransform } from "../../api/TTS.apis";
+import i18n from "../../i18n";
+import { translate } from "../../api/GoogleTranslate.apis";
+import { useQuery } from "react-query";
+import AudioBtn from "../../components/docent/AudioBtn";
 
 const DocentDetail = ({ artInfo }) => {
   const { artId } = useParams();
@@ -25,6 +30,101 @@ const DocentDetail = ({ artInfo }) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
   };
+  
+  //translate
+  const translatedHeaderData = useQuery(
+    [`translation_header_${artPageDetailInfo.id}`],
+    () => translate(artPageDetailInfo.content, i18n.language),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: i18n.language !== "ko",
+    }
+  );
+  const translatedContentData = useQuery(
+    [`translation_content_${artPageDetailInfo.id}`],
+    () => translate(artPageDetailInfo.contentDetail, i18n.language),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: i18n.language !== "ko",
+    }
+  );
+
+  //audio
+  const [audioData, setAudioData] = useState();
+  const [audio, setAudio] = useState(new Audio());
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioId, setAudioId] = useState();
+
+  function ttsConfig() {
+    // tts
+    let content, voicelngCode, voiceName;
+    if (i18n.language === "ko") {
+      content = artPageDetailInfo.contentDetail;
+      voicelngCode = "ko-KR";
+      voiceName = "ko-KR-Neural2-B";
+    } else if (i18n.language === "en") {
+      content = translatedContentData.data;
+      voicelngCode = "en-US";
+      voiceName = "en-US-Neural2-F";
+    }
+    const ttsData = {
+      input: {
+        text: content,
+      },
+      voice: {
+        languageCode: voicelngCode,
+        name: voiceName,
+      },
+      audioConfig: {
+        audioEncoding: "MP3",
+        effectsProfileId: ["small-bluetooth-speaker-class-device"],
+        pitch: 0,
+        speakingRate: 1,
+      },
+    };
+    return ttsData;
+  }
+
+  function handleAudioPlay() {
+    if (isAudioPlaying && audio.src !== "") {
+      audio.pause();
+      setIsAudioPlaying(false);
+    } else if (audio.src !== "") {
+      audio.play();
+      setIsAudioPlaying(true);
+    } else {
+      console.log("no audio");
+    }
+  }
+
+  useEffect(() => {
+    if (audioData) {
+      audio.pause();
+      setAudio(new Audio("data:audio/wav;base64," + audioData.data));
+      setIsAudioPlaying(true);
+    }
+  }, [audioData]);
+
+  useEffect(() => {
+    if (isAudioPlaying === true && audio.currentSrc) {
+      audio.play();
+    }
+  }, [audio]);
+
+  useEffect(() => {
+    audio.playbackRate = playbackSpeed;
+  }, [playbackSpeed]);
+
+  audio.addEventListener("ended", function (e) {
+    e.stopPropagation();
+    console.log("audio ended");
+    setIsAudioPlaying(false);
+    audio.pause();
+  });
+
   const exData = {
     elements: [
       {
@@ -54,6 +154,18 @@ const DocentDetail = ({ artInfo }) => {
 
   return (
     <Layout text={artPageInfo.name}>
+      {/* 하단 오디오 탭 */}
+      {audioData ? (
+        // audio 존재하는 경우에만 AudioBtn 표시
+        <AudioBtn
+          setPlaybackSpeed={setPlaybackSpeed}
+          playbackSpeed={playbackSpeed}
+          isPlaying={isAudioPlaying}
+          setIsAudioPlaying={setIsAudioPlaying}
+          handleAudioPlay={handleAudioPlay}
+          audio={audio}
+        />
+      ) : null}
       <SizedBox Rheight={"1.5rem"} />
 
       <ColWrapper>
@@ -61,7 +173,11 @@ const DocentDetail = ({ artInfo }) => {
         <TopBox>
           <PuzzleIco fill={colors.brown} />
           <SizedBox Rheight={".5rem"} />
-          <typo.body.Body01>{artPageDetailInfo.content}</typo.body.Body01>
+          <typo.body.Body01>
+            {i18n.language === "ko"
+              ? artPageDetailInfo.content
+              : translatedHeaderData.data}
+          </typo.body.Body01>
         </TopBox>
         <SizedBox Rheight={"2rem"} />
       </ColWrapper>
@@ -118,17 +234,44 @@ const DocentDetail = ({ artInfo }) => {
 
           {/* 텍스트 제목 */}
           <RowWrapper>
-            <PointIco fill={colors.orange} />
+            {/* <PointIco fill={colors.orange} /> */}
+            <TouchArea
+              onClick={async () => {
+                if (audioId !== artPageDetailInfo.id) {
+                  // google tts
+                  await ttsTransform(ttsConfig()).then((res) => {
+                    console.log("ttsTransform: ", res);
+                    // 부분 id로 설정 (현재 재생 중인 소스 식별)
+                    setAudioId(artPageDetailInfo.id);
+                    setAudioData({ data: res.data.audioContent });
+                  });
+                }
+                handleAudioPlay();
+              }}
+            >
+              {isAudioPlaying && audioId === artPageDetailInfo.id ? (
+                <PauseIco />
+              ) : (
+                <PlayIco />
+              )}
+            </TouchArea>
             <SizedBox Rwidth={"0.5rem"} />
-            <typo.body.Body02>{artPageDetailInfo.content}</typo.body.Body02>
+            <typo.body.Body02>
+              {i18n.language === "ko"
+                ? artPageDetailInfo.content
+                : translatedHeaderData.data}
+            </typo.body.Body02>
           </RowWrapper>
           <SizedBox Rheight={"1rem"} />
 
           {/* 텍스트 바디 */}
           <typo.body.DocentContent>
-            {artPageDetailInfo.contentDetail}
+            {i18n.language === "ko"
+              ? artPageDetailInfo.contentDetail
+              : translatedContentData.data}
           </typo.body.DocentContent>
         </TxtBox>
+        <SizedBox Rheight={"5rem"} />
       </ColWrapper>
     </Layout>
   );
@@ -186,5 +329,12 @@ const PointLocation = styled.div`
 const ImgWrapper = styled.div`
   position: absolute;
   width: 100%;
+`;
+const TouchArea = styled.div`
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export default DocentDetail;
