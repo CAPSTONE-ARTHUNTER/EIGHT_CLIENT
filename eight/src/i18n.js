@@ -39,6 +39,8 @@ i18n
             todayArt: "Today's Artwork",
             goDocent: "Docent",
             goCollection: "Collection",
+            cameraBtn: "Find by Camera",
+            collectionBtn: "View Collections",
           },
           searchPage: {
             artList: "List of Art",
@@ -107,6 +109,8 @@ i18n
             todayArt: "오늘의 작품",
             goDocent: "해설 보기",
             goCollection: "도감 보기",
+            cameraBtn: "카메라로 찾기",
+            collectionBtn: "도감 보러가기",
           },
           searchPage: {
             artList: "작품 목록",

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import typo from "../styles/typo";
 import Layout from "../components/Layout/Layout";
-import { colors } from "../styles/color";
 import SearchBox from "../components/Common/SearchBox";
 import SizedBox from "../components/Common/SizedBox";
 import UserBox from "../components/MainPage/UserBox";
@@ -45,7 +44,7 @@ const MainPage = () => {
             }}
           >
             <BtnContent>
-              <typo.title.Title02>카메라로 찾기</typo.title.Title02>
+              <typo.title.Title02>{t("mainPage.cameraBtn")}</typo.title.Title02>
             </BtnContent>
           </MainBtn>
 
@@ -60,7 +59,7 @@ const MainPage = () => {
               <typo.title.Title02
                 style={{ width: "3.75rem", wordBreak: "keep-all" }}
               >
-                도감 보러가기
+                {t("mainPage.collectionBtn")}
               </typo.title.Title02>
             </BtnContent>
           </MainBtn>
