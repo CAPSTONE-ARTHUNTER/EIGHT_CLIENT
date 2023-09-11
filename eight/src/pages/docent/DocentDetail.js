@@ -12,40 +12,83 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
 const DocentDetail = ({ artInfo }) => {
-  const { id } = useParams();
+  const { artId } = useParams();
   const { detailId } = useParams();
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const navigate = useNavigate();
+  const artPageInfo = artInfo.find((item) => item.id == artId);
+  const artPageDetailInfo = artPageInfo.quest.find(
+    (item) => item.id == detailId
+  );
   const handleImageLoad = (event) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
   };
+  const exData = {
+    elements: [
+      {
+        id: "1",
+        point: "30,20", //"x,y"
+        isSolved: true,
+      },
+      {
+        id: "2",
+        point: "30,60",
+        isSolved: true,
+      },
+      {
+        id: "3",
+        point: "90,10",
+        isSolved: false,
+      },
+      {
+        id: "4",
+        point: "10,75",
+        isSolved: true,
+      },
+    ],
+    element_solved_num: 3, //요소 찾은 개수
+    element_num: 4, //요소 전체 개수
+  };
 
   return (
-    <Layout text={artInfo[id].name}>
-      <SizedBox height={24} />
+    <Layout text={artPageInfo.name}>
+      <SizedBox Rheight={"1.5rem"} />
 
       <ColWrapper>
         {/* 퍼즐모양 */}
         <TopBox>
           <PuzzleIco fill={colors.brown} />
           <SizedBox Rheight={".5rem"} />
-          <typo.body.Body01>
-            {artInfo[id].quest[detailId].content}
-          </typo.body.Body01>
+          <typo.body.Body01>{artPageDetailInfo.content}</typo.body.Body01>
         </TopBox>
         <SizedBox Rheight={"2rem"} />
       </ColWrapper>
 
       {/* 이미지 */}
       <ColWrapper>
-        <img
-          src={inwang}
-          alt="art"
-          className="artImg"
-          onLoad={handleImageLoad}
-        />
+        <ImgWrapper>
+          {/* point 표시 */}
+          {exData.elements.map((ele) => {
+            const pointLocation = ele.point.split(",");
+            return (
+              <PointLocation
+                key={ele.id + "point"}
+                left={pointLocation[0]}
+                top={pointLocation[1]}
+              >
+                <PointIco fill={ele.isSolved ? colors.orange : colors.white} />
+              </PointLocation>
+            );
+          })}
+          <img
+            src={inwang}
+            alt="art"
+            className="artImg"
+            onLoad={handleImageLoad}
+          />
+        </ImgWrapper>
         <SizedBox height={artImgHeight} />
         <SizedBox Rheight={"2rem"} />
       </ColWrapper>
@@ -53,15 +96,16 @@ const DocentDetail = ({ artInfo }) => {
       {/* 수집한 부분 수 표시 */}
       <ColWrapper>
         {/* 세부정보 받아와 처리 */}
-        <RowWrapper style={{ gap: "12px" }}>
-          <Dot />
-          <Dot />
-          <Dot />
-          <Dot />
+        <RowWrapper style={{ gap: "0.75rem" }}>
+          {exData.elements.map((ele) => {
+            return <Dot key={ele.id + "dot"} solved={ele.isSolved} />;
+          })}
         </RowWrapper>
-        <SizedBox height={12} />
-        <typo.body.Body02>0/4</typo.body.Body02>
-        <SizedBox height={24} />
+        <SizedBox Rheight={".75rem"} />
+        <typo.body.Body02>
+          {exData.element_solved_num}/{exData.element_num}
+        </typo.body.Body02>
+        <SizedBox Rheight={"1.5rem"} />
 
         <TxtBox>
           <WideBtn
@@ -70,21 +114,19 @@ const DocentDetail = ({ artInfo }) => {
               navigate("detect");
             }}
           />
-          <SizedBox height={32} />
+          <SizedBox Rheight={"2rem"} />
 
           {/* 텍스트 제목 */}
           <RowWrapper>
             <PointIco fill={colors.orange} />
-            <SizedBox width={8} />
-            <typo.body.Body02>
-              {artInfo[id].quest[detailId].content}
-            </typo.body.Body02>
+            <SizedBox Rwidth={"0.5rem"} />
+            <typo.body.Body02>{artPageDetailInfo.content}</typo.body.Body02>
           </RowWrapper>
-          <SizedBox height={16} />
+          <SizedBox Rheight={"1rem"} />
 
           {/* 텍스트 바디 */}
           <typo.body.DocentContent>
-            {artInfo[id].quest[detailId].contentDetail}
+            {artPageDetailInfo.contentDetail}
           </typo.body.DocentContent>
         </TxtBox>
       </ColWrapper>
@@ -99,7 +141,7 @@ const ColWrapper = styled.div`
 
   .artImg {
     width: 100%;
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
   }
@@ -113,7 +155,7 @@ const RowWrapper = styled.div`
 const TopBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 136px;
+  width: 8.5rem;
   align-items: center;
   word-break: keep-all;
   text-align: center;
@@ -123,17 +165,26 @@ const TxtBox = styled.div`
   width: 94%;
   display: flex;
   flex-direction: column;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   word-break: keep-all;
 `;
 
 const Dot = styled.div`
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: ${colors.copper1};
+  border-radius: 1rem;
+  background: ${(props) => (props.solved ? colors.orange : colors.copper1)};
 `;
-
+const PointLocation = styled.div`
+  position: absolute;
+  z-index: 2;
+  left: ${(props) => props.left + "%"};
+  top: ${(props) => props.top + "%"};
+`;
+const ImgWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+`;
 export default DocentDetail;

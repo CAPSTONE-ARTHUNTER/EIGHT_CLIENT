@@ -29,7 +29,7 @@ const MainPage = () => {
 
   return (
     <Layout>
-      <SizedBox height={20} />
+      <SizedBox Rheight={"1.25rem"} />
 
       <Container>
         <SearchBox text={text} onChange={onChange} search={search} t={t} />
@@ -51,14 +51,14 @@ const MainPage = () => {
           <typo.title.Title02 style={{ padding: "0px 8px" }}>
             {t("mainPage.todayArt")}
           </typo.title.Title02>
-          <SizedBox height={12} />
+          <SizedBox Rheight={"0.75rem"} />
           <TodayRail>
             {/* 정보 받아서 map */}
             <TodayBox t={t} />
             <TodayBox t={t} />
             <TodayBox t={t} />
           </TodayRail>
-          <SizedBox height={60} />
+          <SizedBox Rheight={"3.75rem"} />
         </TodayWrapper>
       </Container>
     </Layout>
@@ -68,15 +68,15 @@ const MainPage = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
 `;
 
 const BtnWrapper = styled.div`
   width: 100%;
-  height: 150px;
+  height: 9.375rem;
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: 0.75rem;
 `;
 const TodayWrapper = styled.div`
   display: flex;
@@ -87,21 +87,21 @@ const MainCameraBtn = styled.div`
   display: flex;
   align-self: stretch;
   background: linear-gradient(152deg, #cfc8bc 0%, #a79c8d 100%);
-  border-radius: 24px;
+  border-radius: 1.5rem;
 `;
 const MainCollectionBtn = styled.div`
   display: flex;
   width: 40%;
   align-self: stretch;
   background-color: ${colors.beige};
-  border-radius: 24px;
+  border-radius: 1.5rem;
 `;
 const TodayRail = styled.div`
   display: flex;
   width: 100%;
-  height: 260px;
+  height: 16.25rem;
   align-items: flex-start;
-  gap: 12px;
+  gap: 0.75rem;
   overflow-x: scroll;
 `;
 

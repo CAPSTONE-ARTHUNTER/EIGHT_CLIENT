@@ -13,7 +13,8 @@ import AudioBtn from "../../components/docent/AudioBtn";
 
 const DocentExp = ({ artInfo }) => {
   const { t } = useTranslation();
-  const params = useParams().id;
+  const { artId } = useParams();
+  const artPageInfo = artInfo.find((data) => data.id == artId);
 
   // 탭
   const [tabState, setTabState] = useState(0);
@@ -74,6 +75,7 @@ const DocentExp = ({ artInfo }) => {
   });
   return (
     <Layout text={artInfo[params].name}>
+    
       {/* 하단 오디오 탭 */}
       {audioData ? (
         // audio 존재하는 경우에만 AudioBtn 표시
@@ -108,7 +110,7 @@ const DocentExp = ({ artInfo }) => {
 
         {/* 제목란 */}
         <TitleBox>
-          <typo.title.Title01>{artInfo[params].name}</typo.title.Title01>
+          <typo.title.Title01>{artPageInfo.name}</typo.title.Title01>
           <SizedBox Rheight={".2rem"} />
           <typo.body.Body01>
             {/* 수정필요 */}
@@ -117,11 +119,11 @@ const DocentExp = ({ artInfo }) => {
           </typo.body.Body01>
         </TitleBox>
         <SizedBox Rheight={"2rem"} />
-        {artInfo[params].quest.map((data, idx) => {
+        {artPageInfo.quest.map((data, idx) => {
           return (
             <PartialInfo
-              key={idx}
-              idx={params + idx}
+              key={data.id}
+              idx={idx}
               artInfo={data}
               t={t}
               tabState={tabState}

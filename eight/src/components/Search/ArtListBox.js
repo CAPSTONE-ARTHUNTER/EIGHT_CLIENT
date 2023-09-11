@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // 임시 이미지
@@ -7,23 +7,35 @@ import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 import { useNavigate } from "react-router-dom";
+import i18n from "../../i18n";
+import { translate } from "../../api/GoogleTranslate.apis";
 
-const ArtListBox = ({ data, idx }) => {
+const ArtListBox = ({ data }) => {
   const navigate = useNavigate();
   const searchImage = testImage;
+  const [dataDesc, setDataDesc] = useState(data.desc);
+
+  // 언어 ko 아닌 경우 description 영어로 번역
+  useEffect(() => {
+    if (i18n.language !== "ko") {
+      translate(data.desc, "en").then((res) => {
+        setDataDesc(res);
+      });
+    }
+  }, []);
 
   return (
     <BackGround
       searchImage={searchImage}
       onClick={() => {
-        navigate(`/docent/${idx}`);
+        navigate(`/docent/${data.id}`);
       }}
     >
       <InfoArea>
         <TextGroup>
           <typo.body.Body02 color={colors.white}>{data.name}</typo.body.Body02>
           <SizedBox height={2} />
-          <typo.body.Body03 color={colors.white}>{data.desc}</typo.body.Body03>
+          <typo.body.Body03 color={colors.white}>{dataDesc}</typo.body.Body03>
         </TextGroup>
       </InfoArea>
     </BackGround>

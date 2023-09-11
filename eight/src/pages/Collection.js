@@ -10,7 +10,7 @@ import BadgeSlot from "../components/Collection/BadgeSlot";
 import QuestBox from "../components/Collection/QuestBox";
 import { useTranslation } from "react-i18next";
 
-const Collection = ({sampleData}) => {
+const Collection = ({ sampleData }) => {
   // 0: 도감, 1: 도전과제
   const [tabState, setTabState] = useState(0);
   const { t } = useTranslation();
@@ -36,19 +36,19 @@ const Collection = ({sampleData}) => {
   ];
 
   return (
-    <Layout text={"도감"}>
-      <SizedBox height={8} />
+    <Layout text={t("header.collectionPage")}>
+      <SizedBox Rheight={".5rem"} />
       <CollectionTab
         tabName={tabName}
         tabState={tabState}
         setTabState={setTabState}
         t={t}
       />
-      <SizedBox height={12} />
+      <SizedBox Rheight={"0.75rem"} />
       {tabState === 0 ? (
         <>
           <UserBox t={t} />
-          <SizedBox height={32} />
+          <SizedBox Rheight={"2rem"} />
           <CollectionBoxWrapper>
             {userArtInfo.map((data, index) => {
               return (
@@ -75,7 +75,7 @@ const CollectionBoxWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
 `;
 
 const ChallengeBoxWrapper = styled.div`

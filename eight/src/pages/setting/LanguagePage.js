@@ -10,14 +10,14 @@ const LanguagePage = ({ lngs }) => {
   const { t, i18n } = useTranslation();
 
   return (
-    <Layout text="언어 설정">
-      <SizedBox height={32} />
+    <Layout text={t("header.settings.langSetting")}>
+      <SizedBox Rheight={"2rem"} />
       <Container>
         <typo.title.Title02>
           {t("settingPage.langNow", { lang: i18n.language })}
         </typo.title.Title02>
       </Container>
-      <SizedBox height={60} />
+      <SizedBox Rheight={"3.75rem"} />
       <Container>
         {Object.keys(lngs).map((lng) => (
           <SettingBtn
@@ -37,7 +37,7 @@ const LanguagePage = ({ lngs }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
+  gap: 0.5rem;
+  padding: 0.75rem;
 `;
 export default LanguagePage;
