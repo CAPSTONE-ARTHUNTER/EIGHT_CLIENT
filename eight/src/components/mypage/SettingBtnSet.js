@@ -7,7 +7,7 @@ const SettingBtnSet = ({ t }) => {
   const navigation = useNavigate();
   return (
     <Container>
-      <SettingBtn text={t("myPage.alert")} />
+      {/* <SettingBtn text={t("myPage.alert")} /> */}
       <SettingBtn
         text={t("myPage.account")}
         onClick={() => {
