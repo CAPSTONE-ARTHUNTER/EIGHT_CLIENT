@@ -28,7 +28,7 @@ const ArtListBox = ({ data }) => {
     <BackGround
       searchImage={searchImage}
       onClick={() => {
-        navigate(`/docent/${data.id}`);
+        navigate(`/docent/${data.id}`, { state: { prevPage: "search" } });
       }}
     >
       <InfoArea>

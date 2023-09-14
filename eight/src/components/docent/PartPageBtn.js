@@ -8,7 +8,7 @@ import i18n from "../../i18n";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 
-const PartPageBtn = ({ artInfo }) => {
+const PartPageBtn = ({ artInfo, prevPage }) => {
   const navigate = useNavigate();
   const content = useQuery(
     [`docent_btn_${artInfo.id}`],
@@ -40,7 +40,7 @@ const PartPageBtn = ({ artInfo }) => {
       borderColor={borderColor}
       bgColor={bgColor}
       onClick={() => {
-        navigate(`detail/${artInfo.id}`);
+        navigate(`detail/${artInfo.id}`, { state: { prevPage: prevPage } });
       }}
     >
       <PuzzleIco fill={puzzleColor} />

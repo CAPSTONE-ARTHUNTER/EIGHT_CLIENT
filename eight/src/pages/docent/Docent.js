@@ -9,11 +9,16 @@ import typo from "../../styles/typo";
 import GetBadgeInfo from "../../components/docent/GetBadgeInfo";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Docent = ({ artInfo }) => {
   const { artId } = useParams();
   const navigate = useNavigate();
+
+  // 이전 페이지
+  const { state } = useLocation();
+  const { prevPage } = state;
+
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const artPageInfo = artInfo.find((item) => item.id == artId);
@@ -44,7 +49,9 @@ const Docent = ({ artInfo }) => {
         <SizedBox Rheight={".5rem"} />
         <BtnWrapper>
           {artPageInfo.quest.map((data) => {
-            return <PartPageBtn key={data.id} artInfo={data} />;
+            return (
+              <PartPageBtn key={data.id} artInfo={data} prevPage={prevPage} />
+            );
           })}
         </BtnWrapper>
 

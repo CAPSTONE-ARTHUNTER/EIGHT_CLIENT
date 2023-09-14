@@ -9,7 +9,7 @@ import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ttsTransform } from "../../api/TTS.apis";
 import i18n from "../../i18n";
 import { translate } from "../../api/GoogleTranslate.apis";
@@ -19,6 +19,10 @@ import AudioBtn from "../../components/docent/AudioBtn";
 const DocentDetail = ({ artInfo }) => {
   const { artId } = useParams();
   const { detailId } = useParams();
+
+  const { state } = useLocation();
+  const { prevPage } = state;
+
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const navigate = useNavigate();
@@ -30,7 +34,7 @@ const DocentDetail = ({ artInfo }) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
   };
-  
+
   //translate
   const translatedHeaderData = useQuery(
     [`translation_header_${artPageDetailInfo.id}`],
@@ -224,13 +228,16 @@ const DocentDetail = ({ artInfo }) => {
         <SizedBox Rheight={"1.5rem"} />
 
         <TxtBox>
-          <WideBtn
-            text={t("DocentPage.Detail.btnTxt")}
-            onClick={() => {
-              navigate("detect");
-            }}
-          />
-          <SizedBox Rheight={"2rem"} />
+          {prevPage === "search" ? null : (
+            <WideBtn
+              text={t("DocentPage.Detail.btnTxt")}
+              onClick={() => {
+                navigate("detect");
+              }}
+            />
+          )}
+
+          <SizedBox Rheight={"1.2rem"} />
 
           {/* 텍스트 제목 */}
           <RowWrapper>
