@@ -13,9 +13,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebViewWidget(
-        controller: controller,
-      ),
-    );
+        backgroundColor: const Color.fromRGBO(207, 200, 188, 100),
+        body: SafeArea(
+          child: WebViewWidget(
+            controller: controller,
+          ),
+        ));
   }
 }
