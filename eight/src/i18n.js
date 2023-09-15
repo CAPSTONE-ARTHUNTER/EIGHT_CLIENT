@@ -15,6 +15,16 @@ i18n
       en: {
         translation: {
           // 번역본 작성
+          header: {
+            searchPage: "Search Arts",
+            detectionPage: "Tag Recognition",
+            collectionPage: "Collection",
+            myPage: "My Page",
+            settings: {
+              langSetting: "Language Setting",
+              account: "Account Setting",
+            },
+          },
           profile: {
             alias: "challenger",
             pieceFound: "Arts Found",
@@ -29,6 +39,8 @@ i18n
             todayArt: "Today's Artwork",
             goDocent: "Docent",
             goCollection: "Collection",
+            cameraBtn: "Find by Camera",
+            collectionBtn: "View Collections",
           },
           searchPage: {
             artList: "List of Art",
@@ -66,11 +78,23 @@ i18n
 
           settingPage: {
             langNow: "Current language is {{lang}}",
+            logOut: "LogOut",
+            deleteAccount: "Delete Account",
           },
         },
       },
       ko: {
         translation: {
+          header: {
+            searchPage: "작품 검색",
+            detectionPage: "작품 태그 인식",
+            collectionPage: "도감",
+            myPage: "마이페이지",
+            settings: {
+              langSetting: "언어 설정",
+              account: "계정",
+            },
+          },
           profile: {
             alias: "도전자",
             pieceFound: "발견한 작품",
@@ -85,6 +109,8 @@ i18n
             todayArt: "오늘의 작품",
             goDocent: "해설 보기",
             goCollection: "도감 보기",
+            cameraBtn: "카메라로 찾기",
+            collectionBtn: "도감 보러가기",
           },
           searchPage: {
             artList: "작품 목록",
@@ -121,6 +147,8 @@ i18n
           },
           settingPage: {
             langNow: "현재 설정 언어는 {{lang}}입니다",
+            logOut: "로그아웃",
+            deleteAccount: "회원 탈퇴",
           },
         },
       },

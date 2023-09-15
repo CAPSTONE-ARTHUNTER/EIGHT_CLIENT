@@ -6,6 +6,14 @@ const translateAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
+const ttsAxios = axios.create({
+  baseURL: `https://texttospeech.googleapis.com`,
+  headers: {
+    "Content-Type": "application/json",
+  },  params: {
+    key: process.env.REACT_APP_GOOGLE_API_KEY,
+  },
+});
 const detectionAxios = axios.create({
   baseURL: `https://detect.roboflow.com/painting-l6exb/14`,
   headers: {
@@ -16,4 +24,4 @@ const detectionAxios = axios.create({
   },
 });
 
-export { translateAxios, detectionAxios };
+export { translateAxios, detectionAxios, ttsAxios };

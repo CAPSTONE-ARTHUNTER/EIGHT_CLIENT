@@ -22,6 +22,7 @@ const DocentCam = () => {
     idx: null,
     name: null,
     image: null,
+    solved: null,
   });
   const [foundModalOpen, setFoundModalOpen] = useState(false);
 
@@ -108,7 +109,7 @@ const DocentCam = () => {
       const config = {
         params: {
           classes: currentState.name,
-          confidence: 20
+          confidence: 20,
         },
       };
       await detect(image, config)
@@ -207,6 +208,7 @@ const DocentCam = () => {
                         idx: idx,
                         name: data.name,
                         image: data.image,
+                        solved: data.is_solved,
                       });
                     }}
                   />
@@ -230,7 +232,7 @@ const DocentCam = () => {
           </PartContainer>
 
           {/* 촬영 버튼 */}
-          <CaptureBtn takeaPic={takeaPic} />
+          {currentState.solved ? null : <CaptureBtn takeaPic={takeaPic} />}
         </Container>
       </Layout>
     </Background>

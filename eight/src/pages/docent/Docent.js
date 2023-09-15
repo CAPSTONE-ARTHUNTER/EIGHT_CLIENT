@@ -9,14 +9,20 @@ import typo from "../../styles/typo";
 import GetBadgeInfo from "../../components/docent/GetBadgeInfo";
 import WideBtn from "../../components/Common/WideBtn";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Docent = ({ artInfo }) => {
-  const { id } = useParams();
+  const { artId } = useParams();
   const navigate = useNavigate();
+
+  // 이전 페이지
+  const { state } = useLocation();
+  const { prevPage } = state;
+
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
-  const leftPart = artInfo[id].entireGage - artInfo[id].solvedGage;
+  const artPageInfo = artInfo.find((item) => item.id == artId);
+  const leftPart = artPageInfo.entireGage - artPageInfo.solvedGage;
   const done = leftPart <= 0 ? true : false;
 
   const handleImageLoad = (event) => {
@@ -25,7 +31,7 @@ const Docent = ({ artInfo }) => {
   };
 
   return (
-    <Layout text={artInfo[id].name}>
+    <Layout text={artPageInfo.name}>
       <ColWrapper>
         <img
           src={inwang}
@@ -42,14 +48,18 @@ const Docent = ({ artInfo }) => {
         </typo.body.Body02>
         <SizedBox Rheight={".5rem"} />
         <BtnWrapper>
-          <PartPageBtn artInfo={artInfo[id].quest}/>
+          {artPageInfo.quest.map((data) => {
+            return (
+              <PartPageBtn key={data.id} artInfo={data} prevPage={prevPage} />
+            );
+          })}
         </BtnWrapper>
 
         <SizedBox Rheight={"3.5rem"} />
         <GetBadgeInfo
           done={done}
           leftPart={leftPart}
-          badgeName={artInfo[id].name}
+          badgeName={artPageInfo.name}
           t={t}
         />
 
@@ -58,7 +68,7 @@ const Docent = ({ artInfo }) => {
           text={t("DocentPage.btnTxt")}
           onClick={() => {
             // 전체 해설 페이지로 라우팅
-            navigate(`/docent/${id}/exp`);
+            navigate(`/docent/${artPageInfo.id}/exp`);
           }}
         />
       </ColWrapper>
@@ -80,7 +90,12 @@ const ColWrapper = styled.div`
 
 const BtnWrapper = styled.div`
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default Docent;

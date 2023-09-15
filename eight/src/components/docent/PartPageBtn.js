@@ -4,56 +4,55 @@ import { colors } from "../../styles/color";
 import { PuzzleIco } from "../../assets/icon";
 import typo from "../../styles/typo";
 import { useNavigate } from "react-router-dom";
+import i18n from "../../i18n";
+import { translate } from "../../api/GoogleTranslate.apis";
+import { useQuery } from "react-query";
 
-const PartPageBtn = ({ artInfo }) => {
-  const questList = artInfo;
+const PartPageBtn = ({ artInfo, prevPage }) => {
   const navigate = useNavigate();
+  const content = useQuery(
+    [`docent_btn_${artInfo.id}`],
+    () => translate(artInfo.content, i18n.language),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: i18n.language !== "ko",
+    }
+  );
 
   //   colors
   let puzzleColor = colors.copper1;
   let borderColor = colors.copper2;
   let bgColor = colors.white;
 
+  if (artInfo.solved === true) {
+    puzzleColor = colors.brown;
+    borderColor = colors.brown;
+    bgColor = colors.beige;
+  } else {
+    puzzleColor = colors.copper1;
+    borderColor = colors.copper2;
+    bgColor = colors.white;
+  }
+
   return (
-    <Container>
-      {questList.map((item, index) => {
-        if (item.solved === true) {
-          puzzleColor = colors.brown;
-          borderColor = colors.brown;
-          bgColor = colors.beige;
-        } else {
-          puzzleColor = colors.copper1;
-          borderColor = colors.copper2;
-          bgColor = colors.white;
-        }
-        return (
-          <Background
-            borderColor={borderColor}
-            bgColor={bgColor}
-            key={index + "part"}
-            onClick={() => {
-              navigate(`detail/${index}`);
-            }}
-          >
-            <PuzzleIco fill={puzzleColor} />
-            <TitleBox>
-              <typo.body.Body01>{item.content}</typo.body.Body01>
-            </TitleBox>
-          </Background>
-        );
-      })}
-    </Container>
+    <Background
+      borderColor={borderColor}
+      bgColor={bgColor}
+      onClick={() => {
+        navigate(`detail/${artInfo.id}`, { state: { prevPage: prevPage } });
+      }}
+    >
+      <PuzzleIco fill={puzzleColor} />
+      <TitleBox>
+        <typo.body.Body01>
+          {i18n.language === "ko" ? artInfo.content : content.data}
+        </typo.body.Body01>
+      </TitleBox>
+    </Background>
   );
 };
-const Container = styled.div`
-  width: 100%;
-  flex-wrap: wrap;
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-`;
+
 const Background = styled.div`
   display: flex;
   width: 46%;

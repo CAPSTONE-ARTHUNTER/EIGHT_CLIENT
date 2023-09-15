@@ -4,11 +4,13 @@ import typo from "../../styles/typo";
 import { CheckIco, DropDownIco } from "../../assets/icon";
 import { useLocation } from "react-router-dom";
 import { colors } from "../../styles/color";
-const SettingBtn = ({ text, checked, onClick }) => {
+const SettingBtn = ({ text, checked, onClick, textColor }) => {
   const location = useLocation().pathname;
   return (
     <BtnContainer>
-      <typo.body.Body02>{text}</typo.body.Body02>
+      <typo.body.Body02 color={textColor ? textColor : colors.black}>
+        {text}
+      </typo.body.Body02>
       <TouchArea onClick={onClick}>
         {location === "/language" ? (
           <>

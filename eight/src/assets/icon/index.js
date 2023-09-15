@@ -31,6 +31,8 @@ export { ReactComponent as PointIco } from "./common/point.svg";
 export { ReactComponent as PuzzleIco } from "./common/puzzleIco.svg";
 export { ReactComponent as PlayIco } from "./common/playIco.svg";
 export { ReactComponent as LockedIco } from "./common/lockedIco.svg";
+export { ReactComponent as PlaySpeedIco } from "./common/playSpeedIco.svg";
+export { ReactComponent as PauseIco } from "./common/pauseIco.svg";
 
 // detection
 export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
