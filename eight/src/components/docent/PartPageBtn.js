@@ -16,7 +16,7 @@ const PartPageBtn = ({ artInfo, prevPage }) => {
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language !== "ko",
+      enabled: i18n.language === "en",
     }
   );
 
@@ -46,7 +46,7 @@ const PartPageBtn = ({ artInfo, prevPage }) => {
       <PuzzleIco fill={puzzleColor} />
       <TitleBox>
         <typo.body.Body01>
-          {i18n.language === "ko" ? artInfo.content : content.data}
+          {i18n.language === "en" ? content.data : artInfo.content}
         </typo.body.Body01>
       </TitleBox>
     </Background>

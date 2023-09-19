@@ -15,9 +15,9 @@ const ArtListBox = ({ data }) => {
   const searchImage = testImage;
   const [dataDesc, setDataDesc] = useState(data.desc);
 
-  // 언어 ko 아닌 경우 description 영어로 번역
+  // 언어 en인 경우만 description 영어로 번역
   useEffect(() => {
-    if (i18n.language !== "ko") {
+    if (i18n.language === "en") {
       translate(data.desc, "en").then((res) => {
         setDataDesc(res);
       });
