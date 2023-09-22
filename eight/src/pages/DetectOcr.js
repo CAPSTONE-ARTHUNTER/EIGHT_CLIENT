@@ -12,6 +12,7 @@ import { PostOcrImg } from "../api/GoogleOcr.apis";
 import TagDetectedModal from "../components/Detection/TagDetectedModal";
 import testImage from "../assets/image/Inwang.jpg";
 import { t } from "i18next";
+import NotiModal from "../components/Common/NotiModal";
 
 function DetectOcr() {
   const camera = useRef(null);
@@ -19,6 +20,7 @@ function DetectOcr() {
   const location = useLocation().pathname;
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [foundModal, setFoundModal] = useState(true);
+  const [notFoundModal, setNotFoundModal] = useState(true);
   const sampleTextDetectionData = {
     image: testImage,
     name: "예시데이터",
@@ -67,16 +69,30 @@ function DetectOcr() {
     console.log("capture");
   }
 
-  function closeModal() {
+  function closeFoundModal() {
     setFoundModal(false);
+  }
+  function closeNotFoundModal() {
+    setNotFoundModal(false);
   }
 
   return (
     <Layout text={t("header.detectionPage")}>
       <Container>
+        {/* 태그 검색 실패시 모달 */}
+        {notFoundModal ? (
+          <NotiModal
+            text={t("DocentPage.Cam.fail")}
+            onClick={closeNotFoundModal}
+          />
+        ) : null}
+
         {/* 태그 검색 성공시 모달 */}
         {foundModal ? (
-          <TagDetectedModal data={sampleTextDetectionData} LB={closeModal} />
+          <TagDetectedModal
+            data={sampleTextDetectionData}
+            LB={closeFoundModal}
+          />
         ) : null}
         <SizedBox height={90} />
         <CamContainer>

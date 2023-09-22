@@ -74,12 +74,20 @@ i18n
               lockedMsg1: "This commentary is locked",
               lockedMsg2: "Find the hidden parts to unlock!",
             },
+
+            Cam: {
+              fail: "Failed to find Artwork",
+            },
           },
 
           settingPage: {
             langNow: "Current language is {{lang}}",
             logOut: "LogOut",
             deleteAccount: "Delete Account",
+          },
+
+          common: {
+            close: "close",
           },
         },
       },
@@ -144,11 +152,19 @@ i18n
               lockedMsg1: "잠긴 부분입니다",
               lockedMsg2: "숨겨진 조각을 찾아보세요!",
             },
+
+            Cam: {
+              fail: "작품 검색에 실패했어요",
+            },
           },
           settingPage: {
             langNow: "현재 설정 언어는 {{lang}}입니다",
             logOut: "로그아웃",
             deleteAccount: "회원 탈퇴",
+          },
+
+          common: {
+            close: "닫기",
           },
         },
       },

@@ -1,9 +1,9 @@
 // BottomBar
-export {ReactComponent as CameraIco} from './bottomBar/Camera.svg';
-export {ReactComponent as BookmarkIco} from './bottomBar/Bookmark.svg';
-export {ReactComponent as HomeIco} from './bottomBar/Home.svg';
-export {ReactComponent as MypageIco} from './bottomBar/Person.svg';
-export {ReactComponent as SearchIco} from './bottomBar/Search.svg';
+export { ReactComponent as CameraIco } from "./bottomBar/Camera.svg";
+export { ReactComponent as BookmarkIco } from "./bottomBar/Bookmark.svg";
+export { ReactComponent as HomeIco } from "./bottomBar/Home.svg";
+export { ReactComponent as MypageIco } from "./bottomBar/Person.svg";
+export { ReactComponent as SearchIco } from "./bottomBar/Search.svg";
 
 // mainPage
 export { ReactComponent as CollectionIco } from "./mainPage/collectionIco.svg";
@@ -33,6 +33,7 @@ export { ReactComponent as PlayIco } from "./common/playIco.svg";
 export { ReactComponent as LockedIco } from "./common/lockedIco.svg";
 export { ReactComponent as PlaySpeedIco } from "./common/playSpeedIco.svg";
 export { ReactComponent as PauseIco } from "./common/pauseIco.svg";
+export { ReactComponent as FailIco } from "./common/failIco.svg";
 
 // detection
 export { ReactComponent as ArrowIco } from "./detection/arrow.svg";
