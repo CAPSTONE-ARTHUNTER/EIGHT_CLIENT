@@ -132,9 +132,9 @@ const PartialInfo = ({
                   </BlockWindow>
                 )}
                 <typo.body.DocentContent>
-                  {i18n.language === "ko"
-                    ? artInfo.contentDetail
-                    : translatedData.data}
+                  {i18n.language === "en"
+                    ? translatedData.data
+                    : artInfo.contentDetail}
                 </typo.body.DocentContent>
               </BodyBox>
             </ColWrapper>
