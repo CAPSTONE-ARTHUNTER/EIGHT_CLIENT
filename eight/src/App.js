@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import PrivateRoutes from "./components/PrivateRoutes";
 import DetectOcr from "./pages/DetectOcr";
 import AccountPage from "./pages/setting/AccountPage";
+import GetLogin from "./pages/GetLogin";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -80,12 +81,14 @@ const sampleData = [
 ];
 
 function App() {
+  const access = localStorage.getItem("Token");
   return (
     <>
       <Routes>
         <Route path="/login" element={<LogInPage />} />
+        <Route path="/getLogin" element={<GetLogin />} />
 
-        <Route element={<PrivateRoutes />}>
+        <Route element={<PrivateRoutes authenticated={access} />}>
           <Route path="/" element={<MainPage />} />
           <Route
             path="/collection"

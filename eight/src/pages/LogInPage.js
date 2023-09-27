@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SizedBox from "../components/Common/SizedBox";
 import logoImg from "../assets/logo/logo_main.png";
 import bgImg from "../assets/image/loginBg.png";
-import OAuthLogin from "../api/Login";
+import { OAuthLogin } from "../api/Login.apis";
 import loginBtn from "../assets/image/btn_google_signin_light_normal_web@2x.png";
 
 const LogInPage = () => {
