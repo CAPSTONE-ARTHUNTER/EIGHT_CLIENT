@@ -1,13 +1,7 @@
 import React from "react";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Outlet } from "react-router-dom";
-const PrivateRoutes = () => {
-  const clientId = process.env.REACT_APP_CLIENT_SECRET;
-  return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <Outlet />
-    </GoogleOAuthProvider>
-  );
+import { Navigate, Outlet } from "react-router-dom";
+const PrivateRoutes = ({ authenticated }) => {
+  return authenticated ? <Outlet /> : <Navigate to={"/login"} />;
 };
 
 export default PrivateRoutes;
