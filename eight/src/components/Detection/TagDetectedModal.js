@@ -22,11 +22,7 @@ const TagDetectedModal = ({ data, LB }) => {
               <typo.title.Title01 color={colors.white}>
                 {data.name}
               </typo.title.Title01>
-              <SizedBox Rheight={".2rem"} />
-              <typo.title.Title02 color={colors.white}>
-                {data.desc}
-              </typo.title.Title02>
-              <SizedBox Rheight={"1rem"} />
+              <SizedBox Rheight={"1.6rem"} />
             </TxtWrapper>
           </TxtBg>
         </Background>
