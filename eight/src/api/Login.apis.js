@@ -1,12 +1,13 @@
 import qs from "qs";
 import { serverAxios } from ".";
+import { useNavigate } from "react-router-dom";
 
 function createAuthUri() {
   const loginQueryString = qs.stringify({
     response_type: "code",
     client_id: process.env.REACT_APP_CLIENT_ID,
     // 배포시 수정
-    redirect_uri: "http://localhost:3000/getLogin",
+    redirect_uri: "http://localhost:3000/login/oauth2/code/google",
     scope:
       "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
   });
@@ -27,18 +28,19 @@ export function OAuthLogin() {
  * send code to backend server
  */
 export function OauthGetToken(code) {
+  const navigation = useNavigate();
   serverAxios
-    .post(`/app/login/google?code=${code}`)
+    .get(`/app/login/google?code=${code}`)
     .then((res) => {
-      console.log(res);
-      // token
-      // localStorage.setItem("Token", res.example~~~);
-      // navigate to '/'
+      localStorage.setItem("Token", res.data.data.accessToken);
       return true;
+    })
+    .then(() => {
+      navigation("/");
     })
     .catch((err) => {
       console.log(err);
-      // navigate to '/login'
+      navigation("/login");
       return false;
     });
 }

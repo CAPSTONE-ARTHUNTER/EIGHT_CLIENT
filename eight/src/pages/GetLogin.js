@@ -7,12 +7,7 @@ const GetLogin = () => {
   /** get code from URI */
   const parsed = qs.parse(window.location.search, { ignoreQueryPrefix: true });
 
-  // code 확인
-  console.log(parsed.code);
-
-  // OauthGetToken(parsed.code);
-
-  return <div>GetLogin</div>;
+  return <div>{OauthGetToken(parsed.code)}</div>;
 };
 
 export default GetLogin;
