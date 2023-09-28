@@ -81,14 +81,13 @@ const sampleData = [
 ];
 
 function App() {
-  const access = localStorage.getItem("Token");
   return (
     <>
       <Routes>
         <Route path="/login" element={<LogInPage />} />
-        <Route path="/getLogin" element={<GetLogin />} />
+        <Route path="/login/oauth2/code/google" element={<GetLogin />} />
 
-        <Route element={<PrivateRoutes authenticated={access} />}>
+        <Route element={<PrivateRoutes />}>
           <Route path="/" element={<MainPage />} />
           <Route
             path="/collection"
