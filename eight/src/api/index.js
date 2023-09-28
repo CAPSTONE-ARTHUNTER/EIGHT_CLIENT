@@ -30,5 +30,18 @@ const serverAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
+const serverLoggedAxios = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: localStorage.getItem("Token"),
+  },
+});
 
-export { translateAxios, detectionAxios, ttsAxios, serverAxios };
+export {
+  translateAxios,
+  detectionAxios,
+  ttsAxios,
+  serverAxios,
+  serverLoggedAxios,
+};

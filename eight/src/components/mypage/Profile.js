@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import userProfile from "../../assets/image/userProfile.png";
 import typo from "../../styles/typo";
+import { getUserProfile } from "../../api/Users.apis";
 
-const Profile = ({ userInfo }) => {
-  const userName = userInfo.userName;
-  const userEmail = userInfo.userEmail;
+const Profile = () => {
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    exp: 0,
+    id: 0,
+    name: "",
+    picture: userProfile,
+    socialType: "",
+  });
+
+  useEffect(() => {
+    getUserProfile().then((res) => {
+      setUserInfo(res);
+    });
+  }, []);
 
   return (
     <Container>
-      <img src={userProfile} className="profileImg" alt="pic" />
+      <img src={userInfo.picture} className="profileImg" alt="pic" />
       <TextGroup>
-        <typo.title.Title02>{userName}</typo.title.Title02>
-        <typo.body.Body02>{userEmail}</typo.body.Body02>
+        <typo.title.Title02>{userInfo.name}</typo.title.Title02>
+        <typo.body.Body02>{userInfo.email}</typo.body.Body02>
       </TextGroup>
     </Container>
   );
@@ -21,10 +34,10 @@ const Profile = ({ userInfo }) => {
 const Container = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 0.25rem;
 
   .profileImg {
-    width: 54px;
+    width: 3rem;
     padding: 10px;
   }
 `;
