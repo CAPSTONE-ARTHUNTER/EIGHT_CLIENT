@@ -13,19 +13,19 @@ import TagDetectedModal from "../components/Detection/TagDetectedModal";
 import testImage from "../assets/image/Inwang.jpg";
 import { t } from "i18next";
 import NotiModal from "../components/Common/NotiModal";
+import { serverTagRecognize } from "../api/Artwork.apis";
 
 function DetectOcr() {
   const camera = useRef(null);
   const [image, setImage] = useState();
   const location = useLocation().pathname;
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [foundModal, setFoundModal] = useState(true);
-  const [notFoundModal, setNotFoundModal] = useState(true);
-  const sampleTextDetectionData = {
+  const [foundModal, setFoundModal] = useState(false);
+  const [notFoundModal, setNotFoundModal] = useState(false);
+  const [tagDetectedData, setTagDetectedData] = useState({
     image: testImage,
     name: "예시데이터",
-    desc: "예시데이터설명",
-  };
+  });
   //detection page가 아니면 cam close
   useEffect(() => {
     if (location !== "/detection") {
@@ -50,9 +50,25 @@ function DetectOcr() {
           },
         ],
       };
-      PostOcrImg(ocrImgData).then((res) =>
-        console.log(res.data.responses[0].fullTextAnnotation.text)
-      );
+      PostOcrImg(ocrImgData).then((res) => {
+        console.log(res.data.responses[0].fullTextAnnotation.text);
+        const data = {
+          text: res.data.responses[0].fullTextAnnotation.text,
+        };
+        serverTagRecognize(data).then((res) => {
+          // console.log(res.data);
+
+          // 발견한 경우 아닌 경우 구분 필요
+
+          if (res.data.name) {
+            setTagDetectedData({
+              image: testImage,
+              name: res.data.name,
+            });
+            setFoundModal(true);
+          }
+        });
+      });
       cleanArray();
     }
   }, [image]);
@@ -89,10 +105,7 @@ function DetectOcr() {
 
         {/* 태그 검색 성공시 모달 */}
         {foundModal ? (
-          <TagDetectedModal
-            data={sampleTextDetectionData}
-            LB={closeFoundModal}
-          />
+          <TagDetectedModal data={tagDetectedData} LB={closeFoundModal} />
         ) : null}
         <SizedBox height={90} />
         <CamContainer>
