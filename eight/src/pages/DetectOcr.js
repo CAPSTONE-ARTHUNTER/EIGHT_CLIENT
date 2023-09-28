@@ -51,23 +51,30 @@ function DetectOcr() {
         ],
       };
       PostOcrImg(ocrImgData).then((res) => {
-        console.log(res.data.responses[0].fullTextAnnotation.text);
-        const data = {
-          text: res.data.responses[0].fullTextAnnotation.text,
-        };
-        serverTagRecognize(data).then((res) => {
-          // console.log(res.data);
+        // ocr 결과 있는 경우
+        if (res.data.responses[0].textAnnotations) {
+          console.log(res.data.responses[0].fullTextAnnotation.text);
+          const data = {
+            text: res.data.responses[0].fullTextAnnotation.text,
+          };
+          serverTagRecognize(data).then((res) => {
+            // console.log(res.data);
 
-          // 발견한 경우 아닌 경우 구분 필요
+            // 발견한 경우 아닌 경우 구분 필요
 
-          if (res.data.name) {
-            setTagDetectedData({
-              image: testImage,
-              name: res.data.name,
-            });
-            setFoundModal(true);
-          }
-        });
+            if (res.data.name) {
+              setTagDetectedData({
+                image: testImage,
+                name: res.data.name,
+              });
+              setFoundModal(true);
+            }
+          });
+        } else {
+          // ocr 결과 없을 경우 실패 모달
+          console.log("no text");
+          return setNotFoundModal(true);
+        }
       });
       cleanArray();
     }
