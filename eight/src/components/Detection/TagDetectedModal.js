@@ -8,9 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 const TagDetectedModal = ({ data, LB }) => {
   const navigate = useNavigate();
-  const handleRB = () => {
-    navigate("/");
-  };
   return (
     <ScreenBg>
       <Container>
@@ -27,7 +24,12 @@ const TagDetectedModal = ({ data, LB }) => {
           </TxtBg>
         </Background>
         <SizedBox Rheight={"3rem"} />
-        <TwoBtn LB={LB} RB={handleRB} />
+        <TwoBtn
+          LB={LB}
+          RB={() => {
+            navigate(`/docent/${data.id}`, { state: { prevPage: "detect" } });
+          }}
+        />
       </Container>
     </ScreenBg>
   );

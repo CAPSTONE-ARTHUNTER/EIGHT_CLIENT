@@ -23,6 +23,7 @@ function DetectOcr() {
   const [foundModal, setFoundModal] = useState(false);
   const [notFoundModal, setNotFoundModal] = useState(false);
   const [tagDetectedData, setTagDetectedData] = useState({
+    id: -1,
     image: testImage,
     name: "예시데이터",
   });
@@ -58,12 +59,13 @@ function DetectOcr() {
             text: res.data.responses[0].fullTextAnnotation.text,
           };
           serverTagRecognize(data).then((res) => {
-            // console.log(res.data);
+            // console.log(res);
 
             // 발견한 경우 아닌 경우 구분 필요
 
             if (res.data.name) {
               setTagDetectedData({
+                id: res.data.id,
                 image: testImage,
                 name: res.data.name,
               });
