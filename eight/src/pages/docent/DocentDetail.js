@@ -113,9 +113,11 @@ const DocentDetail = ({ artInfo }) => {
   }, [audioData]);
 
   useEffect(() => {
-    if (isAudioPlaying === true && audio.currentSrc) {
-      audio.play();
-    }
+    setTimeout(() => {
+      if (isAudioPlaying === true && audio.currentSrc) {
+        audio.play();
+      }
+    }, 500);
   }, [audio]);
 
   useEffect(() => {
