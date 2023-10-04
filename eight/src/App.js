@@ -23,11 +23,11 @@ const lngs = {
 
 const sampleData = [
   {
-    name: "파교심매도",
+    name: "인왕제색도",
     id: 1,
     solvedGage: 2,
     entireGage: 4,
-    desc: "파교심매도에 대한 짧은 설명",
+    desc: "인왕제색도에 대한 짧은 설명",
     quest: [
       {
         id: 123,
