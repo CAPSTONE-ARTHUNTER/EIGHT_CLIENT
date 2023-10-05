@@ -11,12 +11,12 @@ import { useQuery } from "react-query";
 const PartPageBtn = ({ artInfo, prevPage }) => {
   const navigate = useNavigate();
   const content = useQuery(
-    [`docent_btn_${artInfo.id}`],
-    () => translate(artInfo.content, i18n.language),
+    [`docent_btn_${artInfo}`],
+    () => translate(artInfo.name, i18n.language),
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language !== "ko",
+      enabled: i18n.language === "en",
     }
   );
 
@@ -40,13 +40,13 @@ const PartPageBtn = ({ artInfo, prevPage }) => {
       borderColor={borderColor}
       bgColor={bgColor}
       onClick={() => {
-        navigate(`detail/${artInfo.id}`, { state: { prevPage: prevPage } });
+        navigate(`detail/${artInfo.partId}`, { state: { prevPage: prevPage } });
       }}
     >
       <PuzzleIco fill={puzzleColor} />
       <TitleBox>
         <typo.body.Body01>
-          {i18n.language === "ko" ? artInfo.content : content.data}
+          {i18n.language === "en" ? content.data : artInfo.name}
         </typo.body.Body01>
       </TitleBox>
     </Background>

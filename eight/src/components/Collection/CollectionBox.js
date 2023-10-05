@@ -26,12 +26,12 @@ const CollectionBox = ({ found, num }) => {
 };
 const Background = styled.div`
   display: flex;
-  width: 104px;
-  height: 104px;
+  width: 32%;
+  height: 7rem;
   justify-content: center;
   align-items: center;
   background-color: ${colors.beige};
-  border-radius: 8px;
+  border-radius: 0.5rem;
 
   background-image: url(${(props) => props.backImg});
   background-size: cover;

@@ -73,9 +73,9 @@ const Collection = ({ sampleData }) => {
 
 const CollectionBoxWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  row-gap: 0.5rem;
 `;
 
 const ChallengeBoxWrapper = styled.div`

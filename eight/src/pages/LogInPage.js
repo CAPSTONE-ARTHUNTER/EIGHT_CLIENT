@@ -3,23 +3,25 @@ import styled from "styled-components";
 import SizedBox from "../components/Common/SizedBox";
 import logoImg from "../assets/logo/logo_main.png";
 import bgImg from "../assets/image/loginBg.png";
-import GoogleSignInBtn from "../components/Common/GoogleSignInBtn";
-// import { useState } from "react";
+import { OAuthLogin } from "../api/Login.apis";
+import loginBtn from "../assets/image/btn_google_signin_light_normal_web@2x.png";
 
 const LogInPage = () => {
-  // const [userInfo, setUserInfo] = useState();
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <BackGround>
       <img src={bgImg} className="bgImg" alt="background" />
-      {/* image & input */}
       <UpperSide>
         <SizedBox Rheight={"5rem"} />
         <img src={logoImg} className="logoImg" alt="logo" />
         <SizedBox Rheight={"5rem"} />
       </UpperSide>
       <div>
-        <GoogleSignInBtn />
+        <img
+          src={loginBtn}
+          alt="login button"
+          onClick={OAuthLogin}
+          style={{ width: "60%" }}
+        />
         <SizedBox Rheight={"6rem"} />
       </div>
     </BackGround>
@@ -32,6 +34,7 @@ const BackGround = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  text-align: center;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
 

@@ -12,18 +12,21 @@ import { PostOcrImg } from "../api/GoogleOcr.apis";
 import TagDetectedModal from "../components/Detection/TagDetectedModal";
 import testImage from "../assets/image/Inwang.jpg";
 import { t } from "i18next";
+import NotiModal from "../components/Common/NotiModal";
+import { serverTagRecognize } from "../api/Artwork.apis";
 
 function DetectOcr() {
   const camera = useRef(null);
   const [image, setImage] = useState();
   const location = useLocation().pathname;
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [foundModal, setFoundModal] = useState(true);
-  const sampleTextDetectionData = {
+  const [foundModal, setFoundModal] = useState(false);
+  const [notFoundModal, setNotFoundModal] = useState(false);
+  const [tagDetectedData, setTagDetectedData] = useState({
+    id: -1,
     image: testImage,
     name: "예시데이터",
-    desc: "예시데이터설명",
-  };
+  });
   //detection page가 아니면 cam close
   useEffect(() => {
     if (location !== "/detection") {
@@ -48,9 +51,33 @@ function DetectOcr() {
           },
         ],
       };
-      PostOcrImg(ocrImgData).then((res) =>
-        console.log(res.data.responses[0].fullTextAnnotation.text)
-      );
+      PostOcrImg(ocrImgData).then((res) => {
+        // ocr 결과 있는 경우
+        if (res.data.responses[0].textAnnotations) {
+          console.log(res.data.responses[0].fullTextAnnotation.text);
+          const data = {
+            text: res.data.responses[0].fullTextAnnotation.text,
+          };
+          serverTagRecognize(data).then((res) => {
+            // console.log(res);
+
+            // 발견한 경우 아닌 경우 구분 필요
+
+            if (res.data.name) {
+              setTagDetectedData({
+                id: res.data.id,
+                image: testImage,
+                name: res.data.name,
+              });
+              setFoundModal(true);
+            }
+          });
+        } else {
+          // ocr 결과 없을 경우 실패 모달
+          console.log("no text");
+          return setNotFoundModal(true);
+        }
+      });
       cleanArray();
     }
   }, [image]);
@@ -67,16 +94,27 @@ function DetectOcr() {
     console.log("capture");
   }
 
-  function closeModal() {
+  function closeFoundModal() {
     setFoundModal(false);
+  }
+  function closeNotFoundModal() {
+    setNotFoundModal(false);
   }
 
   return (
     <Layout text={t("header.detectionPage")}>
       <Container>
+        {/* 태그 검색 실패시 모달 */}
+        {notFoundModal ? (
+          <NotiModal
+            text={t("DocentPage.Cam.fail")}
+            onClick={closeNotFoundModal}
+          />
+        ) : null}
+
         {/* 태그 검색 성공시 모달 */}
         {foundModal ? (
-          <TagDetectedModal data={sampleTextDetectionData} LB={closeModal} />
+          <TagDetectedModal data={tagDetectedData} LB={closeFoundModal} />
         ) : null}
         <SizedBox height={90} />
         <CamContainer>

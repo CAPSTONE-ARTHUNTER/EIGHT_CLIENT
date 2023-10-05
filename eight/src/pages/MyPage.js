@@ -9,15 +9,10 @@ import { useTranslation } from "react-i18next";
 
 const MyPage = () => {
   const { t } = useTranslation();
-  // 샘플
-  const exampleData = {
-    userName: "rryu09",
-    userEmail: "rryu09@ewhain.net",
-  };
   return (
     <Layout text={t("header.myPage")}>
       <SizedBox Rheight={"1.25rem"} />
-      <Profile userInfo={exampleData} />
+      <Profile />
       <SizedBox Rheight={"0.75rem"} />
       <PartitionLine />
       <SizedBox Rheight={"0.75rem"} />

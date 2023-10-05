@@ -10,7 +10,8 @@ const ttsAxios = axios.create({
   baseURL: `https://texttospeech.googleapis.com`,
   headers: {
     "Content-Type": "application/json",
-  },  params: {
+  },
+  params: {
     key: process.env.REACT_APP_GOOGLE_API_KEY,
   },
 });
@@ -23,5 +24,24 @@ const detectionAxios = axios.create({
     api_key: process.env.REACT_APP_ROBOFLOW_API, //env처리
   },
 });
+const serverAxios = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+const serverLoggedAxios = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: localStorage.getItem("Token"),
+  },
+});
 
-export { translateAxios, detectionAxios, ttsAxios };
+export {
+  translateAxios,
+  detectionAxios,
+  ttsAxios,
+  serverAxios,
+  serverLoggedAxios,
+};

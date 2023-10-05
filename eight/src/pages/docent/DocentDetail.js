@@ -42,7 +42,7 @@ const DocentDetail = ({ artInfo }) => {
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language !== "ko",
+      enabled: i18n.language === "en",
     }
   );
   const translatedContentData = useQuery(
@@ -51,7 +51,7 @@ const DocentDetail = ({ artInfo }) => {
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language !== "ko",
+      enabled: i18n.language === "en",
     }
   );
 
@@ -113,9 +113,11 @@ const DocentDetail = ({ artInfo }) => {
   }, [audioData]);
 
   useEffect(() => {
-    if (isAudioPlaying === true && audio.currentSrc) {
-      audio.play();
-    }
+    setTimeout(() => {
+      if (isAudioPlaying === true && audio.currentSrc) {
+        audio.play();
+      }
+    }, 500);
   }, [audio]);
 
   useEffect(() => {
@@ -178,9 +180,9 @@ const DocentDetail = ({ artInfo }) => {
           <PuzzleIco fill={colors.brown} />
           <SizedBox Rheight={".5rem"} />
           <typo.body.Body01>
-            {i18n.language === "ko"
-              ? artPageDetailInfo.content
-              : translatedHeaderData.data}
+            {i18n.language === "en"
+              ? translatedHeaderData.data
+              : artPageDetailInfo.content}
           </typo.body.Body01>
         </TopBox>
         <SizedBox Rheight={"2rem"} />
@@ -264,18 +266,18 @@ const DocentDetail = ({ artInfo }) => {
             </TouchArea>
             <SizedBox Rwidth={"0.5rem"} />
             <typo.body.Body02>
-              {i18n.language === "ko"
-                ? artPageDetailInfo.content
-                : translatedHeaderData.data}
+              {i18n.language === "en"
+                ? translatedHeaderData.data
+                : artPageDetailInfo.content}
             </typo.body.Body02>
           </RowWrapper>
           <SizedBox Rheight={"1rem"} />
 
           {/* 텍스트 바디 */}
           <typo.body.DocentContent>
-            {i18n.language === "ko"
-              ? artPageDetailInfo.contentDetail
-              : translatedContentData.data}
+            {i18n.language === "en"
+              ? translatedContentData.data
+              : artPageDetailInfo.contentDetail}
           </typo.body.DocentContent>
         </TxtBox>
         <SizedBox Rheight={"5rem"} />

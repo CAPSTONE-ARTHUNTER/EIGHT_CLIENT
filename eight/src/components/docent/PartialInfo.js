@@ -27,12 +27,12 @@ const PartialInfo = ({
 }) => {
   const { i18n } = useTranslation();
   const translatedData = useQuery(
-    [`translation_${idx}`],
+    [`translation_${artInfo.id}`],
     () => translate(artInfo.contentDetail, i18n.language),
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language !== "ko",
+      enabled: i18n.language === "en",
     }
   );
   function ttsConfig() {
@@ -132,9 +132,9 @@ const PartialInfo = ({
                   </BlockWindow>
                 )}
                 <typo.body.DocentContent>
-                  {i18n.language === "ko"
-                    ? artInfo.contentDetail
-                    : translatedData.data}
+                  {i18n.language === "en"
+                    ? translatedData.data
+                    : artInfo.contentDetail}
                 </typo.body.DocentContent>
               </BodyBox>
             </ColWrapper>
@@ -146,9 +146,9 @@ const PartialInfo = ({
         // 전체 해설
         <div style={{ paddingLeft: ".6rem", paddingRight: ".6rem" }}>
           <typo.body.DocentContent>
-            {i18n.language === "ko"
-              ? artInfo.contentDetail
-              : translatedData.data}
+            {i18n.language === "en"
+              ? translatedData.data
+              : artInfo.contentDetail}
           </typo.body.DocentContent>
           <SizedBox Rheight={"2rem"} />
         </div>
