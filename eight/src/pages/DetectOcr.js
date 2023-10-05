@@ -59,22 +59,23 @@ function DetectOcr() {
             text: res.data.responses[0].fullTextAnnotation.text,
           };
           serverTagRecognize(data).then((res) => {
-            // console.log(res);
-
-            // 발견한 경우 아닌 경우 구분 필요
-
-            if (res.data.name) {
+            if (res.data.error === null) {
+              // 발견한 경우
               setTagDetectedData({
                 id: res.data.id,
                 image: testImage,
                 name: res.data.name,
               });
               setFoundModal(true);
+            } else {
+              // 서버에서 결과 못 찾은 경우
+              console.log("no res - server");
+              return setNotFoundModal(true);
             }
           });
         } else {
           // ocr 결과 없을 경우 실패 모달
-          console.log("no text");
+          console.log("no text - ocr");
           return setNotFoundModal(true);
         }
       });
