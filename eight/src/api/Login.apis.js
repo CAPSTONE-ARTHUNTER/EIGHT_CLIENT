@@ -7,7 +7,7 @@ function createAuthUri() {
     response_type: "code",
     client_id: process.env.REACT_APP_CLIENT_ID,
     // 배포시 수정
-    redirect_uri: "http://localhost:3000/login/oauth2/code/google",
+    redirect_uri: "https://capstone-eight.netlify.app/login/oauth2/code/google",
     scope:
       "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
   });
@@ -32,7 +32,9 @@ export function OauthGetToken(code) {
   serverAxios
     .get(`/app/login/google?code=${code}`)
     .then((res) => {
+      console.log(res);
       localStorage.setItem("Token", res.data.data.accessToken);
+      localStorage.setItem("RefreshToken", res.data.data.refreshToken);
       return true;
     })
     .then(() => {
@@ -42,5 +44,22 @@ export function OauthGetToken(code) {
       console.log(err);
       navigation("/login");
       return false;
+    });
+}
+export function OauthGetRefresh() {
+  const navigation = useNavigate();
+  serverAxios
+    .post(`/app/auth/refresh`, {
+      refreshToken: localStorage.getItem("RefreshToken").slice(7),
+    })
+    .then((res) => {
+      localStorage.setItem("Token", res.data.accessToken);
+      localStorage.setItem("RefreshToken", res.data.refreshToken);
+      console.log(res);
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+      navigation("/login");
     });
 }
