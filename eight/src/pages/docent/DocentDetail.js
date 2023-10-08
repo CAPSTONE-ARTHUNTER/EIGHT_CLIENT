@@ -15,8 +15,9 @@ import i18n from "../../i18n";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 import AudioBtn from "../../components/docent/AudioBtn";
+import { serverLoggedAxios } from "../../api";
 
-const DocentDetail = ({ artInfo }) => {
+const DocentDetail = () => {
   const { artId } = useParams();
   const { detailId } = useParams();
 
@@ -26,19 +27,27 @@ const DocentDetail = ({ artInfo }) => {
   const { t } = useTranslation();
   const [artImgHeight, setArtImageHeight] = useState(0);
   const navigate = useNavigate();
-  const artPageInfo = artInfo.find((item) => item.id == artId);
-  const artPageDetailInfo = artPageInfo.quest.find(
-    (item) => item.id == detailId
-  );
   const handleImageLoad = (event) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
   };
 
+  const docentDetailPageInfo = useQuery(
+    `docentDetailPageInfo_${artId}_${detailId}`,
+    () =>
+      serverLoggedAxios.get(`/app/artwork/parts/details/${artId}/${detailId}`),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: true,
+    }
+  );
+
   //translate
   const translatedHeaderData = useQuery(
-    [`translation_header_${artPageDetailInfo.id}`],
-    () => translate(artPageDetailInfo.content, i18n.language),
+    [`translation_header_${artId}_${detailId}`],
+    () =>
+      translate(docentDetailPageInfo.data.data.data.partName, i18n.language),
     {
       staleTime: 300000,
       cacheTime: Infinity,
@@ -46,8 +55,12 @@ const DocentDetail = ({ artInfo }) => {
     }
   );
   const translatedContentData = useQuery(
-    [`translation_content_${artPageDetailInfo.id}`],
-    () => translate(artPageDetailInfo.contentDetail, i18n.language),
+    [`translation_content_${artId}_${detailId}`],
+    () =>
+      translate(
+        docentDetailPageInfo.data.data.data.partDescription,
+        i18n.language
+      ),
     {
       staleTime: 300000,
       cacheTime: Infinity,
@@ -66,7 +79,7 @@ const DocentDetail = ({ artInfo }) => {
     // tts
     let content, voicelngCode, voiceName;
     if (i18n.language === "ko") {
-      content = artPageDetailInfo.contentDetail;
+      content = docentDetailPageInfo.data.data.data.partDescription;
       voicelngCode = "ko-KR";
       voiceName = "ko-KR-Neural2-B";
     } else if (i18n.language === "en") {
@@ -131,158 +144,147 @@ const DocentDetail = ({ artInfo }) => {
     audio.pause();
   });
 
-  const exData = {
-    elements: [
-      {
-        id: "1",
-        point: "30,20", //"x,y"
-        isSolved: true,
-      },
-      {
-        id: "2",
-        point: "30,60",
-        isSolved: true,
-      },
-      {
-        id: "3",
-        point: "90,10",
-        isSolved: false,
-      },
-      {
-        id: "4",
-        point: "10,75",
-        isSolved: true,
-      },
-    ],
-    element_solved_num: 3, //요소 찾은 개수
-    element_num: 4, //요소 전체 개수
-  };
-
   return (
-    <Layout text={artPageInfo.name}>
-      {/* 하단 오디오 탭 */}
-      {audioData ? (
-        // audio 존재하는 경우에만 AudioBtn 표시
-        <AudioBtn
-          setPlaybackSpeed={setPlaybackSpeed}
-          playbackSpeed={playbackSpeed}
-          isPlaying={isAudioPlaying}
-          setIsAudioPlaying={setIsAudioPlaying}
-          handleAudioPlay={handleAudioPlay}
-          audio={audio}
-        />
+    <>
+      {docentDetailPageInfo.isLoading ? (
+        <typo.title.Title01>Loading...</typo.title.Title01>
       ) : null}
-      <SizedBox Rheight={"1.5rem"} />
 
-      <ColWrapper>
-        {/* 퍼즐모양 */}
-        <TopBox>
-          <PuzzleIco fill={colors.brown} />
-          <SizedBox Rheight={".5rem"} />
-          <typo.body.Body01>
-            {i18n.language === "en"
-              ? translatedHeaderData.data
-              : artPageDetailInfo.content}
-          </typo.body.Body01>
-        </TopBox>
-        <SizedBox Rheight={"2rem"} />
-      </ColWrapper>
-
-      {/* 이미지 */}
-      <ColWrapper>
-        <ImgWrapper>
-          {/* point 표시 */}
-          {exData.elements.map((ele) => {
-            const pointLocation = ele.point.split(",");
-            return (
-              <PointLocation
-                key={ele.id + "point"}
-                left={pointLocation[0]}
-                top={pointLocation[1]}
-              >
-                <PointIco fill={ele.isSolved ? colors.orange : colors.white} />
-              </PointLocation>
-            );
-          })}
-          <img
-            src={inwang}
-            alt="art"
-            className="artImg"
-            onLoad={handleImageLoad}
-          />
-        </ImgWrapper>
-        <SizedBox height={artImgHeight} />
-        <SizedBox Rheight={"2rem"} />
-      </ColWrapper>
-
-      {/* 수집한 부분 수 표시 */}
-      <ColWrapper>
-        {/* 세부정보 받아와 처리 */}
-        <RowWrapper style={{ gap: "0.75rem" }}>
-          {exData.elements.map((ele) => {
-            return <Dot key={ele.id + "dot"} solved={ele.isSolved} />;
-          })}
-        </RowWrapper>
-        <SizedBox Rheight={".75rem"} />
-        <typo.body.Body02>
-          {exData.element_solved_num}/{exData.element_num}
-        </typo.body.Body02>
-        <SizedBox Rheight={"1.5rem"} />
-
-        <TxtBox>
-          {prevPage === "search" ? null : (
-            <WideBtn
-              text={t("DocentPage.Detail.btnTxt")}
-              onClick={() => {
-                navigate("detect");
-              }}
+      {docentDetailPageInfo.isFetched ? (
+        <Layout text={docentDetailPageInfo.data.data.data.partName}>
+          {/* 하단 오디오 탭 */}
+          {audioData ? (
+            // audio 존재하는 경우에만 AudioBtn 표시
+            <AudioBtn
+              setPlaybackSpeed={setPlaybackSpeed}
+              playbackSpeed={playbackSpeed}
+              isPlaying={isAudioPlaying}
+              setIsAudioPlaying={setIsAudioPlaying}
+              handleAudioPlay={handleAudioPlay}
+              audio={audio}
             />
-          )}
+          ) : null}
+          <SizedBox Rheight={"1.5rem"} />
 
-          <SizedBox Rheight={"1.2rem"} />
+          <ColWrapper>
+            {/* 퍼즐모양 */}
+            <TopBox>
+              <PuzzleIco fill={colors.brown} />
+              <SizedBox Rheight={".5rem"} />
+              <typo.body.Body01>
+                {i18n.language === "en"
+                  ? translatedHeaderData.data
+                  : docentDetailPageInfo.data.data.data.partName}
+              </typo.body.Body01>
+            </TopBox>
+            <SizedBox Rheight={"2rem"} />
+          </ColWrapper>
 
-          {/* 텍스트 제목 */}
-          <RowWrapper>
-            {/* <PointIco fill={colors.orange} /> */}
-            <TouchArea
-              onClick={async () => {
-                if (audioId !== artPageDetailInfo.id) {
-                  // google tts
-                  await ttsTransform(ttsConfig()).then((res) => {
-                    console.log("ttsTransform: ", res);
-                    // 부분 id로 설정 (현재 재생 중인 소스 식별)
-                    setAudioId(artPageDetailInfo.id);
-                    setAudioData({ data: res.data.audioContent });
-                  });
-                }
-                handleAudioPlay();
-              }}
-            >
-              {isAudioPlaying && audioId === artPageDetailInfo.id ? (
-                <PauseIco />
-              ) : (
-                <PlayIco />
-              )}
-            </TouchArea>
-            <SizedBox Rwidth={"0.5rem"} />
+          {/* 이미지 */}
+          <ColWrapper>
+            <ImgWrapper>
+              {/* point 표시 */}
+              {docentDetailPageInfo.data.data.data.elementList.map((ele) => {
+                const pointLocation = ele.point.split(", ");
+                return (
+                  <PointLocation
+                    key={ele.id + "point"}
+                    left={pointLocation[0]}
+                    top={pointLocation[1]}
+                  >
+                    <PointIco
+                      fill={ele.solved ? colors.orange : colors.white}
+                    />
+                  </PointLocation>
+                );
+              })}
+              <img
+                src={inwang}
+                alt="art"
+                className="artImg"
+                onLoad={handleImageLoad}
+              />
+            </ImgWrapper>
+            <SizedBox height={artImgHeight} />
+            <SizedBox Rheight={"2rem"} />
+          </ColWrapper>
+
+          {/* 수집한 부분 수 표시 */}
+          <ColWrapper>
+            {/* 세부정보 받아와 처리 */}
+            <RowWrapper style={{ gap: "0.75rem" }}>
+              {docentDetailPageInfo.data.data.data.elementList.map((ele) => {
+                return <Dot key={ele.id + "dot"} solved={ele.solved} />;
+              })}
+            </RowWrapper>
+            <SizedBox Rheight={".75rem"} />
             <typo.body.Body02>
-              {i18n.language === "en"
-                ? translatedHeaderData.data
-                : artPageDetailInfo.content}
+              {docentDetailPageInfo.data.data.data.elementSolvedNum}/
+              {docentDetailPageInfo.data.data.data.elementNum}
             </typo.body.Body02>
-          </RowWrapper>
-          <SizedBox Rheight={"1rem"} />
+            <SizedBox Rheight={"1.5rem"} />
 
-          {/* 텍스트 바디 */}
-          <typo.body.DocentContent>
-            {i18n.language === "en"
-              ? translatedContentData.data
-              : artPageDetailInfo.contentDetail}
-          </typo.body.DocentContent>
-        </TxtBox>
-        <SizedBox Rheight={"5rem"} />
-      </ColWrapper>
-    </Layout>
+            <TxtBox>
+              {prevPage === "search" ? null : (
+                <WideBtn
+                  text={t("DocentPage.Detail.btnTxt")}
+                  onClick={() => {
+                    navigate("detect");
+                  }}
+                />
+              )}
+
+              <SizedBox Rheight={"1.2rem"} />
+
+              {/* 텍스트 제목 */}
+              <RowWrapper>
+                {/* <PointIco fill={colors.orange} /> */}
+                <TouchArea
+                  onClick={async () => {
+                    // ❌❌❌❌❌❌❌❌❌❌❌❌❌❌
+
+                    if (
+                      audioId !== docentDetailPageInfo.data.data.data.relicId
+                    ) {
+                      // google tts
+                      await ttsTransform(ttsConfig()).then((res) => {
+                        console.log("ttsTransform: ", res);
+                        // 부분 id로 설정 (현재 재생 중인 소스 식별)
+                        setAudioId(docentDetailPageInfo.data.data.data.relicId);
+                        setAudioData({ data: res.data.audioContent });
+                      });
+                    }
+                    handleAudioPlay();
+                  }}
+                >
+                  {isAudioPlaying &&
+                  audioId === docentDetailPageInfo.data.data.data.relicId ? (
+                    <PauseIco />
+                  ) : (
+                    <PlayIco />
+                  )}
+                </TouchArea>
+                <SizedBox Rwidth={"0.5rem"} />
+                <typo.body.Body02>
+                  {i18n.language === "en"
+                    ? translatedHeaderData.data
+                    : docentDetailPageInfo.data.data.data.partName}
+                </typo.body.Body02>
+              </RowWrapper>
+              <SizedBox Rheight={"1rem"} />
+
+              {/* 텍스트 바디 */}
+              <typo.body.DocentContent>
+                {i18n.language === "en"
+                  ? translatedContentData.data
+                  : docentDetailPageInfo.data.data.data.partDescription}
+              </typo.body.DocentContent>
+            </TxtBox>
+            <SizedBox Rheight={"5rem"} />
+          </ColWrapper>
+        </Layout>
+      ) : null}
+    </>
   );
 };
 
