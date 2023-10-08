@@ -34,9 +34,56 @@ const serverLoggedAxios = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
   headers: {
     "Content-Type": "application/json",
-    Authorization: localStorage.getItem("Token"),
   },
 });
+
+const getRefreshToken = async () => {
+  try {
+    const res = await serverAxios.post(`/app/auth/refresh`, {
+      refreshToken: localStorage.getItem("RefreshToken").slice(7),
+    });
+    console.log(res);
+    localStorage.setItem("Token", res.data.data.accessToken);
+    localStorage.setItem("RefreshToken", res.data.data.refreshToken);
+  } catch (err) {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  }
+};
+
+// set token to header
+serverLoggedAxios.interceptors.request.use((config) => {
+  let token = localStorage.getItem("Token");
+  if (token !== null && token !== undefined) {
+    config.headers.Authorization = token;
+  } else {
+    console.log("token is null or undefined");
+  }
+  return config;
+});
+
+// refresh accessToken if expired
+serverLoggedAxios.interceptors.response.use(
+  (res) => {
+    console.log(res.status, "serverLoggedAxios");
+    return res;
+  },
+  async (err) => {
+    const { config, response } = err;
+    console.log(response.status);
+    // if (response.status !== 401 || config.sent) {
+    //   return Promise.reject(err);
+    // }
+    if (response.status === 401) {
+      config.sent = true;
+      const accessToken = await getRefreshToken();
+      if (accessToken) {
+        config.headers.Authorization = accessToken;
+      }
+      return axios(config);
+    }
+  }
+);
 
 export {
   translateAxios,
