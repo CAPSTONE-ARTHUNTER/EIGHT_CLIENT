@@ -2,15 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { detect } from "../../api/Detection.apis";
 import CamComponent from "../../components/Detection/CamComponent";
 import CaptureBtn from "../../components/Detection/Button/CaptureBtn";
 import typo from "../../styles/typo";
 import SizedBox from "../../components/Common/SizedBox";
 import Target from "../../components/Detection/Target";
-import testImage from "../../assets/image/Inwang.jpg";
 import FoundBottomModal from "../../components/Detection/FoundBottomModal";
+import { useQuery } from "react-query";
+import { serverLoggedAxios } from "../../api";
+import NotiModal from "../../components/Common/NotiModal";
+import { t } from "i18next";
 
 const DocentCam = () => {
   const camera = useRef(null);
@@ -19,11 +22,12 @@ const DocentCam = () => {
   const [detected, setDetected] = useState([]);
   const [detectState, setDetectState] = useState("Detect");
   const [currentState, setCurrentState] = useState({
-    idx: null,
+    id: null,
     name: null,
     image: null,
     solved: null,
   });
+  const [notFoundModal, setNotFoundModal] = useState(false);
   const [foundModalOpen, setFoundModalOpen] = useState(false);
 
   const detectionState = {
@@ -35,48 +39,17 @@ const DocentCam = () => {
     error: "error",
   };
 
-  const SampleCollectData = [
-    {
-      solved_element_id: 1,
-      is_solved: true,
-      solved_at: "1995-12-17T03:24:00",
-      element_id: 1,
-      user_id: 1234,
+  const { artId, detailId } = useParams();
 
-      name: "giro_peach_clothing",
-      image: testImage,
-    },
+  const docentCamPageInfo = useQuery(
+    `docentCamPageInfo_${artId}_${detailId}`,
+    () => serverLoggedAxios.get(`/app/artwork/elements/${artId}/${detailId}`),
     {
-      solved_element_id: 2,
-      is_solved: false,
-      solved_at: "1995-12-17T03:24:00",
-      element_id: 2,
-      user_id: 1235,
-
-      name: "inwang_house",
-      image: testImage,
-    },
-    {
-      solved_element_id: 3,
-      is_solved: true,
-      solved_at: "1995-12-17T03:24:00",
-      element_id: 3,
-      user_id: 1236,
-
-      name: "lid",
-      image: testImage,
-    },
-    {
-      solved_element_id: 4,
-      is_solved: false,
-      solved_at: "1995-12-17T03:24:00",
-      element_id: 4,
-      user_id: 1237,
-
-      name: "inwang_train_rock",
-      image: testImage,
-    },
-  ];
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: true,
+    }
+  );
 
   //detect page가 아니면 cam close
   useEffect(() => {
@@ -90,11 +63,6 @@ const DocentCam = () => {
       infer();
     }
   }, [image]);
-
-  // 감지된 결과가 찾으려는 부분 이름과 일치하면 발견 모달 띄우기
-  useEffect(() => {
-    handleModal();
-  }, [detected]);
 
   var infer = async function () {
     setDetectState(detectionState.ongoing);
@@ -126,10 +94,12 @@ const DocentCam = () => {
               }
               return DetectedList;
             });
+            handleModal();
           } else {
             // 결과 없는 경우
             setDetected([]);
             setDetectState(detectionState.noresult);
+            setNotFoundModal(true);
           }
         })
         .catch(function (error) {
@@ -153,6 +123,7 @@ const DocentCam = () => {
     setImage(photoTaken);
   }
 
+  /** 감지된 결과가 찾으려는 부분 이름과 일치하면 발견 모달 띄우기 */
   function handleModal() {
     const sameRes = detected.filter((data) => data === currentState.name);
     if (sameRes.length !== 0) {
@@ -163,79 +134,99 @@ const DocentCam = () => {
       console.log("no same res");
     }
   }
+  function closeNotiModal() {
+    setNotFoundModal(false);
+  }
   return (
-    <Background>
-      {foundModalOpen ? (
-        <FoundBottomModal
-          setFoundModalOpen={setFoundModalOpen}
-          image={currentState.image}
-          partTitle={currentState.name}
-        />
+    <>
+      {docentCamPageInfo.isLoading ? (
+        <typo.title.Title01>Loading...</typo.title.Title01>
       ) : null}
-      <Layout text="DocentCam">
-        <Container>
-          <CamContainer>
-            <CamComponent
-              detected={detected}
-              detectState={detectState}
-              camera={camera}
+
+      {docentCamPageInfo.isFetched ? (
+        <Background>
+          {/* 태그 검색 실패시 모달 */}
+          {notFoundModal ? (
+            <NotiModal
+              text={t("DocentPage.Cam.fail")}
+              onClick={closeNotiModal}
             />
-            {/* image가 존재할 때만 카메라 프레임 위에 표시 */}
-            {image ? (
-              <ResultImgContainer>
-                <img
-                  src={image}
-                  alt="detected"
-                  style={{ width: "100%", height: "100%", position: "" }}
+          ) : null}
+          {foundModalOpen ? (
+            <FoundBottomModal
+              setFoundModalOpen={setFoundModalOpen}
+              image={currentState.image}
+              partTitle={currentState.name}
+            />
+          ) : null}
+          <Layout text="DocentCam">
+            <Container>
+              <CamContainer>
+                <CamComponent
+                  detected={detected}
+                  detectState={detectState}
+                  camera={camera}
                 />
-              </ResultImgContainer>
-            ) : null}
-          </CamContainer>
+                {/* image가 존재할 때만 카메라 프레임 위에 표시 */}
+                {image ? (
+                  <ResultImgContainer>
+                    <img
+                      src={image}
+                      alt="detected"
+                      style={{ width: "100%", height: "100%", position: "" }}
+                    />
+                  </ResultImgContainer>
+                ) : null}
+              </CamContainer>
 
-          <SizedBox Rwidth={"1.5rem"} />
-          <PartContainer>
-            {/* 슬롯 */}
-            <PartSlot>
-              {SampleCollectData.map((data, idx) => {
-                return (
-                  <Target
-                    key={data.element_id}
-                    partDone={data.is_solved}
-                    image={data.image}
-                    selected={currentState.idx === idx ? true : false}
-                    onClick={() => {
-                      setCurrentState({
-                        idx: idx,
-                        name: data.name,
-                        image: data.image,
-                        solved: data.is_solved,
-                      });
-                    }}
-                  />
-                );
-              })}
-            </PartSlot>
+              <SizedBox Rwidth={"1.5rem"} />
+              <PartContainer>
+                {/* 슬롯 */}
+                <PartSlot>
+                  {docentCamPageInfo.data.data.data.elementInfoList.map(
+                    (data) => {
+                      return (
+                        <Target
+                          key={data.id}
+                          partDone={data.solved}
+                          image={data.image}
+                          selected={currentState.id === data.id ? true : false}
+                          onClick={() => {
+                            setCurrentState({
+                              id: data.id,
+                              name: data.name,
+                              image: data.image,
+                              solved: data.solved,
+                            });
+                          }}
+                        />
+                      );
+                    }
+                  )}
+                </PartSlot>
 
-            <SizedBox Rheight={"0.75rem"} />
+                <SizedBox Rheight={"0.75rem"} />
 
-            {/* 텍스트 */}
-            <div style={{ paddingLeft: "2.5rem" }}>
-              <typo.title.Title01 color={colors.white}>
-                {currentState.name
-                  ? currentState.name
-                  : "찾으려는 조각을 선택해주세요!"}
-              </typo.title.Title01>
-              <typo.body.Body02 color={colors.white}>
-                찾으려는 조각을 선택해주세요!
-              </typo.body.Body02>
-            </div>
-          </PartContainer>
+                {/* 텍스트 */}
+                <div style={{ paddingLeft: "2.5rem" }}>
+                  <typo.title.Title01 color={colors.white}>
+                    {currentState.name
+                      ? currentState.name
+                      : "찾으려는 조각을 선택해주세요!"}
+                  </typo.title.Title01>
+                  <typo.body.Body02 color={colors.white}>
+                    찾으려는 조각을 선택해주세요!
+                  </typo.body.Body02>
+                </div>
+              </PartContainer>
 
-          {/* 촬영 버튼 */}
-          {currentState.solved ? null : <CaptureBtn takeaPic={takeaPic} />}
-        </Container>
-      </Layout>
-    </Background>
+              {/* 촬영 버튼 */}
+              {currentState.solved ? null : <CaptureBtn takeaPic={takeaPic} />}
+            </Container>
+          </Layout>
+        </Background>
+      ) : null}
+    </>
   );
 };
 
