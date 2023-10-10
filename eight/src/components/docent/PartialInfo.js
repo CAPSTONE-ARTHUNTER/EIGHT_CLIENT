@@ -8,12 +8,11 @@ import { useTranslation } from "react-i18next";
 import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 import { ttsTransform } from "../../api/TTS.apis";
+import { t } from "i18next";
 // import { getSpeech } from "../../api/getSpeech";
 
 const PartialInfo = ({
-  idx,
-  artInfo,
-  t,
+  data,
   tabState,
   setAudioData,
   setPlaybackSpeed,
@@ -27,8 +26,8 @@ const PartialInfo = ({
 }) => {
   const { i18n } = useTranslation();
   const translatedData = useQuery(
-    [`translation_${artInfo.id}`],
-    () => translate(artInfo.contentDetail, i18n.language),
+    [`translation_${data.name}`],
+    () => translate(data.description, i18n.language),
     {
       staleTime: 300000,
       cacheTime: Infinity,
@@ -39,7 +38,7 @@ const PartialInfo = ({
     // tts
     let content, voicelngCode, voiceName;
     if (i18n.language === "ko") {
-      content = artInfo.contentDetail;
+      content = data.description;
       voicelngCode = "ko-KR";
       voiceName = "ko-KR-Neural2-B";
     } else if (i18n.language === "en") {
@@ -64,16 +63,6 @@ const PartialInfo = ({
     };
     return ttsData;
   }
-  // 오디오 끝난 경우
-  // audio.addEventListener("ended", function (e) {
-  //   e.stopPropagation();
-  //   console.log(audioId, artInfo.id);
-  //   if (audioId === artInfo.id) {
-  //     console.log("audio ended");
-  //     setIsAudioPlaying(false);
-  //     audio.pause();
-  //   }
-  // });
 
   return (
     <>
@@ -82,28 +71,28 @@ const PartialInfo = ({
         <Container>
           <RowWrapper>
             <ColWrapper>
-              {artInfo.solved ? (
+              {data.solved ? (
                 <PuzzleIco fill={colors.brown} />
               ) : (
                 <PuzzleIco fill={colors.copper1} />
               )}
               <SizedBox Rheight={".5rem"} />
-              {artInfo.solved && (
+              {data.solved && (
                 <TouchArea
                   onClick={async () => {
-                    if (audioId !== artInfo.id) {
+                    if (audioId !== data.name) {
                       // google tts
                       await ttsTransform(ttsConfig()).then((res) => {
                         console.log("ttsTransform: ", res);
                         // 부분 id로 설정 (현재 재생 중인 소스 식별)
-                        setAudioId(artInfo.id);
+                        setAudioId(data.name);
                         setAudioData({ data: res.data.audioContent });
                       });
                     }
                     handleAudioPlay();
                   }}
                 >
-                  {isAudioPlaying && audioId === artInfo.id ? (
+                  {isAudioPlaying && audioId === data.name ? (
                     <PauseIco />
                   ) : (
                     <PlayIco />
@@ -113,13 +102,13 @@ const PartialInfo = ({
             </ColWrapper>
             <ColWrapper style={{ width: "100%" }}>
               <TitleBox>
-                <typo.body.Body01>{artInfo.content}</typo.body.Body01>
+                <typo.body.Body01>{data.name}</typo.body.Body01>
               </TitleBox>
               <SizedBox Rheight={".5rem"} />
 
               <BodyBox>
                 {/* 잠긴 부분입니다 */}
-                {!artInfo.solved && (
+                {!data.solved && (
                   <BlockWindow>
                     <LockedIco />
                     <SizedBox Rheight={"0.75rem"} />
@@ -134,7 +123,7 @@ const PartialInfo = ({
                 <typo.body.DocentContent>
                   {i18n.language === "en"
                     ? translatedData.data
-                    : artInfo.contentDetail}
+                    : data.description}
                 </typo.body.DocentContent>
               </BodyBox>
             </ColWrapper>
@@ -146,9 +135,7 @@ const PartialInfo = ({
         // 전체 해설
         <div style={{ paddingLeft: ".6rem", paddingRight: ".6rem" }}>
           <typo.body.DocentContent>
-            {i18n.language === "en"
-              ? translatedData.data
-              : artInfo.contentDetail}
+            {i18n.language === "en" ? translatedData.data : data.description}
           </typo.body.DocentContent>
           <SizedBox Rheight={"2rem"} />
         </div>

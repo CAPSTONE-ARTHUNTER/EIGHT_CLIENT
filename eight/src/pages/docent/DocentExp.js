@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
-import inwang from "../../assets/image/Inwang.jpg";
 import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
 import styled from "styled-components";
@@ -10,12 +9,26 @@ import PartialInfo from "../../components/docent/PartialInfo";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import AudioBtn from "../../components/docent/AudioBtn";
+import { useQuery } from "react-query";
+import { serverLoggedAxios } from "../../api";
 
-const DocentExp = ({ artInfo }) => {
+const DocentExp = () => {
   const { t } = useTranslation();
   const { artId } = useParams();
-  const artPageInfo = artInfo.find((data) => data.id == artId);
 
+  const expPageInfo = useQuery(
+    `expPageInfo_${artId}`,
+    () =>
+      serverLoggedAxios.get(`/app/artwork/parts/${artId}`).then((res) => {
+        return res.data.data;
+      }),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: true,
+    }
+  );
+  console.log(expPageInfo);
   // 탭
   const [tabState, setTabState] = useState(0);
   const tabName = {
@@ -76,73 +89,78 @@ const DocentExp = ({ artInfo }) => {
     audio.pause();
   });
   return (
-    <Layout text={artPageInfo.name}>
-      {/* 하단 오디오 탭 */}
-      {audioData ? (
-        // audio 존재하는 경우에만 AudioBtn 표시
-        <AudioBtn
-          setPlaybackSpeed={setPlaybackSpeed}
-          playbackSpeed={playbackSpeed}
-          isPlaying={isAudioPlaying}
-          setIsAudioPlaying={setIsAudioPlaying}
-          handleAudioPlay={handleAudioPlay}
-          audio={audio}
-        />
+    <>
+      {expPageInfo.isLoading ? (
+        <typo.title.Title01>Loading...</typo.title.Title01>
       ) : null}
-
-      <Container>
-        <img
-          src={inwang}
-          alt="art"
-          className="artImg"
-          onLoad={handleImageLoad}
-        />
-        {/* 이미지 height만큼 띄우기 */}
-        <SizedBox height={artImgHeight + 16} />
-
-        {/* 탭 */}
-        <CollectionTab
-          tabName={tabName}
-          tabState={tabState}
-          setTabState={setTabState}
-          t={t}
-        />
-        <SizedBox height={16} />
-
-        {/* 제목란 */}
-        <TitleBox>
-          <typo.title.Title01>{artPageInfo.name}</typo.title.Title01>
-          <SizedBox Rheight={".2rem"} />
-          <typo.body.Body01>
-            {/* 수정필요 */}
-            정선, 인왕제색도, 조선 1751년, 족자, 종이에 먹, 79.2×138.0cm, 2021년
-            이건희 기증, 국보
-          </typo.body.Body01>
-        </TitleBox>
-        <SizedBox Rheight={"2rem"} />
-        {artPageInfo.quest.map((data, idx) => {
-          return (
-            <PartialInfo
-              key={data.id}
-              idx={idx}
-              artInfo={data}
-              t={t}
-              tabState={tabState}
-              // audio
-              setAudioData={setAudioData}
+      {expPageInfo.isFetched ? (
+        <Layout text={expPageInfo.data.relicName}>
+          {/* 하단 오디오 탭 */}
+          {audioData ? (
+            // audio 존재하는 경우에만 AudioBtn 표시
+            <AudioBtn
               setPlaybackSpeed={setPlaybackSpeed}
-              handleAudioPlay={handleAudioPlay}
               playbackSpeed={playbackSpeed}
-              isAudioPlaying={isAudioPlaying}
+              isPlaying={isAudioPlaying}
               setIsAudioPlaying={setIsAudioPlaying}
+              handleAudioPlay={handleAudioPlay}
               audio={audio}
-              audioId={audioId}
-              setAudioId={setAudioId}
             />
-          );
-        })}
-      </Container>
-    </Layout>
+          ) : null}
+
+          <Container>
+            <img
+              src={expPageInfo.data.relicImage}
+              alt="art"
+              className="artImg"
+              onLoad={handleImageLoad}
+            />
+            {/* 이미지 height만큼 띄우기 */}
+            <SizedBox height={artImgHeight + 16} />
+
+            {/* 탭 */}
+            <CollectionTab
+              tabName={tabName}
+              tabState={tabState}
+              setTabState={setTabState}
+              t={t}
+            />
+            <SizedBox height={16} />
+
+            {/* 제목란 */}
+            <TitleBox>
+              <typo.title.Title01>
+                {expPageInfo.data.relicName}
+              </typo.title.Title01>
+              <SizedBox Rheight={".2rem"} />
+              <typo.body.Body01>
+                {expPageInfo.data.author} / {expPageInfo.data.nationality}
+              </typo.body.Body01>
+            </TitleBox>
+            <SizedBox Rheight={"2rem"} />
+            {expPageInfo.data.partDescriptionInfoList.map((part) => {
+              return (
+                <PartialInfo
+                  key={"partialInfo" + expPageInfo.data.partNum + part.name}
+                  data={part}
+                  tabState={tabState}
+                  // audio
+                  setAudioData={setAudioData}
+                  setPlaybackSpeed={setPlaybackSpeed}
+                  handleAudioPlay={handleAudioPlay}
+                  playbackSpeed={playbackSpeed}
+                  isAudioPlaying={isAudioPlaying}
+                  setIsAudioPlaying={setIsAudioPlaying}
+                  audio={audio}
+                  audioId={audioId}
+                  setAudioId={setAudioId}
+                />
+              );
+            })}
+          </Container>
+        </Layout>
+      ) : null}
+    </>
   );
 };
 
