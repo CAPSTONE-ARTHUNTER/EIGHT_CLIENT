@@ -40,7 +40,7 @@ const MainPage = () => {
           <MainBtn
             type={"camera"}
             onClick={() => {
-              navigate("/detection");
+              navigate("/detectPart");
             }}
           >
             <BtnContent>
