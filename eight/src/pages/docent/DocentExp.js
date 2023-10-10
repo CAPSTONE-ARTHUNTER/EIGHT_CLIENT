@@ -28,7 +28,7 @@ const DocentExp = () => {
       enabled: true,
     }
   );
-  console.log(expPageInfo);
+
   // 탭
   const [tabState, setTabState] = useState(0);
   const tabName = {

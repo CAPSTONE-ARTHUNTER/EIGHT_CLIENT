@@ -42,7 +42,7 @@ const DocentDetail = () => {
       enabled: true,
     }
   );
-
+  
   //translate
   const translatedHeaderData = useQuery(
     [`translation_header_${artId}_${detailId}`],
@@ -151,7 +151,7 @@ const DocentDetail = () => {
       ) : null}
 
       {docentDetailPageInfo.isFetched ? (
-        <Layout text={docentDetailPageInfo.data.data.data.partName}>
+        <Layout text={docentDetailPageInfo.data.data.data.relicName}>
           {/* 하단 오디오 탭 */}
           {audioData ? (
             // audio 존재하는 경우에만 AudioBtn 표시
