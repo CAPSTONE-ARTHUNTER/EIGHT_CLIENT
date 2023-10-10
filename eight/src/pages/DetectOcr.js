@@ -63,7 +63,7 @@ function DetectOcr() {
               // 발견한 경우
               setTagDetectedData({
                 id: res.data.id,
-                image: testImage,
+                image: res.data.relicImage,
                 name: res.data.name,
               });
               setFoundModal(true);
