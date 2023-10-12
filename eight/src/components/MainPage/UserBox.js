@@ -72,21 +72,16 @@ const UserBox = ({ t }) => {
 
         <SizedBox height={12} />
         {/* 경로 mypage인 경우에만 표시 */}
-        {location === "/" ? (
+        {location === "/" || userData.badgeList.length > 0 ? (
           <BadgeRail>
-            {userData.badgeList.length > 0 ? (
-              <>
-                {userData.badgeList.map((badge) => {
-                  return (
-                    <Badge
-                      key={"userBadge" + badge.relicId}
-                      img={badge.badgeImage}
-                    />
-                  );
-                })}
-              </>
-            ) : // 뱃지 없는 경우 처리
-            null}
+            {userData.badgeList.map((badge) => {
+              return (
+                <Badge
+                  key={"userBadge" + badge.relicId}
+                  img={badge.badgeImage}
+                />
+              );
+            })}
 
             <SizedBox width={4} />
             <MoreIco />
