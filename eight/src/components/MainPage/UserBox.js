@@ -71,7 +71,7 @@ const UserBox = ({ t }) => {
 
         <SizedBox height={12} />
         {/* 경로 mypage인 경우에만 표시 */}
-        {location === "/" || userData.badgeList.length > 0 ? (
+        {location === "/" && userData.badgeList.length > 0 ? (
           <BadgeRail>
             {userData.badgeList.map((badge) => {
               return (
