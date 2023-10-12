@@ -26,7 +26,6 @@ const UserBox = ({ t }) => {
     serverLoggedAxios
       .get("/app/collection/overview")
       .then((res) => {
-        console.log("userDataOverview", res.data.data);
         setUserData(res.data.data);
       })
       .catch((err) => {
