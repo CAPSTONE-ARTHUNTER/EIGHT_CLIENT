@@ -3,43 +3,60 @@ import styled from "styled-components";
 import { colors } from "../../styles/color";
 import profileImage from "../../assets/image/userProfile.png";
 import typo from "../../styles/typo";
-import { badge_chip } from "../../assets/image/badge";
 import SizedBox from "../Common/SizedBox";
 import { MoreIco } from "../../assets/icon";
 import { useLocation } from "react-router-dom";
+import { serverLoggedAxios } from "../../api";
 
-const UserBox = ({ userInfo, t }) => {
+const UserBox = ({ t }) => {
   // ref로 레벨바 width 구하기
   const [lvBarWidth, setLvBarWidth] = useState(0);
   const levelBarRef = useRef(null);
 
+  // userInfo에서 받아서 표시
+  const [userData, setUserData] = useState({
+    userImage: profileImage,
+    userExp: 0,
+    solvedRelicNum: 0,
+    badgeList: [],
+  });
+  // const badge
+
+  useEffect(() => {
+    serverLoggedAxios
+      .get("/app/collection/overview")
+      .then((res) => {
+        console.log("userDataOverview", res.data.data);
+        setUserData(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   useEffect(() => {
     setLvBarWidth(levelBarRef.current.clientWidth);
   }, [levelBarRef]);
-
-  // userInfo에서 받아서 표시
-  const userLevel = 0;
-  const countFound = 0;
-  const levelPercent = 50;
-  // const badge
 
   const location = useLocation().pathname;
   return (
     <BackGround>
       <ColWrapper>
         <RowWrapper>
-          <ProfileImage />
+          <ProfileImage img={userData.userImage} refer />
           <ColWrapper>
             <TextRowWrapper>
               <SizedBox width={4} />
               <ColWrapper>
                 <typo.body.Body01>{t("profile.alias")}</typo.body.Body01>
-                <typo.body.Body02>Lv.{userLevel}</typo.body.Body02>
+
+                {/* 소수점 처리 필요 */}
+                <typo.body.Body02>Lv.{userData.userExp}</typo.body.Body02>
               </ColWrapper>
               <PartitionLine />
               <ColWrapper>
                 <typo.body.Body01>{t("profile.pieceFound")}</typo.body.Body01>
-                <typo.body.Body02>{countFound}</typo.body.Body02>
+                <typo.body.Body02>{userData.solvedRelicNum}</typo.body.Body02>
               </ColWrapper>
               <SizedBox width={4} />
             </TextRowWrapper>
@@ -48,7 +65,7 @@ const UserBox = ({ userInfo, t }) => {
             {/* 레벨바 */}
             <LevelbarWrapper ref={levelBarRef}>
               <LevelBarRail />
-              <LevelBar width={`${levelPercent * (lvBarWidth / 100)}px`} />
+              <LevelBar width={`${userData.userExp * (lvBarWidth / 100)}px`} />
             </LevelbarWrapper>
           </ColWrapper>
         </RowWrapper>
@@ -57,12 +74,20 @@ const UserBox = ({ userInfo, t }) => {
         {/* 경로 mypage인 경우에만 표시 */}
         {location === "/" ? (
           <BadgeRail>
-            {/* 이후 수정 */}
-            <img className="badge" src={badge_chip} />
-            <img className="badge" src={badge_chip} />
-            <img className="badge" src={badge_chip} />
-            <img className="badge" src={badge_chip} />
-            <img className="badge" src={badge_chip} />
+            {userData.badgeList.length > 0 ? (
+              <>
+                {userData.badgeList.map((badge) => {
+                  return (
+                    <Badge
+                      key={"userBadge" + badge.relicId}
+                      img={badge.badgeImage}
+                    />
+                  );
+                })}
+              </>
+            ) : // 뱃지 없는 경우 처리
+            null}
+
             <SizedBox width={4} />
             <MoreIco />
           </BadgeRail>
@@ -89,7 +114,7 @@ const BackGround = styled.div`
 `;
 
 const ProfileImage = styled.div`
-  background-image: url(${profileImage});
+  background-image: url(${(props) => props.img});
   background-size: contain;
   width: 3.4rem;
   height: 3.4rem;
@@ -145,11 +170,14 @@ const LevelBar = styled.div`
 const BadgeRail = styled.div`
   width: 85%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
-
-  .badge {
-    height: 3rem;
-  }
+`;
+const Badge = styled.div`
+  height: 3.125rem;
+  width: 2.7rem;
+  background-image: url(${(props) => props.img});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 export default UserBox;
