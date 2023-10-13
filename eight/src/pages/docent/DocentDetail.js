@@ -3,7 +3,6 @@ import Layout from "../../components/Layout/Layout";
 import styled from "styled-components";
 import { PauseIco, PlayIco, PointIco, PuzzleIco } from "../../assets/icon";
 import { colors } from "../../styles/color";
-import inwang from "../../assets/image/Inwang.jpg";
 import typo from "../../styles/typo";
 import SizedBox from "../../components/Common/SizedBox";
 import { useState } from "react";
@@ -42,7 +41,7 @@ const DocentDetail = () => {
       enabled: true,
     }
   );
-  
+
   //translate
   const translatedHeaderData = useQuery(
     [`translation_header_${artId}_${detailId}`],
@@ -199,7 +198,7 @@ const DocentDetail = () => {
                 );
               })}
               <img
-                src={inwang}
+                src={docentDetailPageInfo.data.data.data.relicImage}
                 alt="art"
                 className="artImg"
                 onLoad={handleImageLoad}
