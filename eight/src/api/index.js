@@ -42,7 +42,6 @@ const getRefreshToken = async () => {
     const res = await serverAxios.post(`/app/auth/refresh`, {
       refreshToken: localStorage.getItem("RefreshToken").slice(7),
     });
-    console.log(res);
     localStorage.setItem("Token", res.data.data.accessToken);
     localStorage.setItem("RefreshToken", res.data.data.refreshToken);
   } catch (err) {
@@ -62,7 +61,7 @@ serverLoggedAxios.interceptors.request.use((config) => {
   return config;
 });
 
-// refresh accessToken if expired
+// refresh accessToken if expired & resend request
 serverLoggedAxios.interceptors.response.use(
   (res) => {
     console.log(res.status, "serverLoggedAxios");
@@ -71,16 +70,16 @@ serverLoggedAxios.interceptors.response.use(
   async (err) => {
     const { config, response } = err;
     console.log(response.status);
-    // if (response.status !== 401 || config.sent) {
-    //   return Promise.reject(err);
-    // }
+    if (response.status !== 401 || config.sent) {
+      return Promise.reject(err);
+    }
     if (response.status === 401) {
       config.sent = true;
-      const accessToken = await getRefreshToken();
-      if (accessToken) {
-        config.headers.Authorization = accessToken;
+      await getRefreshToken();
+      if (localStorage.getItem("Token")) {
+        err.config.headers.Authorization = localStorage.getItem("Token");
+        return serverLoggedAxios(err.config);
       }
-      return axios(config);
     }
   }
 );
