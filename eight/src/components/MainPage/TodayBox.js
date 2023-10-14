@@ -3,30 +3,39 @@ import styled from "styled-components";
 import { colors } from "../../styles/color";
 import { CollectionIco, DocentIco } from "../../assets/icon";
 import typo from "../../styles/typo";
+import i18next, { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
-// 임시 이미지
-import testImage from "../../assets/image/Inwang.jpg";
-
-const TodayBox = ({ boxInfo, t }) => {
-  const todayImage = testImage;
-  const todayTitle = "제목 예시";
-  const todayBody = "부가 설명 예시";
-  // 해설 페이지 링크
-  // 도감 페이지 링크
+const TodayBox = (boxInfo) => {
+  const navigate = useNavigate();
 
   return (
-    <BackContainer todayImage={todayImage}>
+    <BackContainer todayImage={boxInfo.data.art_image_url}>
       <TextGroup>
-        <typo.title.Title01 color={colors.white}>
-          {todayTitle}
-        </typo.title.Title01>
-        <typo.body.Body01 color={colors.white}>{todayBody}</typo.body.Body01>
+        {i18next.language === "en" ? (
+          <>
+            <typo.title.Title01 color={colors.white}>
+              {boxInfo.data.art_name_en}
+            </typo.title.Title01>
+          </>
+        ) : (
+          <>
+            <typo.title.Title01 color={colors.white}>
+              {boxInfo.data.art_name_kr}
+            </typo.title.Title01>
+            <typo.body.Body01 color={colors.white}>
+              {boxInfo.data.art_artist_name} / {boxInfo.data.art_era}
+            </typo.body.Body01>
+          </>
+        )}
       </TextGroup>
       <ButtonGroup>
         <RowWrapper>
           <DocentGoBtn
             onClick={() => {
-              console.log("해설 화면으로 이동");
+              navigate(`/docent/${boxInfo.data.art_id}`, {
+                state: { prevPage: "main" },
+              });
             }}
           >
             <DocentIco />
@@ -36,7 +45,7 @@ const TodayBox = ({ boxInfo, t }) => {
           </DocentGoBtn>
           <CollectionGoBtn
             onClick={() => {
-              console.log("도감 화면으로 이동");
+              navigate("/collection");
             }}
           >
             <CollectionIco fill={colors.brown} />
