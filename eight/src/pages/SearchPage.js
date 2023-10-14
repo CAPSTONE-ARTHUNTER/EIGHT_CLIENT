@@ -33,7 +33,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (searchPageList.isFetched) setSearchRes(searchPageList);
-  }, []);
+  }, [searchPageList.status]);
 
   useEffect(() => {
     if (mainSearchTxt !== null && searchPageList.data) {
