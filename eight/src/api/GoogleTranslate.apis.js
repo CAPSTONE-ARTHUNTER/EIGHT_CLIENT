@@ -9,8 +9,10 @@ export const translate = async (q, lng) => {
     const response = await translateAxios.post("", tData);
     return JSON.stringify(response.data.data.translations[0].translatedText)
       .replace(/"/g, "")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">");
+      .replace(/&#39;s/g, "'")
+      .replace(/&#39;/g, "'")
+      .replace(/&lt;/g, "[")
+      .replace(/&gt;/g, "]");
   } catch (err) {
     console.log(err);
   }
