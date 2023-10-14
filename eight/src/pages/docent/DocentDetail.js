@@ -15,6 +15,7 @@ import { translate } from "../../api/GoogleTranslate.apis";
 import { useQuery } from "react-query";
 import AudioBtn from "../../components/docent/AudioBtn";
 import { serverLoggedAxios } from "../../api";
+import i18next from "i18next";
 
 const DocentDetail = () => {
   const { artId } = useParams();
@@ -24,8 +25,10 @@ const DocentDetail = () => {
   const { prevPage } = state;
 
   const { t } = useTranslation();
+  const [translateEnable, setTranslateEnable] = useState(false);
   const [artImgHeight, setArtImageHeight] = useState(0);
   const navigate = useNavigate();
+
   const handleImageLoad = (event) => {
     const imgElement = event.target;
     setArtImageHeight(imgElement.height);
@@ -39,6 +42,13 @@ const DocentDetail = () => {
       staleTime: 300000,
       cacheTime: Infinity,
       enabled: true,
+      onSuccess: () => {
+        if (i18n.language === "en") {
+          setTranslateEnable(true);
+        } else {
+          setTranslateEnable(false);
+        }
+      },
     }
   );
 
@@ -50,7 +60,7 @@ const DocentDetail = () => {
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language === "en",
+      enabled: translateEnable,
     }
   );
   const translatedContentData = useQuery(
@@ -63,9 +73,17 @@ const DocentDetail = () => {
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language === "en",
+      enabled: translateEnable,
     }
   );
+
+  useEffect(() => {
+    if (i18next.language === "en" && docentDetailPageInfo.isFetched) {
+      setTranslateEnable(true);
+    } else {
+      setTranslateEnable(false);
+    }
+  }, [i18next.language, docentDetailPageInfo.status]);
 
   //audio
   const [audioData, setAudioData] = useState();
@@ -240,8 +258,6 @@ const DocentDetail = () => {
                 {/* <PointIco fill={colors.orange} /> */}
                 <TouchArea
                   onClick={async () => {
-                    // ❌❌❌❌❌❌❌❌❌❌❌❌❌❌
-
                     if (
                       audioId !== docentDetailPageInfo.data.data.data.relicId
                     ) {
