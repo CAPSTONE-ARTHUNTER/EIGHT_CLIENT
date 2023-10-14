@@ -61,7 +61,7 @@ const BackContainer = styled.div`
   width: 15rem;
   height: 15rem;
   background-color: ${colors.beige};
-  border-radius: 32px;
+  border-radius: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -72,7 +72,7 @@ const BackContainer = styled.div`
   background-position: center;
 `;
 const TextGroup = styled.div`
-  padding: 16px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   color: ${colors.white};
@@ -80,33 +80,33 @@ const TextGroup = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  margin: 0.6rem;
 `;
 
 // 내부 버튼
 const DocentGoBtn = styled.button`
-  border-radius: 32px;
+  border-radius: 2rem;
   border: none;
   background: rgba(243, 243, 243, 0.3);
-  backdrop-filter: blur(6px);
-  height: 52px;
+  backdrop-filter: blur(0.4rem);
+  height: 3.25rem;
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
   justify-content: center;
 
   color: ${colors.white};
 `;
 const CollectionGoBtn = styled.button`
-  border-radius: 32px;
+  border-radius: 2rem;
   border: none;
   background: ${colors.white};
-  height: 52px;
+  height: 3.25rem;
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
   justify-content: center;
 
   color: ${colors.brown};
@@ -115,6 +115,6 @@ const RowWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  gap: 4px;
+  gap: 0.25rem;
 `;
 export default TodayBox;

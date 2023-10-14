@@ -16,7 +16,6 @@ import { serverLoggedAxios } from "../api";
 const MainPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const [text, setText] = useState("");
 
   const todayArtList = useQuery(
