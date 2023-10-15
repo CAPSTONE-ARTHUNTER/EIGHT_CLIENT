@@ -16,9 +16,9 @@ const Collection = ({ sampleData }) => {
   const { t } = useTranslation();
   const tabName = {
     firstko: "도감",
-    secondko: "도전과제",
+    secondko: "진행 상황",
     firsten: "Collection",
-    seconden: "Challenge",
+    seconden: "Progress",
   };
 
   // 전체 작품 정보

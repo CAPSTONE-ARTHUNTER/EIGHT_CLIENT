@@ -15,6 +15,7 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import DetectOcr from "./pages/DetectOcr";
 import AccountPage from "./pages/setting/AccountPage";
 import GetLogin from "./pages/GetLogin";
+import Detection from "./pages/Detection";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -94,6 +95,7 @@ function App() {
             element={<Collection sampleData={sampleData} />}
           />
           <Route path="/detection" element={<DetectOcr />} />
+          <Route path="/detectPart" element={<Detection />} />
           <Route path="/search" element={<SearchPage artList={sampleData} />} />
           <Route path="/mypage" element={<MyPage />} />
 

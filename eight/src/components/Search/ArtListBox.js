@@ -1,41 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 // 임시 이미지
-import testImage from "../../assets/image/Inwang.jpg";
 import typo from "../../styles/typo";
 import { colors } from "../../styles/color";
 import SizedBox from "../Common/SizedBox";
 import { useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
-import { translate } from "../../api/GoogleTranslate.apis";
-
 const ArtListBox = ({ data }) => {
   const navigate = useNavigate();
-  const searchImage = testImage;
-  const [dataDesc, setDataDesc] = useState(data.desc);
-
-  // 언어 en인 경우만 description 영어로 번역
-  useEffect(() => {
-    if (i18n.language === "en") {
-      translate(data.desc, "en").then((res) => {
-        setDataDesc(res);
-      });
-    }
-  }, []);
 
   return (
     <BackGround
-      searchImage={searchImage}
+      searchImage={data.art_image_url}
       onClick={() => {
-        navigate(`/docent/${data.id}`, { state: { prevPage: "search" } });
+        navigate(`/docent/${data.art_id}`, { state: { prevPage: "search" } });
       }}
     >
       <InfoArea>
         <TextGroup>
-          <typo.body.Body02 color={colors.white}>{data.name}</typo.body.Body02>
+          <typo.body.Body02 color={colors.white}>
+            {i18n.language === "en" ? (
+              <>{data.art_name_en}</>
+            ) : (
+              <>{data.art_name_kr}</>
+            )}
+          </typo.body.Body02>
           <SizedBox height={2} />
-          <typo.body.Body03 color={colors.white}>{dataDesc}</typo.body.Body03>
+          <typo.body.Body03 color={colors.white}>
+            {i18n.language === "en" ? null : (
+              <>
+                {data.art_artist_name} / {data.art_era}
+              </>
+            )}
+          </typo.body.Body03>
         </TextGroup>
       </InfoArea>
     </BackGround>
@@ -44,21 +42,21 @@ const ArtListBox = ({ data }) => {
 
 const BackGround = styled.div`
   width: 48%;
-  height: 204px;
+  height: 12.75rem;
   background-image: url(${(props) => props.searchImage});
   background-size: cover;
   background-position: center;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   position: relative;
   flex-shrink: 0;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 `;
 const InfoArea = styled.div`
   width: 100%;
-  height: 56px;
-  border-radius: 0px 0px 8px 8px;
+  height: auto;
+  border-radius: 0px 0px 0.5rem 0.5rem;
   background: rgba(71, 71, 71, 0.4);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(0.25rem);
 
   position: absolute;
   bottom: 0;
@@ -66,6 +64,6 @@ const InfoArea = styled.div`
 const TextGroup = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 0.6rem;
 `;
 export default ArtListBox;

@@ -10,12 +10,26 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import collectionBtn from "../assets/image/collectionBtn.png";
 import cameraBtn from "../assets/image/cameraBtn.png";
+import { useQuery } from "react-query";
+import { serverLoggedAxios } from "../api";
 
 const MainPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const [text, setText] = useState("");
+
+  const todayArtList = useQuery(
+    `searchPageList`,
+    () =>
+      serverLoggedAxios.get("/app/artwork").then((res) => {
+        return res.data.data;
+      }),
+    {
+      staleTime: 30000000,
+      cacheTime: Infinity,
+      enabled: true,
+    }
+  );
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -40,7 +54,7 @@ const MainPage = () => {
           <MainBtn
             type={"camera"}
             onClick={() => {
-              navigate("/detection");
+              navigate("/detectPart");
             }}
           >
             <BtnContent>
@@ -70,12 +84,13 @@ const MainPage = () => {
             {t("mainPage.todayArt")}
           </typo.title.Title02>
           <SizedBox Rheight={"0.25rem"} />
-          <TodayRail>
-            {/* 정보 받아서 map */}
-            <TodayBox t={t} />
-            <TodayBox t={t} />
-            <TodayBox t={t} />
-          </TodayRail>
+          {todayArtList.isFetched ? (
+            <TodayRail>
+              {todayArtList.data.map((ele) => (
+                <TodayBox key={ele.art_id + "today"} data={ele} />
+              ))}
+            </TodayRail>
+          ) : null}
           <SizedBox Rheight={"3.75rem"} />
         </TodayWrapper>
       </Container>

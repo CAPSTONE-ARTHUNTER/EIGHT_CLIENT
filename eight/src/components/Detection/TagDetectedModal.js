@@ -13,7 +13,6 @@ const TagDetectedModal = ({ data, LB }) => {
       <Container>
         <Background image={data.image}>
           <TxtBg>
-            <SizedBox Rwidth={"1rem"} />
             <TxtWrapper>
               <SizedBox Rheight={"1rem"} />
               <typo.title.Title01 color={colors.white}>
@@ -66,6 +65,7 @@ const TxtBg = styled.div`
   display: flex;
   width: 100%;
   height: auto;
+  justify-content: center;
   flex-shrink: 0;
   border-radius: 0 0 2rem 2rem;
   background: rgba(71, 71, 71, 0.4);
@@ -74,6 +74,8 @@ const TxtBg = styled.div`
   backdrop-filter: blur(0.25rem);
 `;
 const TxtWrapper = styled.div`
+  width: 85%;
+  word-break: keep-all;
   display: flex;
   flex-direction: column;
 `;
