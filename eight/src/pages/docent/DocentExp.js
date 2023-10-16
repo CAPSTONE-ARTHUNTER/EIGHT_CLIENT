@@ -16,6 +16,15 @@ const DocentExp = () => {
   const { t } = useTranslation();
   const { artId } = useParams();
 
+  // 탭
+  const [tabState, setTabState] = useState(0);
+  const tabName = {
+    firstko: "부분별 해설",
+    secondko: "전체 해설",
+    firsten: "Partial Comment",
+    seconden: "Entire Comment",
+  };
+
   const expPageInfo = useQuery(
     `expPageInfo_${artId}`,
     () =>
@@ -25,18 +34,22 @@ const DocentExp = () => {
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: true,
+      enabled: tabState === 0,
+    }
+  );
+  const expPageEntireInfo = useQuery(
+    `expPageEntireInfo_${artId}`,
+    () =>
+      serverLoggedAxios.get(`app/artwork/details/${artId}`).then((res) => {
+        return res.data.data.relicDescription;
+      }),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: tabState === 1,
     }
   );
 
-  // 탭
-  const [tabState, setTabState] = useState(0);
-  const tabName = {
-    firstko: "부분별 해설",
-    secondko: "전체 해설",
-    firsten: "Partial Comment",
-    seconden: "Entire Comment",
-  };
   //   이미지높이
   const [artImgHeight, setArtImageHeight] = useState(0);
   const handleImageLoad = (event) => {
@@ -138,25 +151,38 @@ const DocentExp = () => {
               </typo.body.Body01>
             </TitleBox>
             <SizedBox Rheight={"2rem"} />
-            {expPageInfo.data.partDescriptionInfoList.map((part) => {
-              return (
-                <PartialInfo
-                  key={"partialInfo" + expPageInfo.data.partNum + part.name}
-                  data={part}
-                  tabState={tabState}
-                  // audio
-                  setAudioData={setAudioData}
-                  setPlaybackSpeed={setPlaybackSpeed}
-                  handleAudioPlay={handleAudioPlay}
-                  playbackSpeed={playbackSpeed}
-                  isAudioPlaying={isAudioPlaying}
-                  setIsAudioPlaying={setIsAudioPlaying}
-                  audio={audio}
-                  audioId={audioId}
-                  setAudioId={setAudioId}
-                />
-              );
-            })}
+            {tabState === 0 ? (
+              <>
+                {expPageInfo.data.partDescriptionInfoList.map((part) => {
+                  return (
+                    <PartialInfo
+                      key={"partialInfo" + expPageInfo.data.partNum + part.name}
+                      data={part}
+                      tabState={tabState}
+                      artId={artId}
+                      // audio
+                      setAudioData={setAudioData}
+                      handleAudioPlay={handleAudioPlay}
+                      isAudioPlaying={isAudioPlaying}
+                      audioId={audioId}
+                      setAudioId={setAudioId}
+                    />
+                  );
+                })}
+              </>
+            ) : (
+              <PartialInfo
+                data={expPageEntireInfo}
+                tabState={tabState}
+                artId={artId}
+                // audio
+                setAudioData={setAudioData}
+                handleAudioPlay={handleAudioPlay}
+                isAudioPlaying={isAudioPlaying}
+                audioId={audioId}
+                setAudioId={setAudioId}
+              />
+            )}
           </Container>
         </Layout>
       ) : null}

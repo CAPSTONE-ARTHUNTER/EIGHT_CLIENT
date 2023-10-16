@@ -14,13 +14,10 @@ import { t } from "i18next";
 const PartialInfo = ({
   data,
   tabState,
+  artId,
   setAudioData,
-  setPlaybackSpeed,
   handleAudioPlay,
-  playbackSpeed,
   isAudioPlaying,
-  setIsAudioPlaying,
-  audio,
   audioId,
   setAudioId,
 }) => {
@@ -31,18 +28,35 @@ const PartialInfo = ({
     {
       staleTime: 300000,
       cacheTime: Infinity,
-      enabled: i18n.language === "en",
+      enabled: i18n.language === "en" && tabState === 0,
+    }
+  );
+  const translatedEntireData = useQuery(
+    [`translation_entire_${artId}`],
+    () => translate(data.data, i18n.language),
+    {
+      staleTime: 300000,
+      cacheTime: Infinity,
+      enabled: i18n.language === "en" && tabState === 1,
     }
   );
   function ttsConfig() {
     // tts
     let content, voicelngCode, voiceName;
     if (i18n.language === "ko") {
-      content = data.description;
+      if (tabState === 1) {
+        content = data.data;
+      } else {
+        content = data.description;
+      }
       voicelngCode = "ko-KR";
       voiceName = "ko-KR-Neural2-B";
     } else if (i18n.language === "en") {
-      content = translatedData.data;
+      if (tabState === 1) {
+        content = translatedEntireData.data;
+      } else {
+        content = translatedData.data;
+      }
       voicelngCode = "en-US";
       voiceName = "en-US-Neural2-F";
     }
@@ -134,9 +148,33 @@ const PartialInfo = ({
       ) : (
         // 전체 해설
         <div style={{ paddingLeft: ".6rem", paddingRight: ".6rem" }}>
-          <typo.body.DocentContent>
-            {i18n.language === "en" ? translatedData.data : data.description}
-          </typo.body.DocentContent>
+          {data.isFetched ? (
+            <div>
+              <TouchArea
+                onClick={async () => {
+                  if (audioId !== `translation_entire_${artId}`) {
+                    // google tts
+                    await ttsTransform(ttsConfig()).then((res) => {
+                      console.log("ttsTransform: ", res);
+                      // 부분 id로 설정 (현재 재생 중인 소스 식별)
+                      setAudioId(`translation_entire_${artId}`);
+                      setAudioData({ data: res.data.audioContent });
+                    });
+                  }
+                  handleAudioPlay();
+                }}
+              >
+                {isAudioPlaying && audioId === `translation_entire_${artId}` ? (
+                  <PauseIco />
+                ) : (
+                  <PlayIco />
+                )}
+              </TouchArea>
+              <typo.body.DocentContent>
+                {i18n.language === "en" ? translatedEntireData.data : data.data}
+              </typo.body.DocentContent>
+            </div>
+          ) : null}
           <SizedBox Rheight={"2rem"} />
         </div>
       )}
