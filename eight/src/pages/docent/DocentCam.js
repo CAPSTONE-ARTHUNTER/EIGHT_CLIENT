@@ -77,7 +77,7 @@ const DocentCam = () => {
       const config = {
         params: {
           classes: currentState.name,
-          confidence: 20,
+          confidence: 10,
         },
       };
       await detect(image, config)
@@ -131,6 +131,7 @@ const DocentCam = () => {
       console.log("currentState.name: ", currentState.name);
       setFoundModalOpen(true);
     } else {
+      setNotFoundModal(true);
       console.log("no same res");
     }
   }
