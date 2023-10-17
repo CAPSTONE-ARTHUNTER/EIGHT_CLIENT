@@ -4,6 +4,7 @@ import { colors } from "../../styles/color";
 import confetti from "../../assets/image/confetti.png";
 import typo from "../../styles/typo";
 import { CloseIco } from "../../assets/icon";
+import { serverLoggedAxios } from "../../api";
 
 const FoundBottomModal = ({ setFoundModalOpen, image, partTitle }) => {
   const [showModal, setShowModal] = useState(true);
@@ -41,6 +42,16 @@ const FoundBottomModal = ({ setFoundModalOpen, image, partTitle }) => {
           </TextWrapper>
           <ConfirmButton
             onClick={() => {
+              serverLoggedAxios
+                .post("/app/artwork/detection", {
+                  name: partTitle,
+                })
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
               handleCloseModal();
             }}
           >
