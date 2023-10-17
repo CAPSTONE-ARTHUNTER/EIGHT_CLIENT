@@ -84,7 +84,7 @@ const MainPage = () => {
             {t("mainPage.todayArt")}
           </typo.title.Title02>
           <SizedBox Rheight={"0.25rem"} />
-          {todayArtList.isFetched ? (
+          {todayArtList.isSuccess ? (
             <TodayRail>
               {todayArtList.data.map((ele) => (
                 <TodayBox key={ele.art_id + "today"} data={ele} />

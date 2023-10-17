@@ -20,16 +20,6 @@ const DocentCam = () => {
   const [image, setImage] = useState();
   const location = useLocation().pathname;
   const [detected, setDetected] = useState([]);
-  const [detectState, setDetectState] = useState("Detect");
-  const [currentState, setCurrentState] = useState({
-    id: null,
-    name: null,
-    image: null,
-    solved: null,
-  });
-  const [notFoundModal, setNotFoundModal] = useState(false);
-  const [foundModalOpen, setFoundModalOpen] = useState(false);
-
   const detectionState = {
     default: "Detect",
     ongoing: "Detecting...",
@@ -38,6 +28,15 @@ const DocentCam = () => {
     notarget: "select the piece",
     error: "error",
   };
+  const [detectState, setDetectState] = useState(detectionState.default);
+  const [currentState, setCurrentState] = useState({
+    id: null,
+    name: null,
+    image: null,
+    solved: null,
+  });
+  const [notFoundModal, setNotFoundModal] = useState(false);
+  const [foundModalOpen, setFoundModalOpen] = useState(false);
 
   const { artId, detailId } = useParams();
 
@@ -94,12 +93,10 @@ const DocentCam = () => {
               }
               return DetectedList;
             });
-            handleModal();
           } else {
             // 결과 없는 경우
             setDetected([]);
             setDetectState(detectionState.noresult);
-            setNotFoundModal(true);
           }
         })
         .catch(function (error) {
@@ -109,6 +106,15 @@ const DocentCam = () => {
         .finally(cleanArray());
     }
   };
+
+  useEffect(() => {
+    console.log(detectState);
+    if (
+      detectState === detectionState.success ||
+      detectState === detectionState.noresult
+    )
+      handleModal();
+  }, [detectState]);
 
   function cleanArray() {
     setTimeout(() => {
@@ -223,6 +229,7 @@ const DocentCam = () => {
 
               {/* 촬영 버튼 */}
               {currentState.solved ? null : <CaptureBtn takeaPic={takeaPic} />}
+              {/* <CaptureBtn takeaPic={takeaPic} /> */}
             </Container>
           </Layout>
         </Background>
