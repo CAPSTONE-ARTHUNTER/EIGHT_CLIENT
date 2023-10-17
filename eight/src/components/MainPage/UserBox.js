@@ -20,7 +20,6 @@ const UserBox = ({ t }) => {
     solvedRelicNum: 0,
     badgeList: [],
   });
-  // const badge
 
   useEffect(() => {
     serverLoggedAxios
@@ -48,9 +47,9 @@ const UserBox = ({ t }) => {
               <SizedBox width={4} />
               <ColWrapper>
                 <typo.body.Body01>{t("profile.alias")}</typo.body.Body01>
-
-                {/* 소수점 처리 필요 */}
-                <typo.body.Body02>Lv.{userData.userExp}</typo.body.Body02>
+                <typo.body.Body02>
+                  Lv.{userData.userExp.toFixed()}
+                </typo.body.Body02>
               </ColWrapper>
               <PartitionLine />
               <ColWrapper>
@@ -64,7 +63,13 @@ const UserBox = ({ t }) => {
             {/* 레벨바 */}
             <LevelbarWrapper ref={levelBarRef}>
               <LevelBarRail />
-              <LevelBar width={`${userData.userExp * (lvBarWidth / 100)}px`} />
+              <LevelBar
+                width={`${
+                  (userData.userExp - userData.userExp.toFixed()) *
+                  100 *
+                  (lvBarWidth / 100)
+                }px`}
+              />
             </LevelbarWrapper>
           </ColWrapper>
         </RowWrapper>
