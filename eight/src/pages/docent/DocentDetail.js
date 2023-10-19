@@ -242,14 +242,14 @@ const DocentDetail = () => {
             <SizedBox Rheight={"1.5rem"} />
 
             <TxtBox>
-              {prevPage === "search" ? null : (
+              {prevPage === "detect" ? (
                 <WideBtn
                   text={t("DocentPage.Detail.btnTxt")}
                   onClick={() => {
                     navigate("detect");
                   }}
                 />
-              )}
+              ) : null}
 
               <SizedBox Rheight={"1.2rem"} />
 
