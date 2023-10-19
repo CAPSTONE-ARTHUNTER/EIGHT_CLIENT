@@ -6,7 +6,13 @@ import typo from "../../styles/typo";
 import { CloseIco } from "../../assets/icon";
 import { serverLoggedAxios } from "../../api";
 
-const FoundBottomModal = ({ setFoundModalOpen, image, partTitle }) => {
+const FoundBottomModal = ({
+  setFoundModalOpen,
+  image,
+  partTitle,
+  triggerRefetch,
+  setTriggerRefetch,
+}) => {
   const [showModal, setShowModal] = useState(true);
   const [visible, setVisible] = useState(true);
 
@@ -52,6 +58,7 @@ const FoundBottomModal = ({ setFoundModalOpen, image, partTitle }) => {
                 .catch((err) => {
                   console.log(err);
                 });
+              setTriggerRefetch(!triggerRefetch);
               handleCloseModal();
             }}
           >
