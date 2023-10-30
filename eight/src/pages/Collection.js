@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SizedBox from "../components/Common/SizedBox";
 import UserBox from "../components/MainPage/UserBox";
 import CollectionTab from "../components/Collection/CollectionTab";
@@ -9,6 +9,8 @@ import styled from "styled-components";
 import BadgeSlot from "../components/Collection/BadgeSlot";
 import QuestBox from "../components/Collection/QuestBox";
 import { useTranslation } from "react-i18next";
+import { serverLoggedAxios } from "../api";
+import inwang from "../assets/image/Inwang.jpg";
 
 const Collection = ({ sampleData }) => {
   // 0: 도감, 1: 도전과제
@@ -21,19 +23,52 @@ const Collection = ({ sampleData }) => {
     seconden: "Progress",
   };
 
-  // 전체 작품 정보
-  const userArtInfo = [
-    { title: "asdf", found: false },
-    { title: "asdf", found: true },
-    { title: "asdf", found: true },
-    { title: "asdf", found: false },
-    { title: "asdf", found: false },
-    { title: "asdf", found: true },
-    { title: "asdf", found: false },
-    { title: "asdf", found: true },
-    { title: "asdf", found: false },
-    { title: "asdf", found: false },
-  ];
+  // 도감 정보
+  const [collectionData, setCollectionData] = useState([
+    {
+      relic_id: -1,
+      relic_image: inwang,
+      found: false,
+    },
+  ]);
+
+  function makeCollectionData(totalRelicNum, solvedRelicList) {
+    // init array
+    const collectionArr = Array.from({ length: totalRelicNum }, (x, idx) => {
+      return {
+        relic_id: idx + 1,
+        relic_image: inwang,
+        found: false,
+      };
+    });
+    // put data if in solvedRelicList
+    if (solvedRelicList.length > 0) {
+      solvedRelicList.map((data, idx) => {
+        const dataMod = {
+          relic_id: data.relic_id,
+          relic_image: data.relic_image,
+          found: true,
+        };
+        collectionArr.idx = dataMod;
+        return 0;
+      });
+    }
+    setCollectionData(collectionArr);
+  }
+
+  useEffect(() => {
+    serverLoggedAxios
+      .get("/app/collection")
+      .then((res) => {
+        makeCollectionData(
+          res.data.data.totalRelicNum,
+          res.data.data.solvedRelicList
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Layout text={t("header.collectionPage")}>
@@ -50,12 +85,12 @@ const Collection = ({ sampleData }) => {
           <UserBox t={t} />
           <SizedBox Rheight={"2rem"} />
           <CollectionBoxWrapper>
-            {userArtInfo.map((data, index) => {
+            {collectionData.map((data, idx) => {
               return (
                 <CollectionBox
-                  key={data.title + index}
+                  key={"collectionDataRelicId" + data.relic_id}
                   found={data.found}
-                  num={`${index + 1}`.padStart(3, "0")}
+                  num={`${idx + 1}`.padStart(3, "0")}
                 />
               );
             })}
