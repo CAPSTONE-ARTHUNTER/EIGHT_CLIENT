@@ -45,11 +45,11 @@ const Collection = ({ sampleData }) => {
     if (solvedRelicList.length > 0) {
       solvedRelicList.map((data, idx) => {
         const dataMod = {
-          relic_id: data.relic_id,
-          relic_image: data.relic_image,
+          relic_id: data.relicId,
+          relic_image: data.relicImage,
           found: true,
         };
-        collectionArr.idx = dataMod;
+        collectionArr[idx] = dataMod;
         return 0;
       });
     }
