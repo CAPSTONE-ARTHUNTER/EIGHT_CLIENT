@@ -89,6 +89,8 @@ const Collection = ({ sampleData }) => {
               return (
                 <CollectionBox
                   key={"collectionDataRelicId" + data.relic_id}
+                  dataId={data.relic_id}
+                  img={data.relic_image}
                   found={data.found}
                   num={`${idx + 1}`.padStart(3, "0")}
                 />

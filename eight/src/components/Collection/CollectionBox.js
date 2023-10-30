@@ -2,16 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
 import typo from "../../styles/typo";
+import { useNavigate } from "react-router-dom";
 
-// 임시 이미지
-import testImage from "../../assets/image/Inwang.jpg";
-
-const CollectionBox = ({ found, num }) => {
-  const backImg = testImage;
+const CollectionBox = ({ dataId, img, found, num }) => {
+  const navigation = useNavigate();
   return (
     <>
       {found ? (
-        <Background backImg={backImg} />
+        <Background
+          backImg={img}
+          onClick={() => {
+            navigation(`/docent/${dataId}`, {
+              state: { prevPage: "collection" },
+            });
+          }}
+        />
       ) : (
         <Background>
           {found === false && (
