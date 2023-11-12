@@ -5,15 +5,16 @@ import { colors } from "../../styles/color";
 import Quest from "./Quest";
 import SizedBox from "../Common/SizedBox";
 
-const QuestBox = ({ sampleData, t }) => {
+const QuestBox = ({ progressData, t }) => {
+  console.log(progressData);
   let solvedCnt = 0;
-  const solvedPart = sampleData.filter(
-    (data) => data.entireGage - data.solvedGage <= 0
+  const solvedPart = progressData.filter(
+    (data) => data.partNum - data.solvedPartNum <= 0
   );
-  const leftPart = sampleData.filter(
-    (data) => data.entireGage - data.solvedGage > 0
+  const leftPart = progressData.filter(
+    (data) => data.partNum - data.solvedPartNum > 0
   );
-
+  console.log(leftPart);
   return (
     <>
       <RowWrapper>
@@ -22,11 +23,11 @@ const QuestBox = ({ sampleData, t }) => {
         </typo.body.Body02>
         <typo.body.Body02>
           {/* 완료한 도전과제 수 세기 */}
-          {sampleData.map((data) => {
-            if (data.entireGage - data.solvedGage <= 0) solvedCnt += 1;
+          {progressData.map((data) => {
+            if (data.partNum - data.solvedPartNum <= 0) solvedCnt += 1;
             return null;
           })}
-          {solvedCnt}/{sampleData.length}
+          {solvedCnt}/{progressData.length}
         </typo.body.Body02>
       </RowWrapper>
 
@@ -37,7 +38,7 @@ const QuestBox = ({ sampleData, t }) => {
       {leftPart.length !== 0 ? (
         <QuestWrapper>
           {leftPart.map((data) => {
-            return <Quest props={data} key={data.name} />;
+            return <Quest props={data} key={data.relicId + "progressQuest"} />;
           })}
         </QuestWrapper>
       ) : null}

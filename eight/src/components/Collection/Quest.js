@@ -1,34 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/color";
-import { badge_chip } from "../../assets/image/badge";
 import { CheckIco, DropDownIco } from "../../assets/icon";
 import typo from "../../styles/typo";
 import SizedBox from "../Common/SizedBox";
 
 const Quest = ({ props }) => {
-  const questPart = props.quest;
+  const questPart = props.partList;
   const [dropDown, setDropDown] = useState(false);
 
   return (
     <>
       <Background>
-        <img className="badge" src={badge_chip} alt="badge" />
+        <img className="badge" src={props.badgeImage} alt="badge" />
         <Wrapper>
-          <typo.body.Body01>{props.name}</typo.body.Body01>
+          <typo.body.Body01>{props.relicName}</typo.body.Body01>
           <SizedBox height={4} />
           {/* 레벨바 */}
           <LevelbarWrapper>
             <LevelBarRail />
             <LevelBar
               width={`${
-                (props.solvedGage / props.entireGage) * 100 * (180 / 100)
+                (props.solvedPartNum / props.partNum) * 100 * (180 / 100)
               }px`}
             />
           </LevelbarWrapper>
           <SizedBox height={2} />
           <typo.body.Body03 className="progress">
-            {props.solvedGage}/{props.entireGage}
+            {props.solvedPartNum}/{props.partNum}
           </typo.body.Body03>
         </Wrapper>
         <TouchArea
@@ -51,7 +50,7 @@ const Quest = ({ props }) => {
           <QuestPartBar />
           <QuestPartBox>
             {questPart.map((part, idx) => {
-              return <QuestPart part={part} key={idx} />;
+              return <QuestPart part={part} key={part.partId} />;
             })}
           </QuestPartBox>
         </QuestPartRowWrapper>
@@ -63,7 +62,7 @@ const Quest = ({ props }) => {
 const QuestPart = ({ part }) => {
   return (
     <QuestPartWrapper>
-      <typo.body.Body01>{part.content}</typo.body.Body01>
+      <typo.body.Body01>{part.name}</typo.body.Body01>
       {part.solved === true ? (
         <CheckIco fill={colors.brown} />
       ) : (

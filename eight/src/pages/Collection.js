@@ -11,6 +11,7 @@ import QuestBox from "../components/Collection/QuestBox";
 import { useTranslation } from "react-i18next";
 import { serverLoggedAxios } from "../api";
 import inwang from "../assets/image/Inwang.jpg";
+import { getProgress } from "../api/Progress";
 
 const Collection = ({ sampleData }) => {
   // 0: 도감, 1: 도전과제
@@ -29,6 +30,39 @@ const Collection = ({ sampleData }) => {
       relic_id: -1,
       relic_image: inwang,
       found: false,
+    },
+  ]);
+  // 도감 정보
+  const [progressData, setProgressData] = useState([
+    {
+      relicId: 1,
+      relicName: "정선필 인왕제색도",
+      badgeImage:
+        "https://github.com/CAPSTON-EIGHT/EIGHT_SERVER/assets/81066502/3221d160-c20c-420b-b64a-e5448281e08a",
+      partNum: 4,
+      solvedPartNum: 0,
+      partList: [
+        {
+          partId: 1,
+          name: "정선에게 특별했던 작품, <인왕제색도>",
+          solved: false,
+        },
+        {
+          partId: 2,
+          name: "<인왕제색도>에 표현된 공간감과 실체감",
+          solved: false,
+        },
+        {
+          partId: 3,
+          name: "<인왕제색도> 속 인왕산 명소",
+          solved: false,
+        },
+        {
+          partId: 4,
+          name: "정선이 <인왕제색도>를 그린 이유",
+          solved: false,
+        },
+      ],
     },
   ]);
 
@@ -68,6 +102,13 @@ const Collection = ({ sampleData }) => {
       .catch((err) => {
         console.log(err);
       });
+    getProgress()
+      .then((res) => {
+        setProgressData(res.challengeList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -100,8 +141,8 @@ const Collection = ({ sampleData }) => {
         </>
       ) : (
         <ChallengeBoxWrapper>
-          <BadgeSlot t={t} />
-          <QuestBox sampleData={sampleData} t={t} />
+          <BadgeSlot t={t} progressData={progressData} />
+          <QuestBox progressData={progressData} t={t} />
         </ChallengeBoxWrapper>
       )}
     </Layout>
