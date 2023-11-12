@@ -13,7 +13,7 @@ import { serverLoggedAxios } from "../api";
 import inwang from "../assets/image/Inwang.jpg";
 import { getProgress } from "../api/Progress";
 
-const Collection = ({ sampleData }) => {
+const Collection = () => {
   // 0: 도감, 1: 도전과제
   const [tabState, setTabState] = useState(0);
   const { t } = useTranslation();

@@ -6,7 +6,6 @@ import Quest from "./Quest";
 import SizedBox from "../Common/SizedBox";
 
 const QuestBox = ({ progressData, t }) => {
-  console.log(progressData);
   let solvedCnt = 0;
   const solvedPart = progressData.filter(
     (data) => data.partNum - data.solvedPartNum <= 0
@@ -14,7 +13,6 @@ const QuestBox = ({ progressData, t }) => {
   const leftPart = progressData.filter(
     (data) => data.partNum - data.solvedPartNum > 0
   );
-  console.log(leftPart);
   return (
     <>
       <RowWrapper>
