@@ -72,6 +72,7 @@ serverLoggedAxios.interceptors.response.use(
     const { config, response } = err;
     console.log(response.status);
     if (response.status !== 401 || config.sent) {
+      window.location.href = "/login";
       return Promise.reject(err);
     }
     if (response.status === 401) {
