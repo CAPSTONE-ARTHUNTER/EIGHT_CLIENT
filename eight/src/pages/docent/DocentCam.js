@@ -13,6 +13,7 @@ import FoundBottomModal from "../../components/Detection/FoundBottomModal";
 import { serverLoggedAxios } from "../../api";
 import NotiModal from "../../components/Common/NotiModal";
 import { t } from "i18next";
+import { partRegister } from "../../api/PartRegister";
 
 const DocentCam = () => {
   const camera = useRef(null);
@@ -167,6 +168,9 @@ const DocentCam = () => {
             partTitle={currentState.name}
             triggerRefetch={triggerRefetch}
             setTriggerRefetch={setTriggerRefetch}
+            onBtnClick={()=>{
+              partRegister(currentState.name)
+            }}
           />
         ) : null}
         <Layout text="DocentCam">
