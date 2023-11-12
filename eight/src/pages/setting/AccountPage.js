@@ -6,6 +6,7 @@ import Profile from "../../components/mypage/Profile";
 import SizedBox from "../../components/Common/SizedBox";
 import styled from "styled-components";
 import { t } from "i18next";
+import { logOut } from "../../api/Logout";
 
 const AccountPage = () => {
   const exampleData = {
@@ -19,11 +20,15 @@ const AccountPage = () => {
       <SizedBox Rheight={"0.75rem"} />
       <PartitionLine />
       <SizedBox Rheight={"2rem"} />
-      <SettingBtn text={t("settingPage.logOut")} textColor={colors.black} />
       <SettingBtn
+        text={t("settingPage.logOut")}
+        textColor={colors.black}
+        onClick={logOut}
+      />
+      {/* <SettingBtn
         text={t("settingPage.deleteAccount")}
         textColor={colors.red}
-      />
+      /> */}
     </Layout>
   );
 };
