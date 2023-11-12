@@ -45,8 +45,8 @@ const getRefreshToken = async () => {
     localStorage.setItem("Token", res.data.data.accessToken);
     localStorage.setItem("RefreshToken", res.data.data.refreshToken);
   } catch (err) {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("Token");
+    localStorage.removeItem("RefreshToken");
     window.location.href = "/login";
   }
 };
