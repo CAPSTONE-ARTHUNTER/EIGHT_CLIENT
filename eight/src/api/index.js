@@ -45,8 +45,9 @@ const getRefreshToken = async () => {
     localStorage.setItem("Token", res.data.data.accessToken);
     localStorage.setItem("RefreshToken", res.data.data.refreshToken);
   } catch (err) {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("Token");
+    localStorage.removeItem("RefreshToken");
+    window.location.href = "/login";
   }
 };
 
@@ -71,6 +72,7 @@ serverLoggedAxios.interceptors.response.use(
     const { config, response } = err;
     console.log(response.status);
     if (response.status !== 401 || config.sent) {
+      window.location.href = "/login";
       return Promise.reject(err);
     }
     if (response.status === 401) {

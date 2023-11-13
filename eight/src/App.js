@@ -16,6 +16,7 @@ import DetectOcr from "./pages/DetectOcr";
 import AccountPage from "./pages/setting/AccountPage";
 import GetLogin from "./pages/GetLogin";
 import Detection from "./pages/Detection";
+import GPTDocent from "./pages/docent/GPTDocent";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -119,6 +120,10 @@ function App() {
           <Route
             path="/docent/:artId/detail/:detailId/detect"
             element={<DocentCam artInfo={sampleData} />}
+          />
+          <Route
+            path="/gptdocent"
+            element={<GPTDocent/>}
           />
 
           {/* setting pages */}
