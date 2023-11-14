@@ -65,7 +65,7 @@ const UserBox = ({ t }) => {
               <LevelBarRail />
               <LevelBar
                 width={`${
-                  (userData.userExp - userData.userExp.toFixed()) *
+                  (userData.userExp - Math.floor(userData.userExp)) *
                   100 *
                   (lvBarWidth / 100)
                 }px`}
