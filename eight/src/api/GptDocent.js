@@ -5,8 +5,7 @@ export const getGptComment = async (part) => {
     const gptCommentRes = await serverLoggedAxios.post(
       "/app/gpt/elementsinfo",
       {
-        // name: part,
-        name: 'cheongja_cloud',
+        name: part,
       }
     );
     return gptCommentRes.data;
