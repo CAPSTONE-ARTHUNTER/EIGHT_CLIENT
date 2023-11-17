@@ -16,7 +16,7 @@ const ttsAxios = axios.create({
   },
 });
 const detectionAxios = axios.create({
-  baseURL: `https://detect.roboflow.com/painting-l6exb/15`,
+  baseURL: `https://detect.roboflow.com/painting-jina/2`,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
   },
