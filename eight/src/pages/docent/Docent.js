@@ -111,9 +111,11 @@ const ColWrapper = styled.div`
 
   .artImg {
     position: absolute;
+    max-width: 425px;
     right: 0;
     left: 0;
     width: 100%;
+    margin: auto;
   }
 `;
 

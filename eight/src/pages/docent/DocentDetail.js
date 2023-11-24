@@ -313,6 +313,7 @@ const ColWrapper = styled.div`
     position: relative;
     left: 0;
     right: 0;
+    margin: auto;
   }
 `;
 
@@ -355,6 +356,7 @@ const PointLocation = styled.div`
 const ImgWrapper = styled.div`
   position: absolute;
   width: 100%;
+  max-width: 425px;
 `;
 const TouchArea = styled.div`
   width: 2rem;

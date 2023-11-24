@@ -30,6 +30,7 @@ const LogInPage = () => {
 
 const BackGround = styled.div`
   height: 100vh;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +43,7 @@ const BackGround = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
+    max-width: 425px;
     z-index: -3;
   }
   .logoImg {
