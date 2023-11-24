@@ -43,6 +43,7 @@ const BackGround = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
+    max-width: 425px;
     z-index: -3;
   }
   .logoImg {
