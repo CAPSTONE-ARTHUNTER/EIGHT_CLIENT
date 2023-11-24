@@ -196,8 +196,10 @@ const Container = styled.div`
   .artImg {
     position: absolute;
     width: 100%;
+    max-width: 425px;
     right: 0;
     left: 0;
+    margin: auto;
   }
 `;
 const TitleBox = styled.div`

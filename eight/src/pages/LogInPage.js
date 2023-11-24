@@ -30,6 +30,7 @@ const LogInPage = () => {
 
 const BackGround = styled.div`
   height: 100vh;
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;

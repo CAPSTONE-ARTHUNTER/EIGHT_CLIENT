@@ -145,6 +145,7 @@ function DetectOcr() {
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  max-width: 425px;
   display: flex;
   position: absolute;
   left: 0;
@@ -153,6 +154,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${colors.black};
+  margin: auto;
 `;
 
 const CamContainer = styled.div`
