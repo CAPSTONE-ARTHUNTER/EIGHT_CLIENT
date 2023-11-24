@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./i18n";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import ViewPort from "./styles/ViewPort";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,9 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={true} />
     <BrowserRouter>
-      <App />
+      <ViewPort>
+        <App />
+      </ViewPort>
     </BrowserRouter>
   </QueryClientProvider>
 );

@@ -77,6 +77,7 @@ const TopBar = ({ text }) => {
 };
 const Background = styled.div`
   width: 100%;
+  max-width: 425px;
   height: 52px;
   top: 0;
   left: 0;
@@ -85,6 +86,7 @@ const Background = styled.div`
   position: fixed;
   z-index: 5;
   background-color: ${colors.beige};
+  margin: auto;
 `;
 const BarCon = styled.div`
   width: 100%;
