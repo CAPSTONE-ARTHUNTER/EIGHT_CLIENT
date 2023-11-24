@@ -151,9 +151,8 @@ const Collection = () => {
 
 const CollectionBoxWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
-  row-gap: 0.5rem;
+  gap: 0.45rem;
 `;
 
 const ChallengeBoxWrapper = styled.div`
