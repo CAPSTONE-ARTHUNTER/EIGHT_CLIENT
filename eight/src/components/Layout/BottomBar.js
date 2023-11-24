@@ -78,7 +78,8 @@ const BottomBar = () => {
 };
 const BottomBarBack = styled.div`
   background-color: ${colors.black};
-  height: 56px;
+  height: 4rem;
+  max-width: 425px;
   border-radius: 4px 4px 0px 0px;
   display: flex;
   align-items: center;
@@ -87,6 +88,7 @@ const BottomBarBack = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  margin: auto;
 `;
 const TouchContainer = styled.div`
   width: 48px;
