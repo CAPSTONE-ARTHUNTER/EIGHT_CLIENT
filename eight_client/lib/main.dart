@@ -49,6 +49,10 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
                   url: Uri.parse("https://capstone-eight.netlify.app/")),
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
+                  userAgent: 'random',
+                  javaScriptEnabled: true,
+                  useShouldOverrideUrlLoading: true,
+                  useOnLoadResource: true,
                   mediaPlaybackRequiresUserGesture: false,
                 ),
               ),
