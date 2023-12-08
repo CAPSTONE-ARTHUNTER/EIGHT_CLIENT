@@ -5,7 +5,7 @@
 
 <div align="center">
 ✨✨🏅✨✨ <br>
-🏆 2023 캡스톤디자인과창업프로젝트 최우수상 (주관: 이화여자대학교 컴퓨터공학전공 학과장)<br>
+🏆 2023 캡스톤디자인과창업프로젝트 최우수상 (주관: 이화여자대학교 컴퓨터공학전공)<br>
 🏆 2023 캡스톤디자인 경진대회 은상 (주관: 이화여자대학교 공학교육혁신센터)<br>
 </div>
 
@@ -187,8 +187,6 @@ Infra Management: <img src="https://img.shields.io/badge/AWS Lambda-FF9900?style
  
 ## 시작 가이드 
 
-> Requirements: Java 17, Spring 3.1.4
-> 
 > ArtHunter 환경 변수 설정을 완료해야 프로젝트가 실행됩니다.
 > 환경 변수 세팅이 되어있지 않으면 **How to test** 섹션으로 가주세요.
 
@@ -196,8 +194,8 @@ Infra Management: <img src="https://img.shields.io/badge/AWS Lambda-FF9900?style
 
 **1. 프로젝트 클론**
 ```
-git clone https://github.com/CAPSTON-EIGHT/EIGHT_SERVER.git
-cd EIGHT_SERVER
+git clone https://github.com/CAPSTON-EIGHT/EIGHT_CLIENT.git
+cd eight
 ```
 **2. .env 파일 추가**
 프로젝트 루트 디렉토리에 `.env` 파일을 생성하고 아래와 같이 설정해주세요. 
@@ -209,13 +207,7 @@ OPENAI_API_KEY=Open111Ai085&key
 
 **3. 실행**
 ```
-./gradlew build cd build/libs 
-
-# .env 파일 로드  
-source ../.env 
-
-# Jar 파일 실행 
-java -jar eight-0.0.1-SNAPSHOT.jar
+npm start
 ```
 ### **How to test**  
 
