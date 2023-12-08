@@ -181,7 +181,7 @@ Infra Management: <img src="https://img.shields.io/badge/AWS Lambda-FF9900?style
 <br>
 
 ### 시스템 아키텍처  
-![Group 632600](https://github.com/CAPSTON-EIGHT/EIGHT_SERVER/assets/77966605/d8dd87c2-13fb-48e4-8e10-00ee619a886a)
+![Group 632600](https://github.com/CAPSTONE-ARTHUNTER/EIGHT_SERVER/assets/77966605/d8dd87c2-13fb-48e4-8e10-00ee619a886a)
 <br>  
  
 ## 시작 가이드 
@@ -228,9 +228,9 @@ npm start
 ## Project Management
 
  - GitHub Project
-   - ⭐ [FrontEnd](https://github.com/orgs/CAPSTON-EIGHT/projects/1)
-    - 🌙 [BackEnd](https://github.com/orgs/CAPSTON-EIGHT/projects/2)
- - [GitHub Issues](https://github.com/CAPSTON-EIGHT/EIGHT_SERVER/pulls)
+   - ⭐ [FrontEnd](https://github.com/orgs/CAPSTONE-ARTHUNTER/projects/1)
+    - 🌙 [BackEnd](https://github.com/orgs/CAPSTONE-ARTHUNTER/projects/2)
+ - [GitHub Issues](https://github.com/CAPSTONE-ARTHUNTER/EIGHT_SERVER/pulls)
 <br>
 
 ## Project Documents & Links
