@@ -123,47 +123,6 @@
     └───📂style
 ```
 <br>
-
-### BackEnd Repo.
-```
-└───📂src
-    ├───📂main
-    │   ├───📂generated
-    │   ├───📂java.com.example.eight
-    │   │               ├───📁artwork
-    │   │                   ├───📁controller
-    │   │                   ├───📁dto
-    │   │                   ├───📁entity
-    │   │                   ├───📁repository
-    │   │                   ├───📁service
-    │   │               ├───📁collection
-    │   │                   ├───📁controller
-    │   │                   ├───📁dto
-    │   │                   ├───📁service
-    │   │               ├───📁global
-    │   │                   ├───📁config
-    │   │                   ├───📁jwt
-    │   │                   │   └───📁controller
-    │   │                   │   └───📁dto
-    │   │                   │   └───📁service
-    │   │                   ├───📁oauth2
-    │   │                   │   └───📁controller
-    │   │                   │   └───📁dto
-    │   │                   │   └───📁service
-    │   │               ├───📁gpt
-    │   │                   ├───📁controller
-    │   │                   ├───📁dto
-    │   │                   ├───📁service    
-    │   │               ├───📁user
-    │   │                   ├───📁controller
-    │   │                   ├───📁dto
-    │   │                   ├───📁entity
-    │   │                   ├───📁repository
-    │   │                   └───📁service
-    │   └───📂resources
-    │  
-    └───📂test
-```
 <br>
 
 ## 기술스택
@@ -230,7 +189,7 @@ npm start
  - GitHub Project
    - ⭐ [FrontEnd](https://github.com/orgs/CAPSTONE-ARTHUNTER/projects/1)
     - 🌙 [BackEnd](https://github.com/orgs/CAPSTONE-ARTHUNTER/projects/2)
- - [GitHub Issues](https://github.com/CAPSTONE-ARTHUNTER/EIGHT_SERVER/pulls)
+ - [GitHub Issues](https://github.com/CAPSTONE-ARTHUNTER/EIGHT_SERVER/issues)
 <br>
 
 ## Project Documents & Links
