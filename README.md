@@ -82,7 +82,6 @@
 <br>
   
 ## ERD  
-
 <img src="https://github.com/CAPSTON-EIGHT/EIGHT_SERVER/assets/81066502/4d5e4dfc-1fa2-4983-817d-4c04255e419a" width="900">
 <br>
 
@@ -194,7 +193,7 @@ Infra Management: <img src="https://img.shields.io/badge/AWS Lambda-FF9900?style
 
 **1. 프로젝트 클론**
 ```
-git clone https://github.com/CAPSTON-EIGHT/EIGHT_CLIENT.git
+git clone https://github.com/CAPSTONE-ARTHUNTER/EIGHT_CLIENT.git
 cd eight
 ```
 **2. .env 파일 추가**
